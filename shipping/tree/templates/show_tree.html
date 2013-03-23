@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}
+    <style>
+        .title
+        {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom:20px;
+        }
+        .click
+        {
+            font-size: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="title">项目树管理:<a href="/admin/project/project/add/" class="click">[点此创建新项目]</a><br></div>
+    {% for pro in projects %}
+
+        <a href="show_tree/{{ pro.id }}"><img src="/static/img/plus.gif" ></a>
+        <a href="/admin/project/project/{{ pro.id }}">项目:{{ pro.name }}</a>
+        <br />
+    {% endfor %}
+    <br/>
+
+{% endblock %}

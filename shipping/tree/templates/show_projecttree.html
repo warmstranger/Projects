@@ -1,0 +1,140 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}
+    <style>
+        .title
+        {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom:20px;
+        }
+        .click
+        {
+            font-size: 10px;
+        }
+        img{
+            border:0px;
+        }
+    </style>
+    <script type="text/javascript" src="/static/js/ajax.js"></script>
+    <script type="text/javascript" src="/static/js/context-menu.js"></script>
+    <script type="text/javascript" src="/static/js/drag-drop-folder-tree.js">
+    </script>
+    <link rel="stylesheet" href="/static/css/drag-drop-folder-tree.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/context-menu.css" type="text/css">
+{% endblock %}
+{% block content %}
+    <table  width="100%" height="1000px" >
+        <td width="30%" valign="top">
+            <P>
+                <a href="/tree/download_file/{{ root }}">打印项目</a>
+                <a href="/tree/show_tree">项目树管理首页</a>
+            </P>
+            <form action="/tree/save_tree" method="post" class="">
+                {% csrf_token %}
+                <input type="hidden" name="tree" id="tree_id" value="">
+                <script type="text/javascript">
+                    var str="";
+                    function f(k)
+                    {
+                    {% for key, value in dic.items %}
+                        if(k=={{ key }})
+                        {
+                            if(k==-1)
+                                str+="<ul id=\"ul0\" class=\"dhtmlgoodies_tree\">";
+                            else
+                                str+="<ul id=\"ul{{ key }}\">";
+                        {% for v in value %}
+                            if(k==-1)
+                                str+="<li id=\"0_{{ v.0.id }}\" noDrag=\"true\" noSiblings=\"true\" noDelete=\"true\" noRename=\"true\">";
+                            else
+                                str+="<li id=\"{{ v.0.id }}\">";
+                            switch ({{  v.1 }})
+                            {
+                                case 0:
+                                    str+= "<a href=\" /admin/project/project/{{ v.0.id }}/\" target=\"projectcontent\">"+ "{{ v.0.date }},项目"+"</a>";
+                                    str+= "<a href=\"/admin/project/project/{{ v.0.id }}/delete/\">";
+                                    break;
+                                case 1:
+                                    str+= "<a href=\" /admin/project/contract/{{ v.2 }}/\" target=\"projectcontent\">"+ "{{ v.0.date }},合同"+"</a>";
+                                    str+="<a href=\"/tree/delete_node/{{ v.0.id }}\">";
+                                    break;
+                                case 2:
+                                    str+= "<a href=\" /admin/project/claimmaterial/{{ v.2 }}/\" target=\"projectcontent\">"+"{{ v.0.date }},领料"+"</a>";
+                                    str+="<a href=\"/tree/delete_node/{{ v.0.id }}\">";
+                                    break;
+                                case 3:
+                                    str+= "<a href=\" /admin/project/assignwork/{{ v.2 }}/\"target=\"projectcontent\">"+"{{ v.0.date }},派工"+"</a>";
+                                    str+="<a href=\"/tree/delete_node/{{ v.0.id }}\">";
+                                    break;
+                                case 4:
+                                    str+= "<a href=\" /admin/project/event/{{ v.2 }}/\"target=\"projectcontent\">"+ "{{ v.0.date }},事件"+"</a>";
+                                    str+="<a href=\"/tree/delete_node/{{ v.0.id }}\">";
+                                    break;
+                            }
+                            if({{  v.1 }}==0)
+                            {
+                                str+="<img src=\"/static/img/delete.png\"width=\"30px\" height=\"30px\"/></a>";
+                                str+= "<a href=\"/tree/create_node_type/0/{{v.0.id}}\">";
+                            }
+                            else
+                            {
+                                str+="<img src=\"/static/img/delete.png\"width=\"30px\" height=\"30px\"/></a>";
+                                str+= "<a href=\"/tree/create_node_type/1/{{v.0.id}}\">";
+                            }
+
+                            str+="<img src=\"/static/img/create.png\"width=\"30px\" height=\"30px\"/ ></a>";
+
+                            if(k==-1)
+                                f(0);
+                            else
+                                f({{ v.0.id }});
+                            str+="</li>";
+                        {% endfor %}
+                            str+="</ul>";
+                        }
+                    {% endfor %}
+                    }
+                    f(-1);
+                    document.write(str);
+                    function order(tagname) {
+                        var tag = document.getElementById(tagname);
+                        if (tag.getElementsByTagName("ul")[0]) {
+                            var ultag = tag.getElementsByTagName("ul")[0];
+                            var litag = ultag.childNodes;
+                            str += tag.id +":";
+                            for (var j = 0; j < litag.length; j++) {
+                                str+=litag[j].id+",";
+                            }
+                            str+=";";
+                            for (var j = 0; j < litag.length; j++) {
+                                order(litag[j].id);
+                            }
+                        }
+                    }
+
+                    function getorders_1()
+                    {
+                        str="";
+                        order('0_'+{{ root }});
+                        document.getElementById("tree_id").value=str;
+                        return str;
+                    }
+                    getorders_1();
+                    treeObj = new JSDragDropTree();
+                    treeObj.setTreeId('ul0');
+                    treeObj.setMaximumDepth(20);
+                    treeObj.setMessageMaximumDepthReached('Maximum depth reached'); // If you want to show a message when maximum depth is reached, i.e. on drop.
+                    treeObj.initTree();
+                    treeObj.expandAll();
+                </script>
+                <input type="hidden" name="root" value="{{ root }}"/>
+                <input type="submit" onclick="getorders_1()" value="保存修改"/>
+            </form>
+        </td>
+        <td>
+            <iframe align="left" frameborder="1" id="projectcontent" height="100%" width="100%"></iframe>
+        </td>
+    </table>
+{% endblock %}

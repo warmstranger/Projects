@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}
+    <style>
+        .title
+        {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom:20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form action="/tree/create_node" method="post">
+        {% csrf_token %}
+        <div class="title">创建新结点：</div>
+        请选择新建结点类型：
+        <select name="event_type">
+            {% for key,value in event.items %}
+                <option value="{{key}}" >
+                    {{ value}}
+                </option>
+            {% endfor %}
+        </select>
+        <br>
+        <input name="root" type="hidden" value="{{ root }}">
+        <input name="parenttype" value="{{ parenttype }}" type="hidden">
+        <input type="submit" value="下一步"/>
+    </form>
+{% endblock %}
