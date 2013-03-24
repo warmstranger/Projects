@@ -16,7 +16,7 @@ class Post(models.Model):
     text = models.TextField(verbose_name=u'正文')
 
     def __unicode__(self):
-        return '%s: %s' % (self.user.username, self.title)
+        return '%s: %s' % (self.author.username, self.title)
 
 class Attachment(models.Model):
     class Meta:
