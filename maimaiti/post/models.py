@@ -1,4 +1,4 @@
-#coding=utf8
+#coding=utf-8
 
 from django.db import models
 
@@ -15,6 +15,9 @@ class Post(models.Model):
     cover_image = models.ImageField(upload_to='covers', verbose_name=u'封面')
     text = models.TextField(verbose_name=u'正文')
 
+    def __unicode__(self):
+        return '%s: %s' % (self.user.username, self.title)
+
 class Attachment(models.Model):
     class Meta:
         verbose_name = u'附件'
@@ -23,6 +26,9 @@ class Attachment(models.Model):
     post = models.ForeignKey(Post, verbose_name=u'帖子')
     file = models.FileField(upload_to='attachments', verbose_name=u'文件')
 
+    def __unicode__(self):
+        return '%s: %s' % (self.post.title, self.file.name)
+
 class Link(models.Model):
     class Meta:
         verbose_name = u'产品链接'
@@ -30,4 +36,8 @@ class Link(models.Model):
 
     post = models.ForeignKey(Post, verbose_name=u'帖子')
     link = models.URLField(verbose_name=u'链接')
+
+    def __unicode__(self):
+        return '%s: %s' % (self.post.title, self.link)
+
 

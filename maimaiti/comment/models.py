@@ -14,3 +14,6 @@ class Comment(models.Model):
     user = models.ForeignKey(User, verbose_name=u'用户')
     post = models.ForeignKey(Post, verbose_name=u'帖子')
     text = models.CharField(max_length=1000, verbose_name=u'正文')
+
+    def __unicode__(self):
+        return '%s: %s' % (self.user.username, self.text[:10])
