@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     # url(r'^maimaiti/', include('maimaiti.foo.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^home/','post.views.home')
 )
