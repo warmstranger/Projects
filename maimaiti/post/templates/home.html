@@ -38,10 +38,9 @@
           </div>
       </div>
       <div id="pic_slide" class="nivoSlider">
-          <img src="/static/images/pic1.jpg"/>
-          <img src="/static/images/pic2.jpg"/>
-          <img src="/static/images/pic3.jpg"/>
-          <img src="/static/images/pic4.jpg"/>
+          {% for advertisement in advertisements %}
+            <img src="/static/media/{{advertisement.image}}"/>
+          {% endfor %}
       </div>
 
       <div id="category">
@@ -135,7 +134,7 @@
                       </div>
                       <!--<div style="text-align: center">..............................................................</div>-->
                       <div style="text-align: left;margin-left: 10px;">
-                      <p><a href="detail.html">{{post.title}}</a></p>
+                      <p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p>
                       <p>{{post.time}}</p>
                       </div>
                   </div>
