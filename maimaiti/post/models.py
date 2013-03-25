@@ -12,7 +12,7 @@ class Post(models.Model):
     time = models.DateTimeField(auto_now=True, verbose_name=u'时间')
     author = models.ForeignKey(User, verbose_name=u'发帖人')
     title = models.CharField(max_length=100, verbose_name=u'标题')
-    cover_image = models.ImageField(upload_to='covers', verbose_name=u'封面')
+    cover_image = models.FileField(upload_to='covers', verbose_name=u'封面')
     text = models.TextField(verbose_name=u'正文')
 
     def __unicode__(self):
