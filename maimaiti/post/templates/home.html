@@ -3,53 +3,11 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>首页</title>
+    <link href="/static/css/base.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/home.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/nivo-slider.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/themes/default/default.css" type="text/css" media="screen" />
     <script src="/static/js/jquery-1.9.0.min.js"></script>
-    <!--<script src="js/jquery-ui-1.8.20.custom.min.js"></script>-->
-
-    <!--<script src="js/translucentslideshow.js" type="text/javascript"></script>-->
-
-    <!--<script type="text/javascript">-->
-
-        <!--$(function(){-->
-            <!--/*$(window.parent.document).find("#main").load(function(){-->
-             <!--var main = $(window.parent.document).find("#main");-->
-             <!--var thisheight = $(document).height();-->
-             <!--main.height(thisheight);-->
-             <!--});*/-->
-            <!--$("#ui-slide-screen").Scroller({-->
-                <!--next:"arrow_next",-->
-                <!--prev:"arrow_prev",-->
-                <!--frame:"slide_contents",-->
-                <!--child:"ui-slide-frame",-->
-                <!--num:"showNum",-->
-                <!--time :7000,-->
-                <!--auto:true-->
-            <!--});-->
-
-        <!--});-->
-    <!--</script>-->
-
-    <!--<script type="text/javascript">-->
-
-        <!--var translideshow1=new translideshow({-->
-            <!--wrapperid: "pic_slide", //ID of blank DIV on page to house Slideshow-->
-            <!--dimensions: [1177, 614], //width/height of gallery in pixels. Should reflect dimensions of largest image-->
-            <!--imagearray: [-->
-                <!--["images/pic1.jpg"], //["image_path", "optional_link", "optional_target"]-->
-                <!--["images/pic2.jpg"],-->
-                <!--["images/pic3.jpg"],-->
-                <!--["images/pic4.jpg"] //<--no trailing comma after very last image element!-->
-            <!--],-->
-            <!--displaymode: {type:'auto', pause:2000, cycles:2, pauseonmouseover:true},-->
-            <!--orientation: "h", //Valid values: "h" or "v"-->
-            <!--persist: true, //remember last viewed slide and recall within same session?-->
-            <!--slideduration: 400 //transition duration (milliseconds)-->
-        <!--})-->
-
-    <!--</script>-->
 
     <script type="text/javascript" src="/static/js/jquery.nivo.slider.js"></script>
     <script type="text/javascript" language="javascript" src="/static/js/jquery.carouFredSel-6.2.0-packed.js"></script>
@@ -177,7 +135,7 @@
                       </div>
                       <!--<div style="text-align: center">..............................................................</div>-->
                       <div style="text-align: left;margin-left: 10px;">
-                      <p>{{post.author}}</p>
+                      <p><a href="detail.html">{{post.title}}</a></p>
                       <p>{{post.time}}</p>
                       </div>
                   </div>
