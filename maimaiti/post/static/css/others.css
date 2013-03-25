@@ -15,3 +15,15 @@
     float: left;
     margin: 10px;
 }
+
+.list_contain{
+    width: 1177px;
+    height: auto;
+}
+.list_item_o{
+    float: left;
+    width: 323px;
+    height: 438px;
+    margin-top: 28px;
+    background: #EEE;
+}

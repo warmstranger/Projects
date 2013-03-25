@@ -177,5 +177,11 @@
     z-index: 5;
     top:0px;
 }
+.item_new_icon{
+    width: 93px;
+    height: 94px;
+    position: absolute;
+    z-index: 4;
+}
 
 

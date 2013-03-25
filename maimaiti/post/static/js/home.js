@@ -35,6 +35,7 @@ $(document).ready(function(){
             $(this).find('div.item_desc').hide();
         }
     );
+//    alert($('div.item_pic').length);
 
 
     $('#pic_slide').nivoSlider();
