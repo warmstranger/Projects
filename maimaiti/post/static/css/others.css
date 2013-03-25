@@ -1,0 +1,17 @@
+.fenye_area{
+    width: 1024px;
+    height: 50px;
+    text-align: right;
+}
+#category_head{
+    width: 1177px;
+    height: 200px;
+    background: #CCC;
+    margin-bottom: 20px;
+}
+.category_head_pic{
+    width: 200px;
+    height: 180px;
+    float: left;
+    margin: 10px;
+}
