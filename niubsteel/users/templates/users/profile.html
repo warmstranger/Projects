@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load future %}
+{% load followed %}
+
+{% block content %}
+    <div class="float_left">
+    {% if target_user.profile.image %}
+        <img width="180" height="180" src="{{ target_user.profile.image.url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x200.jpg');" />
+    {% else %}
+        <img src="http://wanelo.com/assets/default_avatar_x200.jpg" />
+    {% endif %}
+    </div>
+
+    <div class="float_left person_info">
+        <h1>@{{ target_user.username }}</h1>
+        {% if target_user.profile.website %}
+            <a target="new" href="{{ target_user.profile.website }}">{{ target_user.profile.website }}</a>
+        {% endif %}
+        <p>
+            <div class="info">
+                {{ target_user.profile.description|default:"暂无介绍" }}
+            </div>
+        </p>
+    </div>
+
+    <div class="float_right follow_area">
+        {% if target_user == user %}
+        <p><input type="button" class="block_submit" style="width:100px" value="设置账号" onclick="javascript:window.location='{% url 'users.views.settings' %}'" /></p>
+        {% else %}
+            <p>
+                {% include 'gadgets/follow_button.html' with target=target_user %}
+            </p>
+        {% endif  %}
+
+        <p><a href="{% url 'users.views.list_followers' target_user.username %}" class="link_submit"><strong>{{ target_user.followers|length }}</strong>被关注</a></p>
+        <p><a href="{% url 'users.views.list_followings' target_user.username %}" class="link_submit"><strong>{{ target_user.following_people|length }}</strong>关注</a></p>
+        <p><a href="{% url 'users.views.list_following_stores' target_user.username %}" class="link_submit"><strong>{{ target_user.following_stores|length }}</strong>店铺</a></p>
+    </div>
+    <div class="clear" />
+
+    <div class="profile_tag">
+        <ul>
+            <li {% if selected_tab == 0 %}class="selected"{% endif %}><a href="{% url 'users.views.profile' target_user.username %}">{{ target_user.products|length }}个商品</a></li>
+            <li {% if selected_tab == 1 %}class="selected"{% endif %}><a href="{% url 'collection.views.list_collections' target_user.username %}">{{ target_user.collections|length }}个收藏列表</a></li>
+            <li {% if selected_tab == 2 %}class="selected"{% endif %}><a href="{% url 'tag.views.list_mentions' target_user.username %}">被标记{{ target_user.mentions|length }}次</a></li>
+            <li {% if selected_tab == 3 %}class="selected"{% endif %}><a href="{% url 'store.views.list_stores' target_user.username %}">拥有{{ target_user.stores|length }}家店铺</a></li>
+            <li {% if selected_tab == 4 %}class="selected"{% endif %}><a href="{% url 'users.views.list_followers' target_user.username %}">被{{ target_user.followers|length }}人关注</a></li>
+            <li {% if selected_tab == 5 %}class="selected"{% endif %}><a href="{% url 'users.views.list_followings' target_user.username %}">关注{{ target_user.following_people|length }}人</a></li>
+            <li {% if selected_tab == 6 %}class="selected"{% endif %}><a href="{% url 'users.views.list_following_stores' target_user.username %}">关注{{ target_user.following_stores|length }}家店铺</a></li>
+        </ul>
+    </div>
+
+    <div class="clear"></div>
+
+    {% if lists %}
+        {% include 'lists/liquid_lists.html' %}
+    {% endif %}
+    {% if products %}
+        {% include 'lists/liquid_products.html' %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% load future %}
+{% load followed %}
+<div class="float_left product_middle hide_detail" >
+
+    <div class="click_area">
+        <p>
+            <div class="c1">{{ product.price|price }}</div>
+            <div class="c2">
+                <a href="{% url 'product.views.product_detail' product.id %}">
+                    {{ product.model|default:'待定' }}
+                </a>
+            </div>
+            <div class="c3">{{ product.trademark }}</div>
+            <div class="c4">{{ product.spec }}</div>
+            <div class="c5">
+                <a href="{% url 'store.views.store_detail' product.store_name %}">{{ product.store_name }}</a>
+            </div>
+            <div class="c6">{{ product.stock_location }}</div>
+            <div class="c7">{{ product.producer }}</div>
+        </p>
+    </div>
+
+    <div class="tag_button" product_id='{{ product.id }}'>
+        <div class="info">
+            <p>告诉</p>
+            <p>朋友</p>
+        </div>
+    </div>
+
+    <div class="save_button" product_id='{{ product.id }}'>
+        <div class="info">
+            <p>保存</p>
+            <p>{{ product.saves|length }}</p>
+        </div>
+    </div>
+</div>

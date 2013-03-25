@@ -1,0 +1,25 @@
+{% load future %}
+
+<div class="float_left store">
+
+{% for product in list.preview_products %}
+    {% include 'gadgets/product_small.html' %}
+{% empty %}
+    <div class="float_left product_small" >
+
+    </div>
+{% endfor %}
+<div class="clear"></div>
+<hr/>
+<div class="float_left info">
+    <p>
+        <a href="{{ list.url }}">{{ list.name }}</a>
+    </p>
+    <p>
+        <a href="#">{{ list.followers|length }} 个用户关注</a>
+    </p>
+</div>
+<div class="float_right info">
+     {% include 'gadgets/follow_button.html' with target=list %}
+</div>
+</div>

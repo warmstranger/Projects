@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load future %}
+{% block content %}
+
+{% if not error %}
+    <h1>已成功发布！</h1>
+
+    <a href="{% url 'product.views.product_detail' product.id %}">{{ product.title }}</a>
+
+    <form action="{% url 'product.views.post_finish' %}" method="POST">
+        {% csrf_token %}
+    </form>
+    <hr />
+    <p>
+        <input type="submit" class="block_submit" value="评论" />
+        <input type="submit" class="block_submit" value="以后再说" />
+    </p>
+{% else %}
+    <h1>发布失败</h1>
+    <input type="submit" class="block_submit" value="再来一次" onclick="javascript:window.location='{% url 'product.views.post_url' %}'" />
+{% endif %}
+
+{% endblock %}

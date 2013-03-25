@@ -1,0 +1,31 @@
+{% load future %}
+{% for comment in comments %}
+    <div class="comments_detail">
+        <div class="float_left comments_detail_avatar">
+            <a href="/{{ comment.user.username }}">
+                {% if comment.user.profile.image %}
+                    <img alt="{{ comment.user.username }}" src="{{ comment.user.profile.image.url }}" class="img_x45" />
+                {% else %}
+                    <img alt="{{ comment.user.username }}" src="http://wanelo.com/assets/default_avatar_x45.jpg" class="img_x45" />
+                {% endif %}
+            </a>
+        </div>
+        <div class="float_left comments_detail_content" comment_id="{{ comment.id }}">
+            <div class="comments_detail_content_username"><a href="/{{ comment.user.username }}">{{ comment.user.username }}</a></div>
+            <div class="comments_detail_content_body">{{ comment.text }}</div>
+            <div class="comments_detail_content_extras">
+                <span class="comments_detail_content_ago">{{ comment.time|timesince }} 前</span>
+                {% if comment.user.username == requester.username %}
+                    <span class="comments_detail_content_delete">. <a href="#">删除</a></span>
+                {% else %}
+                    <span class="comments_detail_content_report">. <a href="#">举报</a></span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% if comments_more %}
+    <div class="comments_show_more_btn">
+        <a id="comment_more" href="#" class="button large">更多评论</a>
+    </div>
+{% endif %}

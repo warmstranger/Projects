@@ -1,0 +1,34 @@
+{% for product in products %}
+    {% include 'gadgets/product_large.html' %}
+{% endfor %}
+
+<div id="save_dialog" class="hidden">
+    {% include 'lightboxes/save.html' %}
+</div>
+
+<div id="tag_dialog" class="hidden">
+    {% include 'lightboxes/tag.html' %}
+</div>
+
+<script>
+    $(document).ready(function(){
+        function toggle_detail()    {
+            $(this).toggleClass('hide_detail');
+        }
+
+        $('.product_middle').mouseenter(toggle_detail);
+        $('.product_middle').mouseleave(toggle_detail);
+
+        $('.product_middle .click_area').click(function(){
+            window.location = $(this).find('a:first').attr('href');
+        })
+
+        $('.tag_button').click(function(){
+            $('#tag_dialog').dialog({
+                modal: true,
+                title: '标记中...',
+                width: 375
+            });
+        });
+    });
+</script>

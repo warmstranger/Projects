@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load followed %}
+
+{% block content %}
+<h1>搜索结果</h1>
+
+<div class="items_header">
+    <div class="c1">最低价</div>
+    <div class="c2">品名</div>
+    <div class="c3">牌号</div>
+    <div class="c4">规格</div>
+    <div class="c5">最低价店铺</div>
+    <div class="c6">同种商品</div>
+    <div class="clear" ></div>
+</div>
+
+{% for meta in result %}
+<div class="result_item">
+    <div>
+        <div class="c1">{{ meta.best_offer.price|price }}</div>
+        <div class="c2">{{ meta.model_tags|default:"待定" }}</div>
+        <div class="c3">{{ meta.trademark_tags|default:"待定" }}</div>
+        <div class="c4">{{ meta.best_offer.spec|default:"待定" }}</div>
+        <div class="c5"><a href="{% url 'store.views.store_detail' meta.best_offer.store_name %}">
+            {{ meta.best_offer.store_name|truncatechars:18 }}
+        </a></div>
+        <div class="c6">{{ meta.products|length }}件</div>
+        <div class="clear"></div>
+    </div>
+    <div class="result_detail hidden">
+        <div class="items_header">
+            <div class="c1">价格</div>
+            <div class="c2">品名</div>
+            <div class="c3">牌号</div>
+            <div class="c4">规格</div>
+            <div class="c5">店铺</div>
+            <div class="c6">仓库</div>
+            <div class="clear" ></div>
+        </div>
+
+        {% for product in meta.products %}
+            {% include 'gadgets/product_large.html' with product=product %}
+        {% endfor %}
+        <div class="clear"></div>
+    </div>
+    <hr/>
+
+</div>
+{% endfor %}
+
+<div id="save_dialog" class="hidden">
+    {% include 'lightboxes/save.html' %}
+</div>
+
+<div id="tag_dialog" class="hidden">
+    {% include 'lightboxes/tag.html' %}
+</div>
+
+<script>
+    $(document).ready(function(){
+        function toggle_detail()    {
+            $(this).toggleClass('hide_detail');
+        }
+
+        $('.product_middle').mouseenter(toggle_detail);
+        $('.product_middle').mouseleave(toggle_detail);
+
+        $('.product_middle .click_area').click(function(){
+            window.location = $(this).find('a:first').attr('href');
+        })
+
+        $('.tag_button').click(function(){
+            $('#tag_dialog').dialog({
+                modal: true,
+                title: '标记中...',
+                width: 375
+            });
+        });
+
+        $('.result_item').click(function(){
+            $(this).find('.result_detail').toggleClass('hidden');
+        });
+    });
+</script>
+
+
+{% endblock %}

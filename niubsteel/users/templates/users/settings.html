@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load future %}
+
+{% block content %}
+
+<h1>账户</h1>
+    {% if user.activated == 0 %}
+    <p> You must select type a user name and email address to complete registration</p>
+    {% endif %}
+<form action="settings" method="POST">
+    {% csrf_token %}
+    {% if user.activated %}
+    <p><input type="text" name="username" placeholder="用户名" value="{{ user.username }}" /></p>
+    <p><input type="text" name="email" placeholder="邮箱" value="{{ user.email }}"/> </p>
+    {%  else  %}
+    <p><input type="text" name="username" placeholder="用户名" value="" /></p>
+    <p><input type="text" name="email" placeholder="邮箱" value=""/> </p>
+    {% endif %}
+    <p><input type="hidden" name="change_type" value="account"/> </p>
+    <p>
+        <input type="submit" class="block_submit" value="Save" />
+        {%  if user.login_type == 0 %}
+        <input type="button" class="block_submit" value="重设密码" onclick="javascript:window.location='{% url 'users.views.reset_password' %}'" />
+        {% endif %}
+    </p>
+</form>
+<hr />
+
+<h1>个人资料</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <p><input type="text" name="full_name" placeholder="全名" value="{{ user.profile.full_name }}" /></p>
+    <p><input type="text" name="location" placeholder="所在地" value="{{ user.profile.location }}"/> </p>
+    <p><input type="text" name="website" placeholder="网站" value="{{ user.profile.website }}"/> </p>
+    <p><input type="hidden" name="change_type" value="profile"/> </p>
+    <p>
+        <textarea name="description" placeholder="个人描述" >{{ user.profile.description }}</textarea>
+    </p>
+    <p><input type="submit" class="block_submit" value="保存" /> </p>
+</form>
+    <h1>头像</h1>
+
+    <form id="profile_image_form" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x200.jpg');" />
+            {% else %}
+                <img src="http://wanelo.com/assets/default_avatar_x200.jpg" />
+            {% endif %}
+            <input type="hidden" name="change_type" value="profile_image"/>
+        </p>
+        <p>
+            <input type="button" id="profile_image_button" class="block_submit" value="上传头像" />
+            <input type="file" id="profile_image_input" name="profile_image" />
+        </p>
+
+        <script>
+            $(document).ready(function(){
+                $('#profile_image_button').click(function(){
+                    $('#profile_image_input').click();
+                });
+                $('#profile_image_input').change(function(){
+                    $('#profile_image_form').submit();
+                })
+            });
+        </script>
+
+    </form>
+    <hr />
+    <h1>Social Network</h1>
+    {% if user.has_weibo_account %}
+        <p>Connected with Weiobo: {{ user.weibo_account.snw_nick }}.
+        <a href='weibo_invite'> invite your friends</a></p>
+    {% else %}
+        <p><a href="weibo_login">join Weibo</a></p>
+    {% endif %}
+
+    {% if user.has_taobao_account %}
+    <p>Connected with Tao Bao: {{ user.taobao_account.snw_nick }}</p>
+        {% if user.has_store %}
+            <p>\t You own {{ user.store.name }} <a href="import_products">> import products </a></p>
+        {% endif %}
+    {% else %}
+    <p><a href="taobao_login">join Tao Bao</a></p>
+    {% endif %}
+    {% if user.has_qq_account %}
+        <p>Connected with QQ: {{ user.qq_account.snw_nick }}</p>
+    {% else %}
+        <p><a href="#">join QQ</a></p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load future %}
+{% block content %}
+
+<h1>正在分析网页</h1>
+
+<form id="analyze_form" action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="url" value="{{ url }}" />
+</form>
+
+<p>
+    <div id="console">
+        <p>hupur {{ user.username }}:$ analyze {{ url }}</p>
+        <p>Progressing ....</p>
+    </div>
+</p>
+
+<p><input type="submit" id="button_cancel" class="block_submit" value="取消" /></p>
+
+<p>
+<form action="{% url 'product.views.post_preview' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="preview_title" id="preview_title" />
+    <input type="hidden" name="preview_url" id="preview_url" />
+    <input type="hidden" name="preview_image" id="preview_image" />
+    <input type="hidden" name="preview_price" id="preview_price" />
+    <input type="submit" id="button_preview"class="block_submit hidden" value="预览" />
+</form>
+</p>
+
+<script>
+
+$(document).ready(function(){
+    var data = {};
+    $('#analyze_form input').each(function(index, object){
+        data[$(object).attr('name')] = $(object).val();
+    });
+
+    function analyzing()    {
+        console_write('.')
+    }
+
+    function console_write(str)   {
+        var statement = $('#console p:last');
+        statement.text(statement.text() + str);
+    }
+
+    function console_writeln(str)    {
+        if (str)
+            console_write(str);
+        $('#console').append($('<p></p>'));
+    }
+
+    function analyze_success(data)  {
+        console_writeln('title: ' + data.title);
+        console_writeln('image: ' + data.image);
+        console_writeln('hupur {{ user.username }}:$');
+
+        $('#preview_title').val(data.title);
+        $('#preview_url').val(data.url);
+        $('#preview_image').val(data.image);
+        $('#preview_price').val(data.price);
+    }
+
+    function analyze_failed(data)   {
+        window.location = 'url?error=' + data;
+    }
+
+    var timer = setInterval(analyzing, 200);
+
+    $.post('analyze', data, function(response){
+        $('#button_cancel').hide();
+        $('#button_preview').show();
+        clearInterval(timer);
+        console_writeln(' done.');
+        if (response.success)
+            analyze_success(response.data)
+        else
+            analyze_failed(response.data)
+    }, 'json').fail(function(){
+        analyze_failed('服务器端异常');
+    });
+
+});
+
+</script>
+
+{% endblock %}

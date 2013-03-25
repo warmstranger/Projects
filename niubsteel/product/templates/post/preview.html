@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load future %}
+{% block content %}
+
+    <h1>这是你找到的吗？</h1>
+
+    <form action="{% url 'product.views.post_finish' %}" method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="title" placeholder="标题" value='{{ title }}' /></p>
+        <p><input type="text" class="url_input" name="url" placeholder="网址" value='{{ url }}' /></p>
+        <hr/>
+        <p><input type="text" name="price" placeholder="价格" value='{{ price }}' /></p>
+        <p><input type="text" class="url_input" name="image" placeholder="图片" value='{{ image }}' /></p>
+        <p><img src="{{ image }}" /></p>
+        <hr/>
+        <p><input type="submit" class="block_submit" value="发布" /></p>
+    </form>
+
+{% endblock %}

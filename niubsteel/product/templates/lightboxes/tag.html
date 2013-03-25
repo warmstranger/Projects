@@ -1,0 +1,51 @@
+{% load future %}
+<form action="" method="post">
+    {% csrf_token %}
+    <input id="input_tag_product_id" type="hidden" name="product_id" />
+    <p>
+        <textarea id="input_tag_comment" name="comment" placeholder="@用户 #标签"></textarea>
+    </p>
+    <p><input id="button_tag" class="block_submit" type="button" value="标记"/></p>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.tag_button').click(function(){
+            {% if not user.is_active %}
+                window.location = '{% url 'users.views.login' %}';
+            {% endif  %}
+
+            var product_id = $(this).attr('product_id');
+            $('#input_tag_product_id').val(product_id);
+            $('#tag_dialog').dialog({
+                modal: true,
+                title: '标记中...',
+                width: 375
+            });
+        });
+
+        function tag_success() {
+            $('#tag_dialog').dialog('close');
+            $('#input_tag_comment').val('');
+        }
+
+        function ajax_failed(error)    {
+            alert(error);
+        }
+
+        $('#button_tag').click(function(){
+            $.post('{% url 'product.views.save_product' %}', {
+                'product_id': $('#input_tag_product_id').val(),
+                'comment': $('#input_tag_comment').val()
+            }, function(data)    {
+                if (data.success)
+                    tag_success()
+                else
+                    ajax_failed(data.data)
+            }, 'json').fail(function(){
+                ajax_failed('服务器异常');
+            });
+        });
+    })
+
+</script>
