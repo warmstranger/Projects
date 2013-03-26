@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>用户登陆</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p><input type="text" name="credential" placeholder="用户名 / 邮箱" value="{{ credential }}" /></p>
+    <p><input type="password" name="password" type="password" placeholder="密码" value="{{ password }}" /></p>
+    <p><input name="next" type="hidden" value="{{ next }}" /></p>
+    <p><input type="submit" class="block_submit" value="登陆" /></p>
+</form>
+
+<hr />
+
+<p>没有用户？<a href="{% url 'users.views.register' %}?next={{ next }}">注册</a></p>
+<p>忘记密码？<a href="{% url 'users.views.forget_password' %}">找回密码</a></p>
+
+
+{% endblock %}

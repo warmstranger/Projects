@@ -1,0 +1,96 @@
+{% load future %}
+<div class="product_show_comments">
+    <div class="float_left submit_comment">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="float_left submit_comment_avatar">
+                {% if requester.profile.image %}
+                    <img class="img_x45" alt="{{ requester.username }}" src="{{ requester.profile.image }}" />
+                {% else %}
+                    <img class="img_x45" alt="{{ requester.username }}" src="http://wanelo.com/assets/default_avatar_x45.jpg" />
+                {% endif %}
+            </div>
+            <div class="float_left submit_comment_textarea">
+                <textarea id="comment_input" placeholder="评论 @用户 #标签"></textarea>
+            </div>
+            <div class="float_left submit_comment_actions">
+                <input id="comment_save" type="button" class="button" disabled="disabled" value="提交" />
+            </div>
+        </form>
+    </div>
+    <div class="clear comments">
+        {% include 'comment_list.html' %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#comment_input').keyup(function(){
+            if ($.trim($('#comment_input').val()).length)
+                $('#comment_save').prop('disabled', false);
+            else
+                $('#comment_save').prop('disabled', true);
+        });
+
+        function comment_success() {
+            var requester_avatar = $('div.submit_comment_avatar img').attr('src');
+            var comment_text = $.trim($('#comment_input').val());
+            var new_comment = $(
+                '<div class="comments_detail">'
+                 + '<div class="float_left comments_detail_avatar"><a href="/{{ requester.username }}"><img alt="{{ requester.username }}" src="' + requester_avatar + '" /></a></div>'
+                 + '<div class="float_left comments_detail_content"><div class="comments_detail_content_username"><a href="/{{ requester.username }}">{{ requester.username }}</a></div>'
+                 + '<div class="comments_detail_content_body">' + comment_text + '</div>'
+                 + '<div class="comments_detail_content_extras"><span class="comments_detail_content_ago">刚才</span><span class="comments_detail_content_delete">. <a href="#">删除</a></span></div>'
+                 + '</div></div>'
+            );
+            $('.comments').prepend(new_comment);
+            $('#comment_input').val('');
+        }
+
+        function ajax_failed(error) {
+            alert(error);
+        }
+
+        $('#comment_save').click(function(){
+            $('#comment_save').prop('disabled', true);
+            $.post('{% url 'comment.views.save_comment' product.id %}', {
+                'comment': $.trim($('#comment_input').val())
+            }, function(data) {
+                if (data.success)
+                    comment_success();
+                else
+                    ajax_failed(data.data)
+            }, 'json').fail(function() {
+                ajax_failed('服务器异常');
+            }).always(function() {
+                $('#comment_save').prop('disabled', false);
+            });
+        });
+
+        function comments_loading_success(comments) {
+            // Detach show more button.
+            var more = $('#comment_more').detach();
+            $('.comments_show_more_btn').remove();
+            $('.comments').append(comments);
+            // Re-attach show more button.
+            if ($('#comment_more'))
+                $('#comment_more').replaceWith(more);
+        }
+
+        if ($('#comment_more').length)
+        {
+            $('#comment_more').click(function(event){
+                event.preventDefault();
+                $.get('{% url 'comment.views.list_comments' product.id %}', {
+                    'offset': $('div.comments_detail_content:last').attr('comment_id'),
+                    'limit': 10
+                }, function(data) {
+                    if (data)
+                        comments_loading_success(data);
+                }).fail(function(){
+                    ajax_failed('服务器异常');
+                });
+            });
+        }
+    });
+</script>

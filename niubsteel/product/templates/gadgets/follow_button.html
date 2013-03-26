@@ -1,0 +1,7 @@
+{% load followed %}
+
+{% if target|followed:user %}
+    <input type="button" class="block_submit following" value="取消关注" onclick="javascript:follow(this, '{{ target.url }}');" />
+{% else %}
+    <input type="button" class="block_submit no_follow" value="关注" onclick="javascript:follow(this, '{{ target.url }}');"/>
+{% endif %}

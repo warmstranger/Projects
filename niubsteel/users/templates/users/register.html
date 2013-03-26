@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>用户注册</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p><input type="text" name="email" placeholder="邮箱" value="{{ email }}" /></p>
+    <p><input type="text" name="username" placeholder="用户名" value="{{ username }}" /></p>
+    <p><input type="password" name="password" placeholder="密码" value="{{ password }}" /></p>
+    <p><input name="next" type="hidden" value="{{ next }}" /></p>
+    <p><input type="submit" value="注册" class="block_submit" /></p>
+    <p><a href="{% url 'users.views.weibo_login' %}"><img src="{{ STATIC_URL }}img/signin.png"/></a></p>
+    <p><a href="{% url 'users.views.taobao_login' %}"><img src="{{ STATIC_URL }}img/login_taobao.png"/></a></p>
+</form>
+
+<hr />
+
+<p>老用户？<a href="{% url 'users.views.login' %}?next={{ next }}">登陆</a></p>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load future %}
+{% load followed %}
+
+{% block bar %}
+<div class="bar">
+    <div class="container">
+        <div class="inner_container">
+            <div class="float_left product_head_avatar">
+                <a href="/{{ saver.username }}">
+                {% if saver.profile.image %}
+                <img class="img_x90" src="{{ saver.profile.image.url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x90.jpg');" />
+                {% else %}
+                <img class="img_x90" src="http://wanelo.com/assets/default_avatar_x90.jpg" />
+                {% endif %}
+                </a>
+            </div>
+            <div class="float_left product_head_info">
+                {% if first_comment %}
+                <div class="comment">"{{ first_comment.text }}"</div>
+                <div class="smaller">
+                {% else %}
+                <div>
+                {% endif %}
+                {% if original %}
+                    <a href="/{{ saver.username }}">{{ saver.username }}</a> 于 {{ first_save.time|timesince }} 前发布在 <a href="{% url 'collection.views.get_collection' first_save.collection.user.username first_save.collection.id %}">{{ first_save.collection.name }}</a>
+                {% else %}
+                    <a href="/{{ saver.username }}">{{ saver.username }}</a> 于 {{ first_save.time|timesince }} 前通过 <a href="/{{ product.user.username }}">{{ product.user.username }}</a> 收藏在 <a href="{% url 'collection.views.get_collection' first_save.collection.user.username first_save.collection.id %}">{{ first_save.collection.name }}</a>
+                {% endif %}
+                </div>
+            </div>
+            {% if recent_saves %}
+            <div class="float_left product_head_savers">
+                <div class="savers_text"><a href="{% url 'product.views.product_savers' product.id %}">{{ save_count }}个人</a>收藏了该商品</div>
+                <div class="savers_avatar">
+                    {% for save in recent_saves %}
+                        <a href="/{{ save.user.username }}" title="{{ save.user.username }}">
+                            {% if save.user.profile.image %}
+                            <img class="img_x45" src="{{ save.user.profile.image.url }}"/>
+                            {% else %}
+                            <img class="img_x45" src="http://wanelo.com/assets/default_avatar_x45.jpg" />
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product_show_triangle"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div id="save_dialog" class="hidden">
+        {% include 'lightboxes/save.html' %}
+    </div>
+
+    <div class="product_show_title">
+        <h2>{{ product.trademark }}</h2>
+    </div>
+    <div class="product_show_poster">
+        来自 <a href="{% url 'store.views.store_detail' product.store.name %}">{{ product.store.name }}</a>
+    </div>
+
+    <div>
+        <p>
+        <div class="c1">{{ product.price|price }}</div>
+        <div class="c2">{{ product.spec }}</div>
+        <div class="c3">
+            <a href="{% url 'product.views.product_detail' product.id %}">
+                {{ product.model|default:'待定' }}
+            </a>
+        </div>
+        <div class="c4">{{ product.trademark }}</div>
+        <div class="c5"><a href="{% url 'store.views.store_detail' product.store_name %}">{{ product.store_name }}</a></div>
+        <div class="c6">{{ product.stock_location }}</div>
+        <div class="c7">{{ product.producer }}</div>
+        </p>
+    </div>
+
+    <div class="float_left product_show_left_pane">
+        <div class="product_show_image">
+            <a href="{{ product.url }}" target="_blank">
+                <img alt="{{ product.title }}" src="{{ product.image }}" />
+            </a>
+        </div>
+        {% include 'gadgets/product_comments.html' %}
+    </div>
+    <div class="float_left products_show_right_pane">
+        <div class="products_show_controls">
+            <div class="products_show_controls_save">
+                <div class="products_show_controls_save_btn">
+                    <div class="save_button button button_primary" product_id='{{ product.id }}'>保存</div>
+                </div>
+                <div class="float_left products_show_controls_save_count_tag">
+                    <div class="products_show_controls_save_count_tag_left"></div>
+                    <div class="products_show_controls_save_count_tag_right">{{ save_count }}</div>
+                </div>
+            </div>
+            <div class="products_show_controls_buy">
+                <div class="products_show_controls_buy_btn">
+                    <a href="{{ product.url }}" class="button button_buy" target="_blank">购买</a>
+                </div>
+                <div class="products_show_controls_buy_price_tag">
+                    <div class="products_show_controls_buy_price_tag_left"></div>
+                    <div class="products_show_controls_buy_price_tag_right editable">
+                        <span class="products_show_controls_buy_price_tag_text">{{ product.price|price }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="products_show_more">
+            {% if saved_in_col %}
+            <div class="products_show_more_from_col">
+                <div class="products_show_more_text">
+                    <div class="float_left products_show_more_col_name">
+                        更多收藏在 <a href="{% url 'collection.views.get_collection' first_save.collection.user.username first_save.collection.id %}">{{ first_save.collection.name }}:</a>
+                    </div>
+                </div>
+                <div class="products_show_more_grid">
+                    {% for saved in saved_in_col %}
+                        {% include 'gadgets/product_small.html' with product=saved.product %}
+                    {% endfor %}
+                </div>
+                <div class="clear"/>
+            </div>
+            {% endif %}
+            <div class="products_show_more_from_store">
+                <div class="products_show_more_text">
+                    更多来自 <a href="{% url 'store.views.store_detail' product.store.name %}">{{ product.store.name }}</a>
+                    <div class="products_show_more_store_follow">
+                        {% include 'gadgets/follow_button.html' with target=product.store %}
+                    </div>
+                </div>
+                <div class="products_show_more_grid">
+                    {% for p in product.store.products|slice:":20" %}
+                        {% include 'gadgets/product_small.html' with product=p %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

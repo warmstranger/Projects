@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Post your products({{ total_results }})</h1>
+    <div name='product_list_div'>
+        {% for item in items.item %}
+            <div>
+                <input type="checkbox">
+                <label>{{ item.title }}</label> <br/>  <label>{{ item.price }}</label>
+                <br/><a href="http://item.tbsandbox.com/item.htm?id={{ item.num_iid }}"><img src="{{ item.pic_url }}"/></a>
+
+
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

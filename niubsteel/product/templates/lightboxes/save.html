@@ -1,0 +1,135 @@
+{% load future %}
+<form action="" method="post">
+    {% csrf_token %}
+    <input id="input_product_id" type="hidden" name="product_id" />
+    <p>
+        <div class="combo_container">
+            <input type="text" id="input_collection_name" class="combo_input" placeholder="我的收藏" value="{{ user.collections|first }}"  />
+            <span class="arrow"></span>
+            <div class="combo_select hidden">
+                {% for collection in user.collections %}
+                <p>{{ collection }}</p>
+                {% endfor %}
+                <span>
+                    <input type="text" id="input_new_collection" class="combo_input_new" placeholder="新建收藏集" />
+                    <input type="button" id="button_new_collection" class="block_submit" value="添加" />
+                </span>
+            </div>
+        </div>
+    </p>
+    <p>
+        <textarea id="input_comment" name="comment" placeholder="@用户 #标签"></textarea>
+    </p>
+    <p><input class="block_submit" id="button_save" type="button" value="保存"/></p>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        function combo_open()   {
+            $('.combo_select').removeClass('hidden');
+        }
+        function combo_close()   {
+            $('.combo_select').addClass('hidden');
+        }
+        function combo_toggle()   {
+            $('.combo_select').toggleClass('hidden');
+        }
+
+        function testify_combo() {
+            var input_text = $('.combo_input').val();
+            var found = false;
+            $('.combo_select p').each(function(index, object){
+                var t = $(object).text();
+                if (t == input_text)    {
+                    $(this).addClass('selected');
+                    found = true;
+                }
+                else    {
+                    $(this).removeClass('selected');
+                }
+            });
+            $('.combo_input_new').val(found ? '': input_text);
+        }
+
+        function option_click(){
+            $('.combo_input').val($(this).text());
+            testify_combo();
+            combo_close();
+        }
+
+        $('.combo_select p').click(option_click);
+        $('.combo_input').click(combo_toggle);
+        $('.combo_input').keyup(function(){
+            testify_combo();
+            combo_open();
+        });
+
+        var mouse_in_combo_area = false;
+        $('.combo_select').mouseenter(function (){
+            mouse_in_combo_area = true;
+        }).mouseleave(function(){
+            mouse_in_combo_area = false;
+        });
+        $('.combo_input').blur(function(event){
+            if (!mouse_in_combo_area) combo_close();
+        });
+        $('.save_button').click(function(){
+            {% if not user.is_active %}
+            window.location = '{% url 'users.views.login' %}';
+            {% endif  %}
+
+            var product_id = $(this).attr('product_id');
+            $('#input_product_id').val(product_id);
+            testify_combo();
+            $('#save_dialog').dialog({
+                modal: true,
+                title: '保存中...',
+                width: 375
+            });
+        });
+
+        function new_collection_success(collection_name)    {
+            var new_option = $('<p />');
+            new_option.text(collection_name);
+            new_option.click(option_click);
+            $('.combo_select').prepend(new_option);
+            $('#input_collection_name').val(collection_name);
+            testify_combo();
+            combo_close();
+        }
+
+        function save_success() {
+            $('#save_dialog').dialog('close');
+            $('#input_comment').val('');
+        }
+
+        $('#button_new_collection').click(function(){
+            $.post('{% url 'collection.views.new_collection' %}', {
+                new_collection_name: $('#input_new_collection').val()
+            }, function(data)   {
+                if (data.success)
+                    new_collection_success(data.data)
+                else
+                    ajax_failed(data.data)
+            }, 'json').fail(function(){
+                ajax_failed('服务器异常')
+            });
+        });
+
+        $('#button_save').click(function(){
+            $.post('{% url 'product.views.save_product' %}', {
+                'product_id': $('#input_product_id').val(),
+                'collection_name': $('#input_collection_name').val(),
+                'comment': $('#input_comment').val()
+            }, function(data)    {
+                if (data.success)
+                    save_success()
+                else
+                    ajax_failed(data.data)
+            }, 'json').fail(function(){
+                ajax_failed('服务器异常');
+            });
+        });
+    })
+
+</script>

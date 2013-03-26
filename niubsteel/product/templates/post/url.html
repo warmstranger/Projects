@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load future %}
+{% block content %}
+
+    <h1>你找到了什么?</h1>
+
+    <form action="{% url 'product.views.post_analyze' %}">
+        <p><input type="text" class="url_input" name="url" placeholder="http://好玩的网址" /></p>
+        <p><input type="submit" class="block_submit" value="继续" /></p>
+    </form>
+
+{% endblock %}

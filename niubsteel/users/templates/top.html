@@ -1,0 +1,40 @@
+{% load future %}
+
+<div class="top">
+    <div class="container">
+        <div class="float_left">
+            <div class="menu">
+                <ul>
+                    <li class="menu_item"><a href="/">资源</a></li>
+                    <li class="menu_item"><a href="{% url 'store.views.top_stores' %}">店铺</a></li>
+                    <li class="menu_item"><a href="{% url 'tag.views.top_tags' %}">分类</a></li>
+                    <li class="menu_item"><a href="{% url 'users.views.top_users' %}">朋友圈</a></li>
+                    {% if user.is_active %}
+                    <li class="menu_item"><a href="#">我的关注</a></li>
+                    {% endif %}
+                    <li class="menu_item">
+                        <form action="{% url 'product.views.search' %}" >
+                            <input class="search_box" name="q" value="{{ q }}" placeholder="品名，牌号，规格，供应商，用户" />
+                            <input class="search_button" type="submit" value="搜索" />
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="float_right">
+            <div class="menu">
+                <ul>
+                    {% if user.is_active %}
+                        <li class="menu_item"><a href="{% url 'product.views.post_url' %}">发帖</a></li>
+                        <li class="menu_item"><a href="{% url 'users.views.profile' user.username %}">@{{ user.username }}</a></li>
+                        <li class="menu_item"><a href="{% url 'users.views.logout' %}">退出</a></li>
+                    {% else %}
+                        <li class="menu_item"><a href="{% url 'users.views.register' %}">注册</a></li>
+                        <li class="menu_item"><a href="{% url 'users.views.login' %}">登陆</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
