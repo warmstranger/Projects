@@ -38,6 +38,7 @@
     height: 203px;
     float: left;
     background-color: #CCC;
+    position: relative;
 }
 .category_name{
     width: 132px;
@@ -47,6 +48,10 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /*IE8*/
     filter:alpha(Opacity=80);
     opacity: .8;
+    position: absolute;
+    z-index: 8;
+    left: 0px;
+    top: 0px;
 }
 .category_pic1{
     width: 256px;
