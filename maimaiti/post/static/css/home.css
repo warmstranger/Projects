@@ -39,6 +39,7 @@
     float: left;
     background-color: #CCC;
     position: relative;
+    cursor: pointer;
 }
 .category_name{
     width: 132px;
@@ -52,6 +53,16 @@
     z-index: 8;
     left: 0px;
     top: 0px;
+}
+.category_name_inner_tab{
+    width: 124px;
+    height: 34px;
+    margin: 3px;
+    border:1px dashed #999;
+    text-align: center;
+    color: #CCC;
+    line-height: 30px;
+    /*border:1px;*/
 }
 .category_pic1{
     width: 256px;
@@ -110,7 +121,7 @@
 .item_pic{
     width: 296px;
     height: 352px;
-    margin: 10px;
+    margin: 9px;
     position: relative;
     background: #bcbcbc;
     border: 5px solid #bcbcbc;
@@ -157,7 +168,7 @@
     height: 60px;
     padding: 3px;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 12px;
     cursor: pointer;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /*IE8*/
     filter:alpha(Opacity=80);
@@ -182,11 +193,14 @@
     z-index: 5;
     top:0px;
 }
-.item_new_icon{
+.item_new_tab{
     width: 93px;
     height: 94px;
     position: absolute;
     z-index: 4;
+    left: -8px;
+    top:-8px;
+    background: url(../images/new_icon.png);
 }
 
 

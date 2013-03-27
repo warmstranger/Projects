@@ -27,3 +27,17 @@
     margin-top: 28px;
     background: #EEE;
 }
+
+/*user.html*/
+.user_left{
+    width: 200px;
+    height: 800px;
+    float: left;
+    background: #DDD;
+}
+.data_right{
+    width: 977px;
+    height: 800px;
+    float: left;
+    background: url(../images/head_bg.png);
+}
