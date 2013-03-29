@@ -734,8 +734,6 @@ a:hover, .link_submit:hover {
 .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8  {
     float: left;
     text-align: center;
-    line-height: 25px;
-    overflow: scroll;
 }
 
 .small1 {
