@@ -38,7 +38,7 @@ Supports Thumbs: true
 	display:inline-block;
 	width:22px;
 	height:22px;
-	background:url(bullets1.png) no-repeat;
+	background:url(bullets2.png) no-repeat;
 	text-indent:-9999px;
 	border:0;
 	margin: 0 2px;
@@ -49,12 +49,12 @@ Supports Thumbs: true
 
 .nivo-directionNav a {
 	display:block;
-	width:30px;
-	height:30px;
-	background:url(arrows.png) no-repeat;
+	width:45px;
+	height:35px;
+	background:url(arrows1.png) no-repeat;
 	text-indent:-9999px;
 	border:0;
-	opacity: 0;
+	opacity: 10;
 	-webkit-transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
     -o-transition: all 200ms ease-in-out;
@@ -63,10 +63,13 @@ Supports Thumbs: true
 .theme-default:hover .nivo-directionNav a { opacity: 1; }
 a.nivo-nextNav {
 	background-position:-30px 0;
-	right:15px;
+	right:-5px;
+    z-index: 50;
 }
 a.nivo-prevNav {
-	left:15px;
+	left:-5px;
+    position: absolute;
+    z-index: 50;
 }
 
 .nivo-caption {

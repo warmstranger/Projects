@@ -30,8 +30,13 @@
                 <div><h5>{{post.time}}</h5></div>
             </div>
         </div>
-
-        <div id="text_area"><div><p>{{post.text}}</p></div></div>
+        <div id="text_area">
+                <p>
+                    {% autoescape off %}
+                        {{post.text}}
+                    {% endautoescape %}
+                </p>
+        </div>
         <div id="comment_area">
             {% for comment in comments %}
                 <div class="comment_line">
@@ -67,6 +72,5 @@
         </div>
     </div>
 </center>
-
 </body>
 </html>
