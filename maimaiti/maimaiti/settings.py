@@ -123,7 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
 
-    #'gunicorn',
+    'gunicorn',
     'post',
     'comment',
     'tag',
