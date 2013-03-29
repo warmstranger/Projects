@@ -2,8 +2,6 @@
 #coding utf-8
 from comment.models import Comment
 from django.shortcuts import render_to_response,redirect
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_protect
 import datetime
 
 def add(request):
@@ -15,3 +13,15 @@ def add(request):
     comment = Comment(user_id = user_id,post_id = post_id,text = text,time = time)
     comment.save()
     return redirect('/post/detail/'+post_id)
+
+def delete(request,id):
+    try:
+        comment = Comment.objects.get(id = id)
+        comment.delete()
+    except Comment.DoesNotExist:
+        pass
+    return render_to_response('home2.html')
+
+def listing(request,user_id):
+    comments = Comment.objects.filter(user_id = user_id)
+    return render_to_response('home2.html',{'comments':comments})
