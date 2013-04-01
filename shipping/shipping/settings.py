@@ -45,7 +45,7 @@ USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/Users/konglingkai/Projects/shipping/tree/static/media/'
+MEDIA_ROOT = '/var/www/Projects/shipping/static/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -56,7 +56,7 @@ MEDIA_URL = '/static/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/var/www/Projects/shipping/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -107,10 +107,10 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 #    '/Users/konglingkai/shipping/templates/',
-    '/Users/konglingkai/Projects/shipping/templates',
+    '/var/www/Projects/shipping/templates',
 )
 
-TTC_PATH = '/Users/konglingkai/Projects/shipping/tree/static/simsun.ttc'
+TTC_PATH = '/var/www/Projects/shipping/tree/static/simsun.ttc'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -121,6 +121,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+
+    'gunicorn',
 
     'device',
     'daily',

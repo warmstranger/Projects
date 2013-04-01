@@ -23,6 +23,11 @@
     height: auto;
     background: #EEE;
     padding: 50px;
+    text-align: left;
+}
+#text_area img{
+    width: auto;
+    height: auto;
 }
 #comment_area{
     margin: 50px 0px;

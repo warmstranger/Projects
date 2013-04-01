@@ -23,16 +23,24 @@ $(document).ready(function(){
         $(this).siblings('label').css('opacity',$.trim(this.value)=='' ? 1 : 0)
         });
 
+//    $('div.item_pic').hover(
+//        function(){
+//            $(this).find('div.item_like_tab').show();
+//            $(this).find('div.item_save_tab').show();
+//            $(this).find('div.item_desc').show();
+//        },
+//        function(){
+//            $(this).find('div.item_like_tab').hide();
+//            $(this).find('div.item_save_tab').hide();
+//            $(this).find('div.item_desc').hide();
+//        }
+//    );
     $('div.item_pic').hover(
         function(){
-            $(this).find('div.item_like_tab').show();
-            $(this).find('div.item_save_tab').show();
-            $(this).find('div.item_desc').show();
+            $(this).find('div.item_hover_tab').show();
         },
         function(){
-            $(this).find('div.item_like_tab').hide();
-            $(this).find('div.item_save_tab').hide();
-            $(this).find('div.item_desc').hide();
+            $(this).find('div.item_hover_tab').hide();
         }
     );
 //    alert($('div.item_pic').length);

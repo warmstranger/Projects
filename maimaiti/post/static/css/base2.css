@@ -1,0 +1,98 @@
+body{
+    background: url(../images/home/bg_white.jpg);
+    margin-top: 0px;
+}
+img{
+    width: 100%;
+    height: 100%
+}
+a{text-decoration: none;}
+p{color: #333;}
+.gray_bg{
+    width: 100%;
+    height: 470px;
+    background: url(../images/home/bg_gray2.png);
+}
+
+
+#main_contain{
+    width: 960px;
+    /*width: 1200px;*/
+    height: auto;
+    margin-top: -470px;
+}
+.top_line{width: 960px;height: 5px;background: #e50717;}
+#head_bar{
+    height: 96px;
+    width: 960px;
+}
+.logo_pic{
+    height: 38px;
+    width: 183px;
+    float: left;
+    margin: 29px;
+    background: url("../images/home/logo.png") no-repeat;
+}
+.search{
+    background: url(../images/home/serch_input.png) no-repeat;
+    width: 260px;
+    height: 31px;
+    float: right;
+    margin: 32px;
+    position: relative;
+}
+#search_btn{
+    background: url(../images/home/search_icon.png) no-repeat;
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin: 6px;
+    margin-right: 8px;
+}
+.input {
+    height: 23px;
+    width: 210px;
+    padding-left: 5px;
+    line-height: 26px;
+    border: none;
+    border: 0;
+    margin-top: 3px;
+    margin-left: 2px;
+    background-color: transparent;
+    outline: 0;
+}
+.menu_head{height: 49px;width: 960px;}
+.menu_tab{height: 49px;width: 123px;background: #e50717;margin-right: 3px;float: left;}
+.menu_tab_on{height: 5px;width: 123px;background: #e50717;}
+.menu_tab_off{height: 5px;width: 123px;background: #CCC;}
+.menu_tab_text{height: 44px;width: 123px;}
+
+.menu_tab_left{height: 49px;width: 330px;float: left;background: #e50717;}
+.menu_tab_left_top{height: 5px;width: 330px;background: #CCC;}
+.menu_login{width: 100px;height: 49px;float: right;}
+.menu_tab_text,.menu_login{
+    line-height: 40px;
+    text-decoration: none;
+    font-size: 14pt;
+    color: #FFF;
+}
+
+.footer{
+    height: 263px;
+    width: 960px;
+    background: #333;
+}
+.footer-line{
+    height: 50px;
+    width: 1177px;
+    FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#e6e6e6,endColorStr=#FFF); /*IE*/
+    background:-moz-linear-gradient(top,#e6e6e6,#FFF);/*火狐*/
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#e6e6e6), to(#FFF));/*谷歌*/
+}
+.link_icon{
+    width: 47px;
+    height: 47px;
+    float: left;
+    background: #CCC;
+    margin: 10px;
+}
