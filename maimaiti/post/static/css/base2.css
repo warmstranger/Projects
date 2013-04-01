@@ -113,15 +113,24 @@ p{color: #333;}
 .footer-input{margin-left: 34px;}
 
 /*list-item*/
-.item{width: 280px;height: auto;border: 2px solid #CCC;}
-.item_img{width: 90px;height: 90px;background: #DDD;}
-.item_title{}
+.item{width: 260px;height: auto;border: 2px solid #CCC;overflow: hidden;padding: 12px 10px;text-align: left;float:left;
+    margin: 12px 0;
+}
+.item-img{width: 90px;height: 90px;background: #DDD;float: left;}
+.item-title{width: 150px;height: 20px;float: left;padding-left: 10px;font-size: 25px;font-weight: bold;}
+.item-text{width: 260px;height: auto;overflow: hidden;text-align: left;padding-top: 12px;}
+.item-line{width: 260px;height: 1px;float: left;background: #CCC;margin-top: 12px;}
+.item-bottom{width: 260px;height: 30px;float: left;margin-top: 12px;}
+.item-likenum{height: 20px;width: auto;overflow: hidden;float: left;}
+.item-heart{width: 12px;height: 20px;float: left;background:url(../images/home/heart_icon.png) center no-repeat;margin-right: 6px; }
+.item-price{height: 20px;width: auto;overflow: hidden;float: right}
 
 /*list-follow*/
 #follow-list{width: 960px;height: auto;background: #FFF;overflow: hidden;text-align: left}
 .follow-item{width: 750px;height: auto;background: #EEE;overflow: hidden;}
 .follow-item-left{width: 130px;float: left;}
-.follow-item-userhead{width: 100px;height: 100px;}
+.follow-item-userhead{width: 100px;height: 100px;float: left;}
+.follow-item-username{width: 100px;height: 20px;float: left;text-align: center}
 .follow-item-right{width: 600px;float: left;}
 .follow-item-title{width: 500px;height: 30px;text-align: left;float:left;}
 .follow-item-time{width: 500px;height: 20px;text-align: left;float:left;}
