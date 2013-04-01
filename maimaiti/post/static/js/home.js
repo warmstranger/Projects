@@ -23,6 +23,7 @@ $(document).ready(function(){
         $(this).siblings('label').css('opacity',$.trim(this.value)=='' ? 1 : 0)
         });
 
+//    home1.html
 //    $('div.item_pic').hover(
 //        function(){
 //            $(this).find('div.item_like_tab').show();
@@ -35,6 +36,7 @@ $(document).ready(function(){
 //            $(this).find('div.item_desc').hide();
 //        }
 //    );
+//    home2.html
     $('div.item_pic').hover(
         function(){
             $(this).find('div.item_hover_tab').show();
@@ -59,6 +61,8 @@ $(document).ready(function(){
             onTouch: true
         }
     });
+
+    //follow
 
 
 });

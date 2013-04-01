@@ -22,7 +22,7 @@
 }
 .tabs_title{width: 250px;height: 66px;float: left;text-align: left;}
 .tabs_title p{font-size: 20pt;font-weight: bold;}
-.tabs_more{width: 100px;height: 66px;float: right;}
+.tabs_more{width: 100px;height: 66px;float: right;line-height: 45px;}
 .tabs_more p{font-size: 14pt;font-weight: bold;color: #ff6600;}
 .buyers_items{
     width: 936px;
@@ -68,6 +68,7 @@
 .buyer_text{color: #666;font-size: 11pt;}
 .buyer_likennum{width: auto;height: 31px;float: right;margin-right: 23px;line-height: 30px;color: #ff6600}
 .buyer_heart{width: 12px;height: 30px;float: left;background:url(../images/home/heart_icon.png) center no-repeat;margin-right: 6px; }
+.buyer_likenum{width: auto;height: 30px;float: left;margin-left: 3px;line-height: 30px;color: #ff6600}
 .buyer_btn{width: 82px;height: 31px;float: right;background: url(../images/home/btn_follow.png);margin-right: 12px}
 .buyer_bottom{
     width: 444px;
@@ -147,17 +148,23 @@
     background: url(../images/home/toRight.png) no-repeat;
 }
 .menu_bar{
-    width: 936px;
+    width: 926px;
     /*height: 53px;*/
     height: 43px;
     background: #fafafa;
-    border: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    border-top: 1px solid #CCC;
+    float: left;
+    margin-bottom: 10px;
 }
+.border-left{width: 5px;height: 45px;float: left;background: url(../images/home/border_left.png) no-repeat;margin-left: 12px;}
+.border-right{width: 5px;height: 45px;float: left;background: url(../images/home/border_right.png) no-repeat}
 .menu_head2{margin-top: 14px;margin-left: 25px;text-align: left;}
 .menu_head2 a{color: #e93844;font-weight: bold}
 .list_contain{
     width: 960px;
-    height: 982px;
+    height: auto;
+    overflow: hidden;
     padding-top: 20px;
 }
 .list_all{

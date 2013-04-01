@@ -16,10 +16,10 @@
     var
     //参数
         setting={
-            column_width:330,//列宽
+            column_width:300,//列宽
             column_className:'waterfall_column',//列的类名
             column_space:10,//列间距
-            cell_selector:'.list_item_o',//要排列的砖块的选择器，context为整个外部容器
+            cell_selector:'.item',//要排列的砖块的选择器，context为整个外部容器
             img_selector:'img',//要加载的图片的选择器
             auto_imgHeight:true,//是否需要自动计算图片的高度
             fadein:true,//是否渐显载入
