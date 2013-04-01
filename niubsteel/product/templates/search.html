@@ -21,9 +21,11 @@
         <div class="c2">{{ meta.model_tags|default:"待定" }}</div>
         <div class="c3">{{ meta.trademark_tags|default:"待定" }}</div>
         <div class="c4">{{ meta.best_offer.spec|default:"待定" }}</div>
-        <div class="c5"><a href="{% url 'store.views.store_detail' meta.best_offer.store_name %}">
-            {{ meta.best_offer.store_name|truncatechars:18 }}
-        </a></div>
+        <div class="c5">
+            <a href="/store/{{ meta.best_offer.store_name }}">
+            {{ meta.best_offer.store_name}}
+            </a>
+        </div>
         <div class="c6">{{ meta.products|length }}件</div>
         <div class="clear"></div>
     </div>
@@ -37,7 +39,6 @@
             <div class="c6">仓库</div>
             <div class="clear" ></div>
         </div>
-
         {% for product in meta.products %}
             {% include 'gadgets/product_large.html' with product=product %}
         {% endfor %}

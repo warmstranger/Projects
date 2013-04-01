@@ -13,7 +13,7 @@
             <div class="c3">{{ product.trademark }}</div>
             <div class="c4">{{ product.spec }}</div>
             <div class="c5">
-                <a href="{% url 'store.views.store_detail' product.store_name %}">{{ product.store_name }}</a>
+                <a href="/store/{{ product.store_name }}">{{ product.store_name }}</a>
             </div>
             <div class="c6">{{ product.stock_location }}</div>
             <div class="c7">{{ product.producer }}</div>
