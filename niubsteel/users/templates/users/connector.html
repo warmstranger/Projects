@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load future %}
+
+{% block content %}
+
+    <h1>@{{ connection.connector_username }}
+        {% if enabled %}
+            <a href="{% url 'users.views.connector_cancel' connection.connector %}">解除绑定</a>
+            <a href="{% url 'users.views.settings' %}">返回</a>
+        {% endif %}
+    </h1>
+    <hr />
+
+    {% if enabled %}
+        {% include connection.open_connector.template %}
+    {% endif %}
+
+
+{% endblock %}

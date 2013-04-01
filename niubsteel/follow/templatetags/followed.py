@@ -11,7 +11,7 @@ def followed(value, arg):
 
 @register.filter
 def price(value):
-    if value < 0 or value > 100000:
+    if value <= 0 or value > 100000:
         return u'电议'
     else:
         return value

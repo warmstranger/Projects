@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="stores-show">
+    <div class="stores-show-home-link">
+        <p><a href="/top/stores">← 所有店铺</a></p>
+    </div>
+    <div class="stores-show-header">
+        <div class="stores-show-info">
+            <div class="stores-show-info-details">
+                <h1><a href="{{ store.url }}" target="_blank">{{ store.name }} <i class="icon-share-alt"></i></a></h1>
+                <div class="stores-show-info-manager">
+                    <p>你是老板？点 <a href="{% url 'store.views.store_claim' store.name %}">这里</a> 认证</p>
+                </div>
+            </div>
+            <input class="block_submit" value="电话: {{ store.phone|default:"未知"}}" disabled="disabled" style="margin-left: 40px" />
+        </div>
+        <div class="page_header_followers float_right">
+            {% if user.id == store.owner.id %}
+                <a href="#" class="button small">编辑店铺</a>
+            {% else %}
+                {% include 'gadgets/follow_button.html' with target=store %}
+            {% endif %}
+            <p><a href="{% url 'store.views.store_followers' store.name %}"><strong>{{ store.followers|length }}</strong> 个人关注</a></p>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+    {% if products %}
+        <div class="products_grid">
+            {% include 'lists/liquid_products.html' with products=products %}
+        </div>
+    {% else %}
+        <div class="empty_message">
+            店铺是空的
+        </div>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        enable_edit_item();
+
+        if($('#delete_col').length)
+        {
+            var data_confirm = $('#delete_col').attr('data-confirm');
+            $('#delete_col').click(function(e){
+                if(!confirm(data_confirm))
+                {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="float_left submit_comment">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="float_left submit_comment_avatar">
+            {% if user.profile.image %}
+                <img class="img_x45" alt="{{ user.username }}" src="{{ user.profile.image }}" />
+            {% else %}
+                <img class="img_x45" alt="{{ user.username }}" src="{{ STATIC_URL }}img/default_avatar_x45.jpg" />
+            {% endif %}
+        </div>
+        <div class="float_left submit_comment_textarea">
+            <textarea class="comment_input" product_id="{{ product.id }}" feed_id="{{ event.id }}" placeholder="评论 @用户 #标签"></textarea>
+        </div>
+        <div class="float_left submit_comment_actions">
+            <input class="comment_save button" product_id="{{ product.id }}" feed_id="{{ event.id }}" type="button"  disabled="disabled" value="提交" />
+        </div>
+    </form>
+</div>
+

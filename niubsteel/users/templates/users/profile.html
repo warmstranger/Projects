@@ -5,14 +5,14 @@
 {% block content %}
     <div class="float_left">
     {% if target_user.profile.image %}
-        <img width="180" height="180" src="{{ target_user.profile.image.url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x200.jpg');" />
+        <img class="img_x200" src="{{ target_user.profile.image.url }}" onerror="javascript:$(this).attr('src', '{{ STATIC_URL }}img/default_avatar_x200.jpg');" />
     {% else %}
-        <img src="http://wanelo.com/assets/default_avatar_x200.jpg" />
+        <img class="img_x200" src="{{ STATIC_URL }}img/default_avatar_x200.jpg" />
     {% endif %}
     </div>
 
     <div class="float_left person_info">
-        <h1>@{{ target_user.username }}</h1>
+        <h1>@{{ target_user.name }}</h1>
         {% if target_user.profile.website %}
             <a target="new" href="{{ target_user.profile.website }}">{{ target_user.profile.website }}</a>
         {% endif %}
@@ -36,7 +36,7 @@
         <p><a href="{% url 'users.views.list_followings' target_user.username %}" class="link_submit"><strong>{{ target_user.following_people|length }}</strong>关注</a></p>
         <p><a href="{% url 'users.views.list_following_stores' target_user.username %}" class="link_submit"><strong>{{ target_user.following_stores|length }}</strong>店铺</a></p>
     </div>
-    <div class="clear" />
+    <div class="clear"></div>
 
     <div class="profile_tag">
         <ul>
@@ -53,6 +53,9 @@
     <div class="clear"></div>
 
     {% if lists %}
+        {% if selected_tab == 1 and target_user == user%}
+            {% include 'collection/new_collection.html' %}
+        {% endif %}
         {% include 'lists/liquid_lists.html' %}
     {% endif %}
     {% if products %}

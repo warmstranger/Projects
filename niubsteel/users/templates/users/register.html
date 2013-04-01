@@ -11,8 +11,6 @@
     <p><input type="password" name="password" placeholder="密码" value="{{ password }}" /></p>
     <p><input name="next" type="hidden" value="{{ next }}" /></p>
     <p><input type="submit" value="注册" class="block_submit" /></p>
-    <p><a href="{% url 'users.views.weibo_login' %}"><img src="{{ STATIC_URL }}img/signin.png"/></a></p>
-    <p><a href="{% url 'users.views.taobao_login' %}"><img src="{{ STATIC_URL }}img/login_taobao.png"/></a></p>
 </form>
 
 <hr />

@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="feed_title">
+        <h1>你关注的店铺，朋友，资源和收藏</h1>
+
+        <p> 你正在关注<a href="{% url 'users.views.list_followings' username=user.username %}">
+            {{ user.following_people |length }} 个人.
+            <a href="#">找到朋友</a><label>或者</label>
+            <a href="/top/users">跟踪热门用户</a>
+        </a></p>
+
+        <p> 你正在关注<a href="{% url 'users.views.list_following_stores' username=user.username %}">
+            {{ user.following_stores |length }} 家店铺
+            <a href="/top/stores">跟踪热门店铺</a>
+        </a></p>
+
+        <p></p>
+    </div>
+    <div class="feed_container">
+        {% for event in people_events %}
+            {% if event.event_type == 'person_save' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                            <p><a href=""> {{ event.user.username }}</a><label> 保存了该资源</label></p>
+
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="feed_content"> {% include 'gadgets/product_large.html' with product=event.person_save.product %}</div>
+                </div>
+            {% elif event.event_type == 'person_comment' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                            <p><a href=""> {{ event.user.username }}</a><label> 评论了
+                                <a href="/{{ event.product.user.username }}">{{ event.product.user.username }}</a>的资源</label></p>
+
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                    <div class="feed_content">
+                        <div class="float_left"> {% include 'gadgets/product_large.html' with product=event.product %}</div>
+                        <div class="float_left feed_comment_container">
+                            {% include 'gadgets/feed_comment.html' with product=event.product comments=event.person_comment requester=event.user %}
+                        </div>
+                    </div>
+                </div>
+
+
+            {% elif event.event_type == 'person_follow' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                            <p><a href=""> {{ event.user.username }}</a><label>正在关注</label><a
+                                    href="#">{{ event.person_follow.following.username }}</a></p>
+
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div>
+                        <img class="feed_picture" alt="This idiot doesn't have a picture"
+                             src="{{ STATIC_URL }}/img/default_avatar_x200.jpg"/>
+                    </div>
+                </div>
+            {% elif event.event_type == 'person_product' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                            <p><a href=""> {{ event.user.username }}</a><label> 发布了资源 </label></p>
+
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="feed_content"> {% include 'gadgets/product_large.html' with product=event.person_product %}</div>
+                </div>
+            {% elif event.event_type == 'store_products' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_store_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                            <p>在 <a
+                                href="#">{{ event.store.name }}</a>
+                                <label>找到 {{ event.number }} 个资源 </label>
+                            </p>
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="feed_content">
+                        {% for product in event.store_products %}
+                            {% include 'gadgets/product_large.html' with product=product %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% elif event.event_type == 'collection_saves' %}
+                <div class="feed_item" feed_id="{{ event.id }}">
+                    <div class="feed_header">
+                        <div class="feed_avatar float_left">
+                            <img src="{{ STATIC_URL }}/img/default_store_avatar_x45.jpg"/>
+                        </div>
+                        <div class="feed_item_title">
+                           <p>在 <a href="#">{{ event.store.name }}</a> 找到
+                               <label>{{ event.number }} 个资源 </label>
+                           </p>
+                            <p class="feed_time">{{ event.time |timesince }}</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="feed_content">
+                        {% for product in event.collection_products %}
+                            {% include 'gadgets/product_large.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="clear"></div>
+        {% endfor %}
+    </div>
+    <div id="save_dialog" class="hidden">
+        {% include 'lightboxes/save.html' %}
+    </div>
+
+    <div id="tag_dialog" class="hidden">
+        {% include 'lightboxes/tag.html' %}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            function toggle_detail() {
+                $(this).toggleClass('hide_detail');
+            }
+
+            $('.product_middle').mouseenter(toggle_detail);
+            $('.product_middle').mouseleave(toggle_detail);
+
+            $('.tag_button').click(function () {
+                $('#tag_dialog').dialog({
+                    modal: true,
+                    title: '标记中...',
+                    width: 375
+                });
+            });
+        });
+        $(document).ready(function () {
+            $('.comment_input').keyup(function () {
+                var product_id = $(this).attr('product_id');
+                var feed_id = $(this).attr("feed_id");
+                if ($.trim($('.comment_input[feed_id=' + feed_id + ']').val()).length)
+                    $('.comment_save[feed_id=' + feed_id + ']').prop('disabled', false);
+                else
+                    $('.comment_save[feed_id=' + feed_id + ']').prop('disabled', true);
+            });
+
+            function comment_success(product_id, feed_id) {
+
+                var requester_avatar = $('div.submit_comment_avatar img').attr('src');
+                var comment_text = $.trim($('.comment_input[feed_id=' + feed_id + ']').val());
+                var new_comment = $(
+                        '<div class="comments_detail">'
+                                + '<div class="float_left comments_detail_avatar"><a href="/{{ user.username }}"><img alt="{{ user.username }}" src="' + requester_avatar + '" /></a></div>'
+                                + '<div class="float_left comments_detail_content"><div class="comments_detail_content_username"><a href="/{{ user.username }}">{{ user.username }}</a></div>'
+                                + '<div class="comments_detail_content_body">' + comment_text + '</div>'
+                                + '<div class="comments_detail_content_extras"><span class="comments_detail_content_ago">刚才</span><span class="comments_detail_content_delete">. <a href="#">删除</a></span></div>'
+                                + '</div></div>'
+                );
+                $('.comments[feed_id=' + feed_id + ']').prepend(new_comment);
+                $('.comment_input[feed_id=' + feed_id + ']').val('');
+            }
+
+            function ajax_failed(error) {
+                alert(error);
+            }
+
+            $('.comment_save').click(function () {
+                var product_id = $(this).attr('product_id');
+                var feed_id = $(this).attr("feed_id");
+                $('.comment_save[feed_id=' + feed_id + ']').prop('disabled', true);
+                $.post('/p/comment/' + product_id, {
+                    'comment': $.trim($('.comment_input[feed_id=' + feed_id + ']').val())
+                },function (data) {
+                    if (data.success)
+                        comment_success(product_id, feed_id);
+                    else
+                        ajax_failed(data.data)
+                }, 'json').fail(function () {
+                            ajax_failed('服务器异常');
+                        }).always(function () {
+                            $('.comment_save[feed_id=' + feed_id + ']').prop('disabled', false);
+                        });
+            });
+        });
+
+    </script>
+
+{% endblock %}

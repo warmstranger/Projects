@@ -1,0 +1,55 @@
+
+<div class="float_left first_column">
+    <h1>个人资料</h1>
+
+    <form id="profile_image_form" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="profile_big">
+            {% if profile_image_url %}
+                <img src="{{ profile_image_url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x200.jpg');" />
+            {% else %}
+                <img src="http://wanelo.com/assets/default_avatar_x200.jpg" />
+            {% endif %}
+            <input type="hidden" name="change_type" value="profile_image"/>
+        </p>
+        <p>
+            <input type="button" id="profile_image_button" class="block_submit" value="导入头像" />
+            <input type="file" id="profile_image_input" name="profile_image" />
+        </p>
+
+        <script>
+            $(document).ready(function(){
+                $('#profile_image_button').click(function(){
+                    $('#profile_image_input').click();
+                });
+                $('#profile_image_input').change(function(){
+                    $('#profile_image_form').submit();
+                })
+            });
+        </script>
+
+    </form>
+</div>
+<div class="float_left second_column">
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="full_name" placeholder="全名" value="{{ name }}" /></p>
+        <p><input type="text" name="location" placeholder="所在地" value="{{ location }}"/> </p>
+        <p><input type="text" name="website" placeholder="网站" value="{{ website }}"/> </p>
+        <p><input type="hidden" name="change_type" value="profile"/> </p>
+        <p>
+            <textarea name="description" placeholder="个人描述" >{{ description }}</textarea>
+        </p>
+        <p><input type="submit" class="block_submit" value="导入" /> </p>
+    </form>
+</div>
+<div class="clear"></div>
+
+{% if shop %}
+<hr />
+<h1>我的店舖</h1>
+
+    <img src="http://logo.taobao.com/shop-logo{{ shop.pic_path }}" />{{ shop.title }} - {{ shop.desc }}
+
+{% endif %}

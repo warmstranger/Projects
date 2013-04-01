@@ -1,0 +1,30 @@
+{% load future %}
+<form action="{% url 'collection.views.create_collection' %}" method="post">
+    {% csrf_token %}
+    <div id="new_collection_modal">
+        <input type="text" id="new_collection_name" name="new_collection_name" placeholder="名称" />
+        <p>
+            <textarea id="new_collection_desc" name="new_collection_desc" placeholder="描述"></textarea>
+        </p>
+        <div class="centered">
+            <input id="button_new_collection" class="block_submit" type="submit" value="创建"/>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.new_collection_button').click(function(){
+            {% if not user.is_active %}
+                window.location = '{% url 'users.views.login' %}';
+            {% endif  %}
+
+            $('#collection_dialog').dialog({
+                modal: true,
+                title: '创建新的收藏列表',
+                width: 375
+            });
+        });
+    })
+
+</script>

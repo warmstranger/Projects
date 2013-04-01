@@ -2,6 +2,7 @@ from scrapy.spider import BaseSpider
 from scrapy.item import Item, Field
 from scrapy.http import Request
 from scrapy.conf import settings
+from scrapy.exceptions import CloseSpider
 
 from lxml import etree
 from BeautifulSoup import BeautifulSoup
@@ -14,12 +15,14 @@ class RobotSpider(BaseSpider):
     interest_rate = 0.65
     delay = 0
     push_batch_amount = 100
+    push_limit = 300
 
     def __init__(self):
         super(RobotSpider, self).__init__()
 
         settings.overrides['DOWNLOAD_DELAY'] = self.delay
         self._links_crawled = []
+        self.over_limit = False
 
         if not self.middle_pages:
             self.middle_pages = []
@@ -48,6 +51,7 @@ class RobotSpider(BaseSpider):
             item[key] = text
         return item
 
+
     def get_parse_config(self, url):
         for url_pattern, parse_config in self.analyze_config:
             if re.match(url_pattern, url):
@@ -61,9 +65,12 @@ class RobotSpider(BaseSpider):
 
     def start_requests(self):
         self._links_crawled = []
+        self.over_limit = False
         return super(RobotSpider, self).start_requests()
 
     def parse(self, response):
+        if self.over_limit:
+            raise CloseSpider('over limit. terminating')
         if response.url in self._links_crawled:
             return
 
@@ -75,7 +82,6 @@ class RobotSpider(BaseSpider):
             yield self.build_item(element, parse_config, response.url)
 
         links = [urlparse.urljoin(response.url, _['href']) for _ in soup.findAll('a') if _.has_key('href')]
-#        links = [urlparse.urljoin(response.url, _) for _ in element.xpath('//*/a/@href')]
         for link in links:
             if self.get_parse_config(link):
                 yield Request(link)
@@ -85,3 +91,4 @@ class RobotSpider(BaseSpider):
                 sample = random.random()
                 if interest > sample:
                     yield Request(link, meta={'interest': interest*self.interest_rate})
+

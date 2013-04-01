@@ -17,5 +17,14 @@
 <p>没有用户？<a href="{% url 'users.views.register' %}?next={{ next }}">注册</a></p>
 <p>忘记密码？<a href="{% url 'users.views.forget_password' %}">找回密码</a></p>
 
+<hr />
+
+    {% for connector in connectors %}
+    <p>
+        <a href="{% url 'users.views.connector_login' connector.name %}">
+            <img src="{{ connector.login_image }}"/>
+        </a>
+    </p>
+{% endfor %}
 
 {% endblock %}

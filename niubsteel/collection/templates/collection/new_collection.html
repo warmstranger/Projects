@@ -1,3 +1,10 @@
-{% extends 'base.html' %}
+{% load future %}
 
-New collection
+<div class="well clearfix">
+    <button type="button" class="button button_primary large float_right new_collection_button">新建收藏列表</button>
+    <h2>新建一个属于自己的列表，比如：螺纹钢，冷轧。。。</h2>
+</div>
+
+<div id="collection_dialog" class="hidden">
+    {% include 'lightboxes/collection.html' %}
+</div>

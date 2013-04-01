@@ -2,10 +2,17 @@ import re
 
 def number_only(origin_string):
     result = filter(lambda c: c in '0123456789.', origin_string)
-    if result:
-        return result
-    else:
+    if not result:
         return 9999999.0
+    try:
+        number = float(result)
+    except ValueError:
+        return 9999999.0
+
+    if number == 0:
+        return 9999999.0
+
+    return number
 
 def analyze_spec(spec):
     parts = spec.split('*')

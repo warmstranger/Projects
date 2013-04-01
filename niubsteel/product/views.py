@@ -5,11 +5,12 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
 from models import Product, Save
-from users.models import Profile
 from collection.models import Collection
 from comment.models import Comment
 from apis import analyze, search as api_search
+
 from json import dumps
 
 def index(request):
@@ -20,7 +21,7 @@ def search(request):
     context = {
         'result': api_search(q)[:100],
         'q': q,
-    }
+        }
     return render_to_response('search.html', context, RequestContext(request))
 
 
@@ -28,17 +29,28 @@ def trending(request):
     return redirect(recent_posts)
 
 def recent_posts(request):
-
-    recent_products = Product.objects.order_by('-time')[:99]
+    # TODO Pagination support here: page=x,per_page=x
+    page, per_page = 1, 60
+    if 'page' in request.GET and request.GET['page']:
+        try:
+            page = int(request.GET['page'])
+        except ValueError:
+            page = 1
+    if 'per_page' in request.GET and request.GET['per_page']:
+        try:
+            per_page = int(request.GET['per_page'])
+        except ValueError:
+            per_page = 60
+    recent_products = Product.objects.order_by('-time')[(page - 1) * per_page:page * per_page]
     context = {
-        'page_title': u'火爆资源',
+        'page_title': u'最新资源',
         'products': recent_products
     }
     return render_to_response('products.html', context, RequestContext(request))
 
 
 def popular(request):
-    return render_to_response('single_product.html')
+    return redirect(recent_posts)
 
 
 @login_required
@@ -117,7 +129,7 @@ def save_product(request):
     collection_name = request.POST.get('collection_name', '')
     comment = request.POST.get('comment', '')
 
-    result = { 'success': False }
+    result = {'success': False}
 
     try:
         product = Product.objects.get(id=product_id)
@@ -133,6 +145,9 @@ def save_product(request):
 
             Save.objects.create(user=request.user, collection=collection, product=product)
 
+            # update collection modified time.
+            collection.save()
+
         if comment:
             Comment.objects.create(user=request.user, product=product, text=comment)
 
@@ -142,7 +157,27 @@ def save_product(request):
 
     return HttpResponse(dumps(result))
 
+@login_required
+@csrf_exempt
+def delete_save(request):
+    if request.method == 'GET':
+        return HttpResponse('NEED POST')
+    product_id = int(request.POST.get('product_id'))
+    collection_id = int(request.POST.get('collection_id'))
+    result = {'success': False}
+    try:
+        product = Product.objects.get(id=product_id)
+        if collection_id:
+            collection = Collection.objects.get(id=collection_id)
+            Save.objects.filter(user=request.user, collection=collection, product=product).delete()
+        else:
+            Save.objects.filter(user=request.user, product=product).delete()
+        result['success'] = True
+    except Exception as ex:
+        result['data'] = str(ex)
+    return HttpResponse(dumps(result))
 
+@login_required
 def product_save_detail(request, product_id, save_id):
     product = Product.objects.get(id=product_id)
     try:
@@ -152,7 +187,7 @@ def product_save_detail(request, product_id, save_id):
         # Invalid save, so redirect to product detail.
         return redirect(product_detail, product_id)
     try:
-        first_comment = Comment.objects.filter(product=product)[0]
+        first_comment = Comment.objects.filter(user=request.user, product=product)[0]
     except Exception:
         first_comment = None
     saved_in_col = []
@@ -174,7 +209,6 @@ def product_save_detail(request, product_id, save_id):
         'product': product,
         'original': False,
         'saver': first_save.user,
-        'requester': request.user,
         'first_comment': first_comment,
         'first_save': first_save,
         'recent_saves': recent_saves,
@@ -214,8 +248,7 @@ def product_detail(request, product_id):
     context = {
         'product': product,
         'original': True,
-        'saver': first_save.user,
-        'requester': request.user,
+        'saver': product.user,
         'first_comment': first_comment,
         'first_save': first_save,
         'recent_saves': recent_saves,
@@ -229,3 +262,19 @@ def product_detail(request, product_id):
 
 def product_savers(request, product_id):
     return HttpResponse(0)
+
+
+@csrf_exempt
+def product_edit(request, product_id):
+    item = Product.objects.get(pk=product_id)
+    result = {'success': True}
+    try:
+        for key, val in request.POST.iteritems():
+            if hasattr(item, key):
+                setattr(item, key, val)
+        item.save()
+    except Exception as e:
+        result['success'] = False
+        result['data'] = str(e)
+
+    return HttpResponse(dumps(result))

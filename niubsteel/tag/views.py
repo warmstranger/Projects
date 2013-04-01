@@ -9,7 +9,7 @@ from users.models import User
 def top_tags(request):
     tags = Tag.objects.filter()[:20]
     context = {
-        'page_title': u'热门的分类',
+        'page_title': u'热门品种',
         'lists': tags
     }
     return render_to_response('lists.html', context, RequestContext(request))

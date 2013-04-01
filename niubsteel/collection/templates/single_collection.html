@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="collection_show">
+    <div class="collection_show_header">
+        <div class="collection_show_info_username float_left">
+            <a href="/{{ collection.user.username }}"><img alt="{{ collection.user.username }}" class="img_x30 " src="{{ STATIC_URL }}img/default_avatar_x30.jpg" /></a>
+            <a href="/{{ collection.user.username }}" class="username">{{ collection.user.username }}</a>
+            <span class="collection_show_info_updated_at">· {{ collection.modified_time|timesince }}前更新过</span>
+        </div>
+        <div class="collection_show_info_header float_left">
+            {% if user.id == collection.user.id %}
+            <h1 class="editable">
+                <span class="best_in_place" data-url="{% url 'collection.views.collection_edit' collection.id %}" data-object="collection" data-attribute="name" data-type="input" data-html-attrs="{'maxlength':72}">{{ collection.name }}</span>
+                <img class="edit_icon" src="{{ STATIC_URL }}img/edit_icon_x15.png" />
+            </h1>
+            {% else %}
+            <h1>
+                <span>{{ collection.name }}</span>
+            </h1>
+            {% endif %}
+            <div class="collection_show_info_desc_wrapper">
+                {% if user.id == collection.user.id %}
+                <div class="collection_show_info_description editable">
+                    <span class="best_in_place" data-url="{% url 'collection.views.collection_edit' collection.id %}" data-object="collection" data-attribute="description" data-nil="Click here to edit the description." data-type="input" data-html-attrs="{'maxlength':140}">{{ collection.description|default:'Click here to edit the description.' }}</span>
+                    <img class="edit_icon" src="{{ STATIC_URL }}img/edit_icon_x15.png" />
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="page_header_followers float_right">
+            {% if user.id == collection.user.id %}
+            <a id="delete_col" href="{% url 'collection.views.collection_delete' user.username collection.id %}" class="button small" data-confirm="确定删除该收藏集吗？" data-method="delete" rel="nofollow">删除收藏集</a>
+            {% else %}
+            {% include 'gadgets/follow_button.html' with target=collection %}
+            {% endif %}
+            <p><a href="{% url 'collection.views.collection_followers' collection.user.username collection.name %}"><strong>{{ collection.followers|length }}</strong> 个人关注</a></p>
+        </div>
+    </div>
+    {% if products %}
+        <div class="products_grid">
+            {% include 'lists/liquid_products.html' with products=products target_user=collection.user target_collection=collection %}
+        </div>
+    {% else %}
+        <div class="collection_show_empty empty_message">
+            <a href="{% url 'product.views.trending' %}">亲，动手收藏一些好东西</a>到这里吧
+        </div>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        enable_edit_item();
+
+        if($('#delete_col').length)
+        {
+            var data_confirm = $('#delete_col').attr('data-confirm');
+            $('#delete_col').click(function(e){
+                if(!confirm(data_confirm))
+                {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
