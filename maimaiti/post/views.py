@@ -45,13 +45,16 @@ def listing(request,page):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
         page = paginator.num_pages
+    if posts.has_previous():
+    	previous_page_number = posts.previous_page_number()
+    else:
+	previous_page_number = 0
     post_list_0 = posts[0:page_size]
     post_list_1 = posts[page_size:2*page_size]
     post_list_2 = posts[2*page_size:3*page_size]
     has_previous = posts.has_previous()
     has_next = posts.has_next()
     next_page_number = posts.next_page_number()
-    previous_page_number = posts.previous_page_number()
     context = {
         "post_list_0": post_list_0,
         "post_list_1": post_list_1,
@@ -66,7 +69,7 @@ def listing(request,page):
 
 @csrf_exempt
 def upload(request):
-    UPLOAD_FILE_PATH ="/Users/jacky/Projects/maimaiti/post/static/upload/"
+    UPLOAD_FILE_PATH ="/var/www/Projects/maimaiti/static/upload/"
     FILTER_IMAGE_TYPE = {'jpeg','jpg','gif','png','bmp'}
     file = request.FILES["imgFile"]
     file_attribute = file.name.split('.')
