@@ -5,6 +5,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>我的关注</title>
     <link href="../static/css/base2.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../static/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('div.follow-item-text').each(function(){
+                var text = $(this).text();
+                text = text.substr(0,text.length/2);
+                $(this).html('');
+                $(this).append(text);
+            });
+
+        });
+    </script>
 </head>
 <body>
 <div class="gray_bg"></div>
@@ -44,22 +56,26 @@
                 <div class="menu_tab_on"></div>
                 <a href=""><div class="menu_tab_text">我关注的</div></a>
             </div>
-            <div class="menu_tab_left" style="width: 200px">
-                <div class="menu_tab_left_top" style="width: 200px"></div>
+            <div class="menu_tab_left" style="width: 204px">
+                <div class="menu_tab_left_top" style="width: 204px"></div>
                 <a href=""><div class="menu_login">登录</div></a>
             </div>
         </div>
         <div id="follow-list">
             <div class="follow-item">
                 <div class="follow-item-left">
-                    <div class="follow-item-userhead"><img src="../static/images/home/buyer_head1.jpg" alt=""></div>
+                    <div class="follow-item-userhead">
+                        <img src="../static/images/home/buyer_head1.jpg" alt="">
+                        <div class="follow-item-username">用户1</div>
+                    </div>
                 </div>
                 <div class="follow-item-right">
                     <div class="follow-item-title">新式酸辣土豆丝</div>
                     <div class="follow-item-time">2013-4-1 12:00</div>
                     <div class="follow-item-text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。
                         凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。
-                        凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
+                        凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。
+                    </div>
                     <div class="follow-item-read"><a href="">阅读全文-></a></div>
                 </div>
             </div>
@@ -148,6 +164,6 @@
         </div>
     </div>
 </center>
-
+<script type="text/javascript" src="../static/js/home.js"></script>
 </body>
 </html>

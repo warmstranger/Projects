@@ -4,57 +4,52 @@
 {% block content %}
 <h1>搜索结果</h1>
 
-<div class="items_header">
-    <div class="c1">最低价</div>
-    <div class="c2">品名</div>
-    <div class="c3">牌号</div>
-    <div class="c4">规格</div>
-    <div class="c5">最低价店铺</div>
-    <div class="c6">同种商品</div>
-    <div class="clear" ></div>
-</div>
-
-{% for meta in result %}
-<div class="result_item">
-    <div>
-        <div class="c1">{{ meta.best_offer.price|price }}</div>
-        <div class="c2">{{ meta.model_tags|default:"待定" }}</div>
-        <div class="c3">{{ meta.trademark_tags|default:"待定" }}</div>
-        <div class="c4">{{ meta.best_offer.spec|default:"待定" }}</div>
-        <div class="c5"><a href="{% url 'store.views.store_detail' meta.best_offer.store_name %}">
-            {{ meta.best_offer.store_name|truncatechars:18 }}
-        </a></div>
-        <div class="c6">{{ meta.products|length }}件</div>
-        <div class="clear"></div>
-    </div>
-    <div class="result_detail hidden">
-        <div class="items_header">
-            <div class="c1">价格</div>
-            <div class="c2">品名</div>
-            <div class="c3">牌号</div>
-            <div class="c4">规格</div>
-            <div class="c5">店铺</div>
-            <div class="c6">仓库</div>
-            <div class="clear" ></div>
-        </div>
-
-        {% for product in meta.products %}
-            {% include 'gadgets/product_large.html' with product=product %}
+    <table class="result_table border_style" width="1050" rules="rows" cellspacing="0">
+        <thead>
+            <tr>
+                <td width="130">最低价</td>
+                <td width="130">品名</td>
+                <td width="150">牌号</td>
+                <td width="200">规格</td>
+                <td width="250">最低价店铺</td>
+                <td >同种商品</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for meta in result %}
+        <tr class="result_item">
+            <td>￥{{ meta.best_offer.price|price }}</td>
+            <td>{{ meta.model_tags|default:"待定" }}</td>
+            <td>{{ meta.trademark_tags|default:"待定" }}</td>
+            <td>{{ meta.best_offer.spec|default:"待定" }}</td>
+            <td>
+                <a href="/store/{{ meta.best_offer.store_name }}">
+                    {{ meta.best_offer.store_name}}
+                </a>
+            </td>
+            <td>{{ meta.products|length }}件</td>
+        </tr>
+        <tr class="hidden">
+            <td colspan="6">
+                <br/>
+                {% for product in meta.products %}
+                    {% include 'gadgets/product_large.html' with product=product %}
+                {% endfor %}
+                <div class="clear" />
+            </td>
+        </tr>
         {% endfor %}
-        <div class="clear"></div>
+        </tbody>
+    </table>
+
+
+    <div id="save_dialog" class="hidden">
+        {% include 'lightboxes/save.html' %}
     </div>
-    <hr/>
 
-</div>
-{% endfor %}
-
-<div id="save_dialog" class="hidden">
-    {% include 'lightboxes/save.html' %}
-</div>
-
-<div id="tag_dialog" class="hidden">
-    {% include 'lightboxes/tag.html' %}
-</div>
+    <div id="tag_dialog" class="hidden">
+        {% include 'lightboxes/tag.html' %}
+    </div>
 
 <script>
     $(document).ready(function(){
@@ -65,9 +60,10 @@
         $('.product_middle').mouseenter(toggle_detail);
         $('.product_middle').mouseleave(toggle_detail);
 
-        $('.product_middle .click_area').click(function(){
-            window.location = $(this).find('a:first').attr('href');
-        })
+        $('.result_item').click(function(){
+            $(this).next().toggleClass('hidden');
+            $(this).toggleClass('expanded')
+        });
 
         $('.tag_button').click(function(){
             $('#tag_dialog').dialog({
@@ -77,9 +73,7 @@
             });
         });
 
-        $('.result_item').click(function(){
-            $(this).find('.result_detail').toggleClass('hidden');
-        });
+
     });
 </script>
 

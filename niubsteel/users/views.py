@@ -5,173 +5,10 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.decorators import login_required
-
 from product.views import index
-from models import User
-from models import SNWProfile
-from weibo import APIClient
-from oauth import TB_APIClient
-from oauth import APIError
-from store.models import Store
-import hashlib
-import string
-#WEIBO
-APP_KEY ='3357514965'
-APP_SECRET='6c5f3440dc7390e1185231c36fa26fa7'
-CALLBACK_URL = 'http://test.hupur.com/wb_callback'
-
-#TAOBAO
-TB_APP_KEY ='1021431343'
-TB_APP_SECRET='sandboxd4769bb8980f15e831a5a9366'
-TB_CALLBACK_URL = 'http://test.hupur.com/tb_callback'
-tb_client = TB_APIClient(app_key=TB_APP_KEY, app_secret=TB_APP_SECRET,
-                   redirect_uri=TB_CALLBACK_URL,domain='oauth.tbsandbox.com')
-
-def weibo_invite(request):
-    try:
-        client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET,
-                                      redirect_uri=CALLBACK_URL)
-        client.set_access_token(request.session['tb_access_token'], request.session['tb_expires_in'])
-        friends = client.friendships.followers.active.get(uid=request.user.weibo_account.snw_id,count=200)
-        return render_to_response('users/weibo_invite.html', friends, RequestContext(request))
-    except KeyError:
-        print('no client, needs auth, redirecting')
-        return redirect(weibo_login)
-
-def weibo_login(request):
-    client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET,
-                       redirect_uri=CALLBACK_URL)
-    url = client.get_authorize_url(scope='email,direct_message_write,friendships_groups_read')    # redirect the user to `url'
-
-
-    print("redirecting to" + url)
-    return redirect(url)
-
-def wb_callback(request):
-    #TODO: handle denied
-    CODE = request.GET.get('code')
-    client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET,
-                       redirect_uri=CALLBACK_URL)
-    r = client.request_access_token(CODE)
-    access_token = r.access_token  # access token，e.g., abc123xyz456
-    expires_in = r.expires_in      # token expires in
-    client.set_access_token(access_token, expires_in)
-    request.session['tb_access_token'] = access_token;
-    request.session['tb_expires_in'] = expires_in;
-    uid =  client.account.get_uid.get()['uid']
-    userinfo = client.users.show.get(uid=uid)
-    nickname = userinfo['screen_name']
-# if user is already logged on, connect user with Weibo
-    if request.user.is_anonymous() == False:
-        try:
-            user = SNWProfile.objects.get(snw_id=uid).user  # weibo account already exist.
-            if request.user != user:
-                return redirect(index, {'error': 'This account is assigned to someone else, sign out first if you want to login'})
-        except SNWProfile.DoesNotExist: # pofile not exist, create a new one
-            user = request.user
-            SNWProfile(user=user,type=1, snw_id=uid).save()
-
-    else:  # if user is not logged in
-        username = hashlib.sha1('weibo%d' % uid).hexdigest()
-        try:
-            user = SNWProfile.objects.get(snw_id=uid).user  # user profile exist, log in the user.
-
-        except SNWProfile.DoesNotExist:  # not exist
-            user = User.objects.create_user(username=username, email=username, password='secretpassword',login_type=1)
-            SNWProfile(user=user,type=1,snw_id=uid,snw_nick=nickname).save()
-            profile = user.profile
-            profile.location = userinfo['location']
-            profile.full_name = userinfo['screen_name']
-            profile.description = userinfo['description']
-            profile.website = userinfo['url']
-            profile.image = userinfo['profile_image_url']
-            profile.save()
-
-        print('authenticating' + user.username + '   ' )
-        user = authenticate(credential=user.username, password='secretpassword')
-        auth_login(request, user)
-    if user.activated:
-        return redirect(index)
-    else:
-        return render_to_response('users/settings.html',{'user':user},RequestContext(request))
-
-def taobao_login(request):
-
-    url = tb_client.get_authorize_url(scope='usergrade')    # redirect the user to `url'
-    print(url)
-    return redirect(url)
-
-def tb_callback(request):
-    #TODO: Need add Weibo Attribute in model
-    CODE = request.GET.get('code')
-    r = tb_client.request_access_token(CODE)
-    print('######authorizatin response #######' + r.__str__())
-    access_token = r.access_token  # access token，e.g., abc123xyz456
-    expires_in = r.expires_in      # token expires in
-    request.session['tb_access_token'] = access_token
-    request.session['tb_expires_in'] = expires_in
-    uid = r['uid']
-    nickname = r['nickname']
-    tb_client.set_access_token(access_token, expires_in)
-    username = hashlib.sha1('taobao%s' % uid).hexdigest()
-
-    # if user logged in
-    if request.user.is_anonymous() == False:
-        try:
-            user = SNWProfile.objects.get(snw_id=uid).user # snw account already exist.
-            if request.user != user:
-                return redirect(index, {'error': 'This account is assigned to someone else, sign out first if you want to login'})
-        except SNWProfile.DoesNotExist:  # pofile not exist, create a new one
-            user = request.user
-            SNWProfile(user=user, type=2, snw_id=uid).save()
-
-    else:  # if user is not logged in
-
-        #create profile
-        try:
-            user = SNWProfile.objects.get(snw_id=uid).user   # login request
-        except SNWProfile.DoesNotExist:    # registration
-            user = User.objects.create_user(username=username, email=username, password='secretpassword', login_type=1)
-            print("###new user created" + user.__str__())
-            SNWProfile(user=user, type=2, snw_id=uid, snw_nick=nickname).save()
-            profile = user.profile
-            profile.full_name = nickname
-            profile.save()
-
-    #create shop
-        try:
-            response = tb_client.taobao.shop.get.Get(v=2.0, nick=r['nickname'], fields='sid,title,desc,bulletin')
-            shop = response['shop_get_response']['shop']
-            if nickname.startswith(u'sandbox'):
-                url = 'http://mini.tbsandbox.com/seller/shop_detail.htm?nick=' + nickname
-            else:
-                url = 'http://shop' + shop['sid'] + '.taobao.com'
-            try:
-                store = Store.objects.get(owner=user)
-                print("store already exist. store: " + store.__str__())
-            except Store.DoesNotExist:  # create a mew store
-                print("creating store....")
-                store = Store(owner=user, name=shop['title'], url=url)
-                store.save()
-                print ("#### store saved" + store.__str__())
-        except APIError as e:   # this user doesn't have any shop
-            print(e)
-#authenticate
-    print('authenticate ' + user.username)
-    user = authenticate(credential=user.username, password='secretpassword')
-    auth_login(request, user)
-    return render_to_response('users/settings.html', {'is_complete':False,'title': 'Complete your profile', 'user': user}, RequestContext(request))
-
-def import_products(request):
-    try:
-        client = TB_APIClient(app_key=TB_APP_KEY, app_secret=TB_APP_SECRET,
-                                          redirect_uri=TB_CALLBACK_URL,domain='oauth.tbsandbox.com')
-        client.set_access_token(request.session['tb_access_token'],request.session['tb_expires_in'])
-        result = client.taobao.items.onsale.get.Get(v=2.0, fields='num_iid,title,price,pic_url')
-        return render_to_response('users/import_products.html', result.get('items_onsale_get_response',''), RequestContext(request))
-    except Exception as e:
-        print(e)
-        return redirect(taobao_login)
+from models import User, Connection
+import connectors
+import os, hashlib
 
 def register(request):
     context = {}
@@ -202,7 +39,9 @@ def register(request):
 
 
 def login(request):
-    context = {}
+    context = {
+        'connectors': connectors.all_connectors
+    }
     if request.method == 'GET':
         context['next'] = request.GET.get('next', '')
         return render_to_response('users/login.html', context, RequestContext(request))
@@ -212,7 +51,7 @@ def login(request):
     next = request.POST.get('next', '')
 
     user = authenticate(credential=credential, password=password)
-    if user:
+    if user and not user.connector:
         auth_login(request, user)
         if next:
             return redirect(next)
@@ -224,9 +63,14 @@ def login(request):
         context['next'] = next
         return render_to_response('users/login.html', context, RequestContext(request))
 
+
 def logout(request):
     auth_logout(request)
     return redirect(index)
+
+def logout_login(request):
+    auth_logout(request)
+    return redirect(login)
 
 @login_required
 def settings(request):
@@ -240,7 +84,6 @@ def settings(request):
             user = request.user
             user.email = request.POST.get('email', '')
             user.username = request.POST.get('username', '')
-            user.activated = True
             user.save()
             context['user'] = user
         elif change_type == 'profile':
@@ -262,6 +105,29 @@ def settings(request):
     return render_to_response('users/settings.html', context, RequestContext(request))
 
 @login_required
+def convert(request):
+    context = {}
+    try:
+        user = request.user
+        if not user.connector:
+            raise Exception('Cannot convert a non-connector user')
+
+        username = request.POST.get('username', '')
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+
+        user.username = username
+        user.email = email
+        user.save()
+        user.set_password(password)
+        user.connector = ''
+        user.save()
+    except Exception as ex:
+        context['error'] = ex
+
+    return render_to_response('users/settings.html', context, RequestContext(request))
+
+@login_required
 def reset_password(request):
     context = {}
     if request.method == 'GET':
@@ -273,22 +139,25 @@ def reset_password(request):
     user.save()
     return redirect(index)
 
+
 def top_users(request):
     users = User.objects.all()[:20]
     context = {
-        'page_title': u'热门用户',
+        'page_title': u'人气用户',
         'lists': users
     }
     return render_to_response('lists.html', context, RequestContext(request))
+
 
 def profile(request, username):
     user = User.objects.get(username=username)
     context = {
         'target_user': user,
         'selected_tab': 0,
-        'products': user.products[:40],
+        'products': user.products,
     }
     return render_to_response('users/profile.html', context, RequestContext(request))
+
 
 def list_followers(request, username):
     user = User.objects.get(username=username)
@@ -299,6 +168,7 @@ def list_followers(request, username):
     }
     return render_to_response('users/profile.html', context, RequestContext(request))
 
+
 def list_followings(request, username):
     user = User.objects.get(username=username)
     context = {
@@ -308,14 +178,16 @@ def list_followings(request, username):
     }
     return render_to_response('users/profile.html', context, RequestContext(request))
 
+
 def list_following_stores(request, username):
     user = User.objects.get(username=username)
     context = {
         'target_user': user,
         'selected_tab': 6,
         'lists': user.following_stores,
-        }
+    }
     return render_to_response('users/profile.html', context, RequestContext(request))
+
 
 def forget_password(request):
     context = {}
@@ -333,6 +205,7 @@ def forget_password(request):
 
     return redirect(index)
 
+
 def check(request):
     email = User.objects.normalize_email(request.GET.get('email', ''))
     username = request.GET.get('username', '')
@@ -347,3 +220,68 @@ def check(request):
         return HttpResponse(0)
     else:
         return HttpResponse(1)
+
+def connector_login(request, connector_name):
+    connector = connectors.get_connector(connector_name)
+    return redirect(connector.login())
+
+def connector_callback(request, connector_name):
+    connector = connectors.get_connector(connector_name)
+    uid, name, access_token, expire_time = connector.login_callback(request)
+    request.session['%s_access_token' % connector_name] = access_token
+
+    if request.user.is_anonymous():
+        try:
+            connection = Connection.objects.get(connector_id=uid, connector=connector_name)
+            if connection.user.connector:
+                credential = connection.user.username
+                user = authenticate(credential=credential, password=credential)
+            else:
+                user = authenticate(connection_id=connection.id)
+
+        except Connection.DoesNotExist:
+            seed = os.urandom(40)
+            credential = hashlib.sha1(seed).hexdigest()
+            user = User.objects.create_user(username=credential, email=credential, password=credential)
+            user.connector = connector_name
+            user.save()
+            user = authenticate(credential=credential, password=credential)
+            Connection.objects.create(user=user, connector=connector_name, connector_id=uid, connector_username=name)
+
+        auth_login(request, user)
+        return redirect(index)
+
+    try:
+        Connection.objects.get(user=request.user, connector=connector_name)
+        return redirect(connector_detail, connector_name=connector_name, uid=uid)
+
+    except Connection.DoesNotExist:
+        Connection.objects.create(user=request.user, connector=connector_name,
+            connector_id=uid, connector_username=name)
+        return redirect(settings)
+
+@login_required
+def connector_cancel(request, connector_name):
+    if request.user.is_anonymous() or request.user.connector:
+        raise Exception('Only site users can cancel connector')
+
+    Connection.objects.get(user=request.user, connector=connector_name).delete()
+    return redirect(settings)
+
+@login_required
+def connector_detail(request, connector_name, uid):
+    if request.user.is_anonymous() or request.user.connector:
+        raise Exception('Only site users can see connector details')
+
+    connection = Connection.objects.get(user=request.user, connector=connector_name)
+    context = {
+        'enabled': True,
+    }
+    if uid != connection.connector_id:
+        context['error'] = u'警告：绑定的第三方账号并非当前登陆账号'
+        context['enabled'] = False
+
+    context['connection'] = connection
+    access_token = request.session['%s_access_token' % connector_name]
+    context.update(connection.open_connector.settings(uid, access_token))
+    return render_to_response('users/connector.html', context, RequestContext(request))

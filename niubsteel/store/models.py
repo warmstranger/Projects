@@ -5,6 +5,7 @@ class Store(models.Model):
     owner = models.ForeignKey(User, blank=True, null=True)
     name = models.CharField(max_length=40)
     url = models.URLField(default=u'')
+    phone = models.CharField(max_length=40, default=u'')
 
     def __unicode__(self):
         return '%s[%s]' % (self.name, self.url)

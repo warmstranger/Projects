@@ -172,7 +172,6 @@ BOT_NAME = 'niubsteel'
 SPIDER_MODULES = ['product.spiders']
 ITEM_PIPELINES = (
     'product.pipelines.RobotPipeline',
-    #'product.pipelines.LimitPipeline',
 )
 
 try:

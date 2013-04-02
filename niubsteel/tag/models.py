@@ -33,7 +33,7 @@ class Tag(models.Model):
         return TagFollow.objects.filter(user=user, following=self).exists()
 
 class ProductTag(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(auto_now_add=True)
     tag = models.ForeignKey(Tag)
     from_comment = models.ForeignKey(Comment)
 
@@ -41,7 +41,7 @@ class ProductTag(models.Model):
         return '#%s in "%s"' %(self.tag.name, self.from_comment.text[:20])
 
 class ProductMention(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(auto_now_add=True)
     mention = models.ForeignKey(User)
     from_comment = models.ForeignKey(Comment)
 

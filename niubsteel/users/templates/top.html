@@ -5,12 +5,12 @@
         <div class="float_left">
             <div class="menu">
                 <ul>
-                    <li class="menu_item"><a href="/">资源</a></li>
-                    <li class="menu_item"><a href="{% url 'store.views.top_stores' %}">店铺</a></li>
-                    <li class="menu_item"><a href="{% url 'tag.views.top_tags' %}">分类</a></li>
+                    <li class="menu_item"><a href="/">推荐资源</a></li>
+                    <li class="menu_item"><a href="{% url 'store.views.top_stores' %}">热门店铺</a></li>
+                    <li class="menu_item"><a href="{% url 'tag.views.top_tags' %}">热门品种</a></li>
                     <li class="menu_item"><a href="{% url 'users.views.top_users' %}">朋友圈</a></li>
                     {% if user.is_active %}
-                    <li class="menu_item"><a href="#">我的关注</a></li>
+                        <li class="menu_item"><a href="{% url 'follow.views.feed' %}">我的关注</a></li>
                     {% endif %}
                     <li class="menu_item">
                         <form action="{% url 'product.views.search' %}" >
@@ -25,9 +25,31 @@
             <div class="menu">
                 <ul>
                     {% if user.is_active %}
-                        <li class="menu_item"><a href="{% url 'product.views.post_url' %}">发帖</a></li>
-                        <li class="menu_item"><a href="{% url 'users.views.profile' user.username %}">@{{ user.username }}</a></li>
-                        <li class="menu_item"><a href="{% url 'users.views.logout' %}">退出</a></li>
+                        <li class="menu_item"><a href="{% url 'product.views.post_url' %}">发布资源</a></li>
+                        <li class="menu_item dropdown">
+                            <a href="{% url 'users.views.profile' user.username %}">@{{ user.name }}<div class="arrow_down"></div></a>
+                            <div class="dropdown_list">
+                                <p><a href="{% url 'users.views.profile' user.username %}">个人主页</a></p>
+                                <p><a href="{% url 'users.views.settings' %}">账号设置</a></p>
+                                <p><a href="#">寻找朋友</a></p>
+                                <p><a href="#">关联店铺</a></p>
+                                <hr />
+                                <p><a href="{% url 'users.views.logout' %}">退出</a></p>
+                            </div>
+
+                        </li>
+                        <li class="menu_item dropdown">
+                            <a href="#">更多<div class="arrow_down"></div></a>
+                            <div class="dropdown_list">
+                                <p><a href="{% url 'product.views.recent_posts' %}">最新资源</a></p>
+                                <p><a href="{% url 'product.views.popular' %}">最热资源</a></p>
+                                <hr />
+                                <p><a href="{% url 'collection.views.top_collections' %}">推荐收藏</a></p>
+                                <hr />
+                                <p><a href="#">意见反馈</a></p>
+                                <p><a href="#">关于</a></p>
+                            </div>
+                        </li>
                     {% else %}
                         <li class="menu_item"><a href="{% url 'users.views.register' %}">注册</a></li>
                         <li class="menu_item"><a href="{% url 'users.views.login' %}">登陆</a></li>

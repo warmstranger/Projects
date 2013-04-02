@@ -6,7 +6,7 @@
                 {% if comment.user.profile.image %}
                     <img alt="{{ comment.user.username }}" src="{{ comment.user.profile.image.url }}" class="img_x45" />
                 {% else %}
-                    <img alt="{{ comment.user.username }}" src="http://wanelo.com/assets/default_avatar_x45.jpg" class="img_x45" />
+                    <img alt="{{ comment.user.username }}" src="{{ STATIC_URL }}img/default_avatar_x45.jpg" class="img_x45" />
                 {% endif %}
             </a>
         </div>
@@ -15,7 +15,7 @@
             <div class="comments_detail_content_body">{{ comment.text }}</div>
             <div class="comments_detail_content_extras">
                 <span class="comments_detail_content_ago">{{ comment.time|timesince }} 前</span>
-                {% if comment.user.username == requester.username %}
+                {% if comment.user.username == user.username %}
                     <span class="comments_detail_content_delete">. <a href="#">删除</a></span>
                 {% else %}
                     <span class="comments_detail_content_report">. <a href="#">举报</a></span>
@@ -25,7 +25,7 @@
     </div>
 {% endfor %}
 {% if comments_more %}
-    <div class="comments_show_more_btn">
-        <a id="comment_more" href="#" class="button large">更多评论</a>
+    <div id="comments_show_more_btn_{{ comments.0.product.id }}" class="comments_show_more_btn">
+        <a id="comment_more_{{ comments.0.product.id }}" href="#" class="button large">更多评论</a>
     </div>
 {% endif %}

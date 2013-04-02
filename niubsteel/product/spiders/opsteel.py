@@ -1,41 +1,34 @@
-from product.items import SteelItem
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.selector import HtmlXPathSelector
-import time
-import string
+from product.robotspider import RobotSpider
 
-class OpsteelSpider(CrawlSpider):
-    name = "opsteel"
-    allowed_domains = ["www.opsteel.cn"]
-    start_urls = ["http://www.opsteel.cn/quote/"]
+class Spider(RobotSpider):
+    encoding = 'gbk'
+    name = 'opsteel'
 
-    rules = (
-        Rule(SgmlLinkExtractor(allow=('/quote/\d{1,2}.html', )), callback = 'parse_item', follow = True),
+    start_urls = ('http://www.opsteel.cn/quote/shanghai.html',)
+    interest_rate = 1.0
+    delay = 2
+    push_batch_amount = 4
+
+    middle_pages = (
+        r'^http://www.opsteel.cn/quote/shanghai(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/guangzhou(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/foshan(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/lecong(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/wuhan(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/beijing(_\d)?.html',
+        r'^http://www.opsteel.cn/quote/tianjin(_\d)?.html',
     )
 
-    def parse_base(self, response):
-        time.sleep(0.1)
-        hxs = HtmlXPathSelector(response)
-        webItems = hxs.select('//*//div[@id="result-bd"]//table[@class="tb-pro tb-list"]/tbody/tr')
-        objects = [];
-        for webItem in webItems:
-            object = SteelItem()
-            object['model']             = string.join(webItem.select('./td[1]/a/text()').extract(), "")
-            object['url']               = "http://www.opsteel.cn" + string.join(webItem.select('./td[1]/a/@href').extract(), "")
-            object['trademark']         = string.join(webItem.select('./td[3]/text()').extract(), "")
-            object['spec']              = string.join(webItem.select('./td[2]/text()').extract(), "")
-            object['producer']          = string.join(webItem.select('./td[4]/text()').extract(), "")
-            object['origin']            = string.join(webItem.select('./td[5]/text()').extract(), "")
-            object['stock_location']    = string.join(webItem.select('./td[6]/text()').extract(), "")
-            object['price']             = string.join(webItem.select('./td[8]/strong/text()').extract(), "")
-            object['weight']            = string.join(webItem.select('./td[7]/text()').re(r'\r\n\t*(.*)\r\n\t*'), "")
-            object['provider']          = string.join(webItem.select('./td[9]/div/a/text()').extract(), "")
-            objects.append(object)
-        return objects
-
-    def parse_start_url(self, response):
-        return self.parse_base(response)
-
-    def parse_item(self, response):
-        return self.parse_base(response)
+    analyze_config = (
+        (r'^http://www.opsteel.cn/products/quote-\S+.html', {
+            'model': '//*//div[@class="item1"]//div[@class="fL"]/p[1]/text()',
+            'trademark': '//*//div[@class="item1"]//div[@class="fL"]/p[3]/text()',
+            'spec': '//*//div[@class="item1"]//div[@class="fL"]/p[2]/text()',
+            'producer': '//*//div[@class="item1"]//div[@class="fL"]/p[4]/text()',
+            'origin':'//*//div[@class="item1"]//div[@class="fL"]/p[6]/text()',
+            'stock_location':'//*//div[@class="item1"]//div[@class="fL"]/p[7]/text()',
+            'provider': '//*//p[@id="pro-comp-name"]//a[@class="blue"]/text()',
+            'price': '//*//div[@class="item1"]//div[@class="fL"]/p[9]/em/span/text()',
+            'weight': '//*//div[@class="item1"]//div[@class="fL"]/p[5]/text()',
+            }),
+        )

@@ -3,7 +3,8 @@
 
 <div class="float_left product_small">
     <a href="{% url 'product.views.product_detail' product.id %}">
-        <p class="small1">{{ product.price|price }}</p>
-        <p>{{ product.trademark|truncatechars:12 }}</p>
+        <p class="small1">￥{{ product.price|price }}</p>
+        <p>{{ product.model|truncatechars:5 }}</p>
+        <p>{{ product.trademark|truncatechars:10 }}</p>
     </a>
 </div>

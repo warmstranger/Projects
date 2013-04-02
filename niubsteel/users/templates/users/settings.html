@@ -4,46 +4,30 @@
 
 {% block content %}
 
-<h1>账户</h1>
-    {% if user.activated == 0 %}
-    <p> You must select type a user name and email address to complete registration</p>
-    {% endif %}
-<form action="settings" method="POST">
-    {% csrf_token %}
-    {% if user.activated %}
-    <p><input type="text" name="username" placeholder="用户名" value="{{ user.username }}" /></p>
-    <p><input type="text" name="email" placeholder="邮箱" value="{{ user.email }}"/> </p>
-    {%  else  %}
-    <p><input type="text" name="username" placeholder="用户名" value="" /></p>
-    <p><input type="text" name="email" placeholder="邮箱" value=""/> </p>
-    {% endif %}
-    <p><input type="hidden" name="change_type" value="account"/> </p>
-    <p>
-        <input type="submit" class="block_submit" value="Save" />
-        {%  if user.login_type == 0 %}
-        <input type="button" class="block_submit" value="重设密码" onclick="javascript:window.location='{% url 'users.views.reset_password' %}'" />
-        {% endif %}
-    </p>
-</form>
-<hr />
+    {% if user.connector %}
+        <h1>您正在使用第三方登陆，如要使用设置，请新建一个本站账号</h1>
+        <form action="{% url 'users.views.convert' %}" method="post">
+            {% csrf_token %}
+            <p><input type="text" name="email" placeholder="邮箱" value="" /></p>
+            <p><input type="text" name="username" placeholder="用户名" value="{{ user.name }}" /></p>
+            <p><input type="password" name="password" placeholder="密码" value="" /></p>
+            <p><input type="submit" value="注册" class="block_submit" /></p>
+        </form>
 
-<h1>个人资料</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    <p><input type="text" name="full_name" placeholder="全名" value="{{ user.profile.full_name }}" /></p>
-    <p><input type="text" name="location" placeholder="所在地" value="{{ user.profile.location }}"/> </p>
-    <p><input type="text" name="website" placeholder="网站" value="{{ user.profile.website }}"/> </p>
-    <p><input type="hidden" name="change_type" value="profile"/> </p>
-    <p>
-        <textarea name="description" placeholder="个人描述" >{{ user.profile.description }}</textarea>
-    </p>
-    <p><input type="submit" class="block_submit" value="保存" /> </p>
-</form>
-    <h1>头像</h1>
+        <hr />
+        <p>
+            如果您已有一个账号想要与第三方账号关联，请先
+            <a href="{% url 'users.views.logout_login' %}">登陆</a>
+            然后设置关联账号
+        </p>
+    {% else %}
+
+    <div class="float_left first_column">
+    <h1>个人资料</h1>
 
     <form id="profile_image_form" action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>
+        <p class="profile_big">
             {% if user.profile.image %}
                 <img src="{{ user.profile.image.url }}" onerror="javascript:$(this).attr('src', 'http://wanelo.com/assets/default_avatar_x200.jpg');" />
             {% else %}
@@ -68,26 +52,61 @@
         </script>
 
     </form>
+    </div>
+    <div class="float_left second_column">
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p><input type="text" name="full_name" placeholder="全名" value="{{ user.profile.full_name }}" /></p>
+            <p><input type="text" name="location" placeholder="所在地" value="{{ user.profile.location }}"/> </p>
+            <p><input type="text" name="website" placeholder="网站" value="{{ user.profile.website }}"/> </p>
+            <p><input type="hidden" name="change_type" value="profile"/> </p>
+            <p>
+                <textarea name="description" placeholder="个人描述" >{{ user.profile.description }}</textarea>
+            </p>
+            <p><input type="submit" class="block_submit" value="保存" /> </p>
+        </form>
+    </div>
+    <div class="clear"></div>
     <hr />
-    <h1>Social Network</h1>
-    {% if user.has_weibo_account %}
-        <p>Connected with Weiobo: {{ user.weibo_account.snw_nick }}.
-        <a href='weibo_invite'> invite your friends</a></p>
-    {% else %}
-        <p><a href="weibo_login">join Weibo</a></p>
+
+    <div class="float_left first_column">
+    <h1>账户</h1>
+        {% for connector, connection in user.connections %}
+            <p>
+                {{ connector.verbose_name }} -
+                {% if connection %}
+                    <a href="{% url 'users.views.connector_login' connector.name %}">
+                        @{{ connection.connector_username }}
+                    </a>
+                    (<a href="{% url 'users.views.connector_cancel' connector.name %}">解除绑定</a>)
+                {% else %}
+                    <a href="{% url 'users.views.connector_login' connector.name %}">
+                        绑定{{ connector.verbose_name }}账号
+                    </a>
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="float_left second_column">
+    <form action="settings" method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="username" placeholder="用户名" value="{{ user.name }}" /></p>
+        <p><input type="text" name="email" placeholder="邮箱" value="{{ user.email }}"/> </p>
+        <p><input type="hidden" name="change_type" value="account"/> </p>
+        <p>
+            <input type="submit" class="block_submit" value="保存" />
+            {%  if user.login_type == 0 %}
+            <input type="button" class="block_submit" value="重设密码" onclick="javascript:window.location='{% url 'users.views.reset_password' %}'" />
+            {% endif %}
+        </p>
+    </form>
+    </div>
+
+    <div class="clear"></div>
+
+
     {% endif %}
 
-    {% if user.has_taobao_account %}
-    <p>Connected with Tao Bao: {{ user.taobao_account.snw_nick }}</p>
-        {% if user.has_store %}
-            <p>\t You own {{ user.store.name }} <a href="import_products">> import products </a></p>
-        {% endif %}
-    {% else %}
-    <p><a href="taobao_login">join Tao Bao</a></p>
-    {% endif %}
-    {% if user.has_qq_account %}
-        <p>Connected with QQ: {{ user.qq_account.snw_nick }}</p>
-    {% else %}
-        <p><a href="#">join QQ</a></p>
-    {% endif %}
 {% endblock %}

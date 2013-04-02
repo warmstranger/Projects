@@ -4,10 +4,11 @@ from django.db import models
 from users.models import User
 
 class Collection(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
     name = models.CharField(max_length=40)
     description = models.TextField(default=u'')
+    modified_time = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -49,5 +50,5 @@ def create_default_collections(sender, **kwargs):
     if not saved:
         return
 
-    Collection.objects.create(user=user, name=u'我的收藏')
-    Collection.objects.create(user=user, name=u'便宜货')
+    Collection.objects.create(user=user, name=u'我找到的')
+    Collection.objects.create(user=user, name=u'我发布的')

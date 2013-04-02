@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password, login_type=0):
+    def create_user(self, username, email, password):
         if not username:
             raise ValueError(u'用户名为空')
 
@@ -16,22 +16,20 @@ class UserManager(BaseUserManager):
 
         user = self.model(username=username, email=UserManager.normalize_email(email))
         user.set_password(password)
-        user.login_type = login_type
         user.save()
         return user
 
-    def create_superuser(self, username, email, password, login_type = 0):
-        user = self.create_user(username, email, password, login_type)
+    def create_superuser(self, username, email, password):
+        user = self.create_user(username, email, password)
         user.activated = True
         user.save()
         return user
 
 class User(AbstractBaseUser):
     username = models.CharField(max_length=40, verbose_name=u'用户名', unique=True, db_index=True)
-    email = models.CharField(max_length=40, verbose_name=u'邮箱', db_index=True)
-    activated = models.BooleanField(default=False)
-    login_type = models.IntegerField(default=0)
+    email = models.CharField(max_length=40, verbose_name=u'邮箱', unique=True, db_index=True)
 
+    connector = models.CharField(max_length=40, default=u'')
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -42,7 +40,7 @@ class User(AbstractBaseUser):
         return '%s[%s]' % (self.username, self.email)
 
     def get_full_name(self):
-        return self.__unicode__()
+        return self.name
 
     def get_short_name(self):
         return self.email
@@ -58,49 +56,41 @@ class User(AbstractBaseUser):
 
     @property
     def name(self):
-        return self.username
+        if not self.connector:
+            return self.username
+        else:
+            return Connection.objects.get(connector=self.connector, user=self).connector_username
+
+    @property
+    def connections(self):
+        connections = []
+        from connectors import all_connectors
+        for connector in all_connectors:
+            try:
+                connection = Connection.objects.get(connector=connector.name, user=self)
+                connections.append((connector, connection))
+            except Connection.DoesNotExist:
+                connections.append((connector, None))
+        return connections
 
     @property
     def products(self):
         from product.models import Save
-        saves = Save.objects.filter(user=self)
-        return [save.product for save in saves]
+        from product.models import Product
+        products = Save.objects.filter(user=self).values_list('product').annotate(models.Max('time')).order_by('-time')
+        return [Product.objects.get(pk=product_id) for product_id, time in products]
 
     @property
     def preview_products(self):
         return self.products[:5]
 
     @property
-    def has_taobao_account(self):
-        return SNWProfile.objects.filter(user=self,type=2).exists()
-    @property
-    def taobao_account(self):
-        return SNWProfile.objects.get(user=self,type=2)
-
-    @property
-    def has_store(self):
-        from store.models import Store
-        return Store.objects.filter(owner=self).exists()
-    @property
     def store(self):
         from store.models import Store
-        return Store.objects.get(owner=self)
-
-    @property
-    def has_weibo_account(self):
-        return SNWProfile.objects.filter(user=self,type=1).exists()
-
-    @property
-    def weibo_account(self):
-        return SNWProfile.objects.get(user=self,type=1)
-
-    @property
-    def has_qq_account(self):
-        return SNWProfile.objects.filter(user=self,type=3).exists()
-
-    @property
-    def qq_account(self):
-        return SNWProfile.objects.get(user=self,type=3)
+        try:
+            return Store.objects.get(owner=self)
+        except Store.DoesNotExist:
+            return None
 
     @property
     def url(self):
@@ -164,9 +154,16 @@ def create_profile(sender, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-class SNWProfile(models.Model):
-    user = models.ForeignKey(User)
-    #1:weibo, 2: taobao
-    type = models.IntegerField(null=False)
-    snw_id = models.CharField(max_length=40,null=False)
-    snw_nick = models.CharField(max_length=40,null=False)
+class Connection(models.Model):
+    connector = models.CharField(max_length=40)
+    connector_id = models.CharField(max_length=40)
+    connector_username = models.CharField(max_length=40)
+    user = models.ForeignKey(User, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.connector
+
+    @property
+    def open_connector(self):
+        import connectors
+        return connectors.get_connector(self.connector)

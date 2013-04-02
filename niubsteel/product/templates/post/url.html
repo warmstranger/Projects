@@ -2,11 +2,21 @@
 {% load future %}
 {% block content %}
 
-    <h1>你找到了什么?</h1>
+    <h1 xmlns="http://www.w3.org/1999/html">你找到了什么?</h1>
 
     <form action="{% url 'product.views.post_analyze' %}">
-        <p><input type="text" class="url_input" name="url" placeholder="http://好玩的网址" /></p>
+        <p><input type="text" class="url_input" name="url" placeholder="http://钢材发布地址" /></p>
         <p><input type="submit" class="block_submit" value="继续" /></p>
+        <p>目前支持智能分析的网站：</p>
+        <p>
+                <p>宝时达(beta.baostar.com)</p>
+                <p>找钢(zhaogang.com)</p>
+                <p>你的钢网(usteel.com)</p>
+                <p>欧浦钢网(opsteel.com)</p>
+                <p>钢e在线(511steel.com)</p>
+        </p>
     </form>
 
+    <hr />
+    您也可以 <a href="#">上传资源文件</a> 或者 <a href="#">手动发布资源</a>
 {% endblock %}

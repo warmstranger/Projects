@@ -17,8 +17,10 @@ urlpatterns = patterns('product.views',
     url(r'^search/', 'search'),
 
     url(r'^save$', 'save_product'),
+    url(r'^delete_save$', 'delete_save'),
 
     url(r'p/(?P<product_id>\d+)/savers$', 'product_savers'),
+    url(r'p/edit/(?P<product_id>\d+)$', 'product_edit'),
 )
 
 urlpatterns += patterns('product.robot_view',
