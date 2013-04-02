@@ -79,11 +79,15 @@
             </div>
         </div>
         <div id="slide_area">
+            <div class="arrows-left"></div>
             <div id="pic_slide" class="nivoSlider">
+
                 {% for advertisement in advertisements %}
                     <img src="/static/media/{{advertisement.image}}"/>
                 {% endfor %}
+
             </div>
+            <div class="arrows-right"></div>
         </div>
         <div id="buyers_area">
             <div class="tabs_head">

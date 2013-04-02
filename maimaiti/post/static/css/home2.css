@@ -1,4 +1,4 @@
-#slide_area{width: 960px;height: 418px;padding-top:24px;}
+#slide_area{width: 960px;height: 418px;padding-top:24px;position: relative;}
 
 #slide_area,#buyers_area,#category,.list_contain{
     -moz-box-shadow: 2px 2px 10px #909090;/*firefox*/
@@ -10,6 +10,22 @@
 #pic_slide{
     width: 912px;
     height: 396px;
+}
+.arrows-left{
+    left: 16px;
+    background: url(../images/home/arrowToLeft.png);
+}
+.arrows-right{
+    right:15px;
+    background: url(../images/home/arrowToRight.png);
+}
+.arrows-left,.arrows-right{
+    position: absolute;
+    z-index: 50;
+    top:45%;
+    width: 47px;
+    height: 35px;
+    cursor: pointer;
 }
 #buyers_area{
     width: 960px;
