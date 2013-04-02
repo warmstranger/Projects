@@ -121,9 +121,9 @@
         
         // Add Direction nav
         if(settings.directionNav){
-            slider.append('<div class="nivo-directionNav"><a class="nivo-prevNav">'+ settings.prevText +'</a><a class="nivo-nextNav">'+ settings.nextText +'</a></div>');
+//            slider.append('<div class="nivo-directionNav"><div class="nivo-prevNav">'+ settings.prevText +'</div><div class="nivo-nextNav">'+ settings.nextText +'</div></div>');
             
-            $(slider).on('click', 'a.nivo-prevNav', function(){
+            $(slider).parent().on('click', 'div.arrows-left', function(){
                 if(vars.running) { return false; }
                 clearInterval(timer);
                 timer = '';
@@ -131,7 +131,7 @@
                 nivoRun(slider, kids, settings, 'prev');
             });
             
-            $(slider).on('click', 'a.nivo-nextNav', function(){
+            $(slider).parent().on('click', 'div.arrows-right', function(){
                 if(vars.running) { return false; }
                 clearInterval(timer);
                 timer = '';
