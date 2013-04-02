@@ -7,11 +7,13 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response,redirect
 from django.views.decorators.csrf import csrf_protect
 from django.template import RequestContext
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
+from follow.models import UserFollow
 import random
 import time
 import json
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 def home(request):
     posts = Post.objects.order_by('-time')[:12]
@@ -45,16 +47,16 @@ def listing(request,page):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
         page = paginator.num_pages
-    if posts.has_previous():
-    	previous_page_number = posts.previous_page_number()
-    else:
-	previous_page_number = 0
     post_list_0 = posts[0:page_size]
     post_list_1 = posts[page_size:2*page_size]
     post_list_2 = posts[2*page_size:3*page_size]
     has_previous = posts.has_previous()
     has_next = posts.has_next()
     next_page_number = posts.next_page_number()
+    if has_previous:
+        previous_number = posts.previous_page_number()
+    else:
+        previous_number = 0
     context = {
         "post_list_0": post_list_0,
         "post_list_1": post_list_1,
@@ -63,13 +65,13 @@ def listing(request,page):
         "has_next":has_next,
         "page":page,
         "next_page_number":next_page_number,
-        "previous_page_number":previous_page_number
+        "previous_page_number":previous_number
     }
     return render_to_response('list.html',context)
 
 @csrf_exempt
 def upload(request):
-    UPLOAD_FILE_PATH ="/var/www/Projects/maimaiti/static/upload/"
+    UPLOAD_FILE_PATH ="/Users/jacky/Projects/maimaiti/post/static/upload/"
     FILTER_IMAGE_TYPE = {'jpeg','jpg','gif','png','bmp'}
     file = request.FILES["imgFile"]
     file_attribute = file.name.split('.')
@@ -90,3 +92,21 @@ def upload(request):
             "message":'请上传正确的图片格式',
         }
     return HttpResponse(json.dumps(dic))
+
+def feed(request,user_id):
+    list = UserFollow.objects.filter(user_id = user_id)
+    post_list = []
+    if len(list):
+        for item in list:
+            posts = Post.objects.filter(author_id = item.following_id).order_by('-time')
+            if len(posts):
+                for post in posts:
+                    comments = Comment.objects.filter(post_id = post.id)
+                    dic = {
+                        'post':post,
+                        'comment':len(comments)
+                    }
+                    post_dic = {post.time:dic}
+                    post_list.append(post_dic)
+    post_list.sort(reverse=True)
+    return render_to_response('following_post_list.html',{'post_list':post_list})
