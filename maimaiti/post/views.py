@@ -14,7 +14,6 @@ import random
 import time
 import json
 
-
 def home(request):
     posts = Post.objects.order_by('-time')[:12]
     advertisements = Advertisement.objects.order_by('-time')[:4]
@@ -101,12 +100,7 @@ def feed(request,user_id):
             posts = Post.objects.filter(author_id = item.following_id).order_by('-time')
             if len(posts):
                 for post in posts:
-                    comments = Comment.objects.filter(post_id = post.id)
-                    dic = {
-                        'post':post,
-                        'comment':len(comments)
-                    }
-                    post_dic = {post.time:dic}
+                    post_dic = {post.time:post}
                     post_list.append(post_dic)
     post_list.sort(reverse=True)
-    return render_to_response('following_post_list.html',{'post_list':post_list})
+    return render_to_response('follow.html',{'post_list':post_list})
