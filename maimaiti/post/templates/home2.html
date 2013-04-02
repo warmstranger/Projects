@@ -17,21 +17,40 @@
     <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript">
         $(function(){
-            $(".buyer_btn").click(function(){
+            $("a[id*='btn_']").click(function(){
                 var follow = $(this);
                 var userId = 1;
-                var followId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
                 $.ajax({
                     type:"GET",
                     url: "/follow/follow_user/"+followId+"/"+userId,
                     cache:false,
                     dataType:"json",
                     success:function(data){
-                        alert(data.msg);
-                        follow.css({'background':'url(/static/images/btn_followed.png)'});
-                        $(".buyer_btn").attr("disabled",true);
                         if(data.flag)
-                            $(".buyer_likennum").text(data.follower);
+                            alert(data.msg);
+                            $("#btn_"+followId).removeClass("buyer_btn")
+                            $("#followbtn_"+followId).addClass("buyer_followbtn")
+                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower)
+                    }
+                });
+                return false;
+            });
+            $("a[id*='followbtn_']").click(function(){
+                var follow = $(this);
+                var userId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
+                $.ajax({
+                    type:"GET",
+                    url: "/follow/unfollow_user/"+followId+"/"+userId,
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        alert(data.msg);
+                        $("#followbtn_"+followId).removeClass("buyer_followbtn")
+                        $("#btn_"+followId).addClass("buyer_btn")
+                        if(data.flag)
+                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);
                     }
                 });
                 return false;
@@ -95,14 +114,22 @@
                 <a href=""><div class="tabs_more"><p>更多&nbsp;+</p></div></a>
             </div>
             <div class="buyers_items">
+                {% for key,value in follow_dic.items%}
                 <div class="buyers_item">
                     <div class="buyer_top">
-                        <div class="buyer_title"><p>买手：美食之旅</p></div>
-                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head1.jpg" alt=""></div>
+                        <div class="buyer_title"><p>买手：test{{key}}</p></div>
+                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head{{key}}.jpg" alt=""></div>
                         <div class="buyer_top_right">
                             <div class="buyer_text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
-                            <div class="buyer_btn"></div>
-                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum">95,590</div></div>
+                            {% if value == "0" %}
+                                <a class="buyer_btn" id="btn_{{key}}"></a>
+                                <a id="followbtn_{{key}}"></a>
+                                <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">0</div></div>
+                            {% else %}
+                                <a id="btn_{{key}}"></a>
+                                <a class="buyer_followbtn" id="followbtn_{{key}}"></a>
+                                <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">1</div></div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="buyer_bottom">
@@ -113,9 +140,7 @@
                         <div class="buyer_pic"><img src="/static/images/home/buyer1_pic5.jpg" alt=""></div>
                     </div>
                 </div>
-                <div class="buyers_item"></div>
-                <div class="buyers_item"></div>
-                <div class="buyers_item"></div>
+                {% endfor %}
             </div>
         </div>
         <div id="category">
@@ -230,7 +255,7 @@
                     <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
                     <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
                     <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/post/listing/1" style="color: #ff6600">更多&nbsp;+</a>
+                    <a href="/post/listing" style="color: #ff6600">更多&nbsp;+</a>
                 </div>
             </div>
             <div class="border-right"></div>

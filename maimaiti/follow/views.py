@@ -34,9 +34,22 @@ def unfollow_user(request,user_id,following_id):
     try:
         userFollow = UserFollow.objects.get(user_id = user_id,following_id = following_id)
         userFollow.delete()
+        followers = UserFollow.objects.filter(following_id = following_id)
+        dic ={
+            'flag':1,
+            'msg':'取消关注成功!',
+            'follower':len(followers),
+        }
     except UserFollow.DoesNotExist:
-        pass
-    return redirect('/home/')
+        dic ={
+            'flag':0,
+            'msg':'未关注此人!',
+        }
+    dic_json = json.dumps(dic)
+    response=HttpResponse()
+    response['Content-Type']="text/javascript;charset='UTF-8'"
+    response.write(dic_json)
+    return HttpResponse(response)
 
 def follow_tag(request,user_id,following_id):
     time = datetime.time

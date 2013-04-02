@@ -85,7 +85,9 @@
 .buyer_likennum{width: auto;height: 31px;float: right;margin-right: 23px;line-height: 30px;color: #ff6600}
 .buyer_heart{width: 12px;height: 30px;float: left;background:url(../images/home/heart_icon.png) center no-repeat;margin-right: 6px; }
 .buyer_likenum{width: auto;height: 30px;float: left;margin-left: 3px;line-height: 30px;color: #ff6600}
-.buyer_btn{width: 82px;height: 31px;float: right;background: url(../images/home/btn_follow.png);margin-right: 12px}
+.buyer_btn{width: 82px;height: 31px;float: right;background: url(../images/home/btn_follow.png);margin-right: 12px;cursor:pointer;}
+.buyer_followbtn{width: 82px;height: 31px;float: right;background: url(../images/btn_followed.png);margin-right: 12px;cursor:pointer;}
+.buyer_cancel{cursor:pointer;float:right;margin-top: 10px;}
 .buyer_bottom{
     width: 444px;
     height: 102px;

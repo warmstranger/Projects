@@ -17,9 +17,19 @@ import json
 def home(request):
     posts = Post.objects.order_by('-time')[:12]
     advertisements = Advertisement.objects.order_by('-time')[:4]
+    i = 2
+    follow_dic = {}
+    while i<=5:
+        try:
+            userFollow = UserFollow.objects.get(user_id = 1,following_id = i)
+            follow_dic[i]="1"
+        except UserFollow.DoesNotExist:
+            follow_dic[i]="0"
+            pass
+        i = i+1
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
-    return render_to_response('home2.html', {'posts':posts,'advertisements':advertisements})
+    return render_to_response('home2.html', {'posts':posts,'advertisements':advertisements,'follow_dic':follow_dic})
 
 @csrf_protect
 def detail(request,id):
