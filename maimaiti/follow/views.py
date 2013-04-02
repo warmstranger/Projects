@@ -1,17 +1,34 @@
 # Create your views here.
+#coding: utf-8
 from django.shortcuts import render_to_response,redirect
 import datetime
 from models import UserFollow,TagFollow
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+import json
 
 def follow_user(request,user_id,following_id):
     time = datetime.time
     try:
         UserFollow.objects.get(user_id = user_id,following_id = following_id)
+        dic ={
+            'flag':0,
+            'msg':'您已关注!',
+        }
     except UserFollow.DoesNotExist:
         userFollow = UserFollow(user_id = user_id,following_id = following_id,time = time)
         userFollow.save()
-    return redirect('/home/')
+        followers = UserFollow.objects.filter(following_id = following_id)
+        dic ={
+            'flag':1,
+            'msg':'关注成功!',
+            'follower':len(followers),
+        }
+    dic_json = json.dumps(dic)
+    response=HttpResponse()
+    response['Content-Type']="text/javascript;charset='UTF-8'"
+    response.write(dic_json)
+    return HttpResponse(response)
 
 def unfollow_user(request,user_id,following_id):
     try:

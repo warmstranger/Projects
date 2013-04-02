@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,6 +15,29 @@
     <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.touchSwipe.min.js"></script>
     <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.transit.min.js"></script>
     <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".buyer_btn").click(function(){
+                var follow = $(this);
+                var userId = 1;
+                var followId = 1;
+                $.ajax({
+                    type:"GET",
+                    url: "/follow/follow_user/"+followId+"/"+userId,
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        alert(data.msg);
+                        follow.css({'background':'url(/static/images/btn_followed.png)'});
+                        $(".buyer_btn").attr("disabled",true);
+                        if(data.flag)
+                            $(".buyer_likennum").text(data.follower);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="gray_bg"></div>
