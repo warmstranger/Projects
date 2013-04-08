@@ -132,12 +132,12 @@
                     <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
                     <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
                     <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/post/listing/1" style="color: #ff6600">更多&nbsp;+</a>
+                    <a href="/post/listing/" style="color: #ff6600">更多&nbsp;+</a>
                 </div>
             </div>
             <div class="border-right"></div>
             <div class="list_all" style="margin-left: 8px">
-                {% for post in posts %}
+                {% for post in post_list_0 %}
                 <div class="item2">
                     <div class="item2_top">
                         <div class="item2_top_left">
@@ -152,12 +152,7 @@
                     </div>
                     <div class="item-line2"></div>
                     <div class="item-text2">
-                        <p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>
-                        <p>1、啦啦啦啦啦拉了拉啦啦啦</p>
-                        <p>2、黑恶黑恶嘿嘿嘿嘿嘿嘿嘿</p>
-                        <p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>
-                        <p>1、啦啦啦啦啦拉了拉啦啦啦</p>
-                        <p>2、黑恶黑恶嘿嘿嘿嘿嘿嘿嘿</p>
+                        {{post.text}}
                     </div>
                     <div class="item-bottom2">
                         <div class="item-btn">关注买手</div>
@@ -217,7 +212,7 @@
                 {
                     var html='';
                     html +=
-                            '{% for post in posts %}'+
+                            '{% for post in post_list_1 %}'+
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
@@ -228,11 +223,8 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '<p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>' +
-                                    '<p>1、啦啦啦啦啦拉了拉啦啦啦</p>' +
-                                    '<p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>' +
-                                    '<p>1、啦啦啦啦啦拉了拉啦啦啦</p>' +
-                                    '<p>2、黑恶黑恶嘿嘿嘿嘿嘿嘿嘿</p></div>' +
+                                    '{{post.text}}' +
+                                    '</div>' +
                                     '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
@@ -242,7 +234,7 @@
                 {
                     var html='';
                     html +=
-                            '{% for post in posts %}'+
+                            '{% for post in post_list_2 %}'+
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
@@ -253,12 +245,30 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '<p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>' +
-                                    '<p>1、啦啦啦啦啦拉了拉啦啦啦</p>' +
-                                    '<p>2、黑恶黑恶嘿嘿嘿嘿嘿嘿嘿</p>' +
-                                    '<p>黑胡椒牛排是以牛里脊肉为主要食材的大众菜，做法如下：</p>' +
-                                    '<p>1、啦啦啦啦啦拉了拉啦啦啦</p>' +
-                                    '<p>2、黑恶黑恶嘿嘿嘿嘿嘿嘿嘿</p></div>' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+                if(index == 3)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_3 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2"></div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<div class="item-title2">{{post.author}}</div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
                                     '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
                                     '</div>' +
                                     '</div>' +

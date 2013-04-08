@@ -29,8 +29,22 @@ def home(request):
         i = i+1
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
+    page_size =12
+    list_size = 96
+    post_list = Post.objects.all().order_by('-time')[0:list_size]
+    context = {
+        'posts':posts,'advertisements':advertisements,'follow_dic':follow_dic,
+        "post_list_0": post_list[0:page_size],
+        "post_list_1": post_list[page_size:2*page_size],
+        "post_list_2": post_list[2*page_size:3*page_size],
+        "post_list_3":post_list[3*page_size:4*page_size],
+        "post_list_4":post_list[4*page_size:5*page_size],
+        "post_list_5":post_list[5*page_size:6*page_size],
+        "post_list_6":post_list[6*page_size:7*page_size],
+        "post_list_7":post_list[7*page_size:8*page_size],
+        }
 #    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements})
-    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements,'follow_dic':follow_dic})
+    return render_to_response('home3.html', context)
 
 @csrf_protect
 def detail(request,id):
