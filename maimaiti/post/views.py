@@ -94,7 +94,7 @@ def listing_test(request):
         "post_list_6":post_list[6*page_size:7*page_size],
         "post_list_7":post_list[7*page_size:8*page_size],
     }
-    return render_to_response('list3.html',context)
+    return render_to_response('list4.html',context)
 
 @csrf_exempt
 def upload(request):
