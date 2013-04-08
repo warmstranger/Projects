@@ -17,9 +17,20 @@ import json
 def home(request):
     posts = Post.objects.order_by('-time')[:12]
     advertisements = Advertisement.objects.order_by('-time')[:4]
+    i = 2
+    follow_dic = {}
+    while i<=5:
+        try:
+            userFollow = UserFollow.objects.get(user_id = 1,following_id = i)
+            follow_dic[i]="1"
+        except UserFollow.DoesNotExist:
+            follow_dic[i]="0"
+            pass
+        i = i+1
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
-    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements})
+#    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements})
+    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements,'follow_dic':follow_dic})
 
 @csrf_protect
 def detail(request,id):
@@ -60,13 +71,30 @@ def listing(request,page):
         "post_list_0": post_list_0,
         "post_list_1": post_list_1,
         "post_list_2": post_list_2,
+
         "has_previous":has_previous,
         "has_next":has_next,
         "page":page,
         "next_page_number":next_page_number,
         "previous_page_number":previous_number
     }
-    return render_to_response('list.html',context)
+    return render_to_response('list3.html',context)
+
+def listing_test(request):
+    page_size =12
+    list_size = 96
+    post_list = Post.objects.all().order_by('-time')[0:list_size]
+    context = {
+        "post_list_0": post_list[0:page_size],
+        "post_list_1": post_list[page_size:2*page_size],
+        "post_list_2": post_list[2*page_size:3*page_size],
+        "post_list_3":post_list[3*page_size:4*page_size],
+        "post_list_4":post_list[4*page_size:5*page_size],
+        "post_list_5":post_list[5*page_size:6*page_size],
+        "post_list_6":post_list[6*page_size:7*page_size],
+        "post_list_7":post_list[7*page_size:8*page_size],
+    }
+    return render_to_response('list3.html',context)
 
 @csrf_exempt
 def upload(request):
