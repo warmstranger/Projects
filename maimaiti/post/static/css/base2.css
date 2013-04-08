@@ -110,7 +110,8 @@ p{color: #333;}
     height: 23px;
     float: left;
 }
-.footer-input{margin-left: 34px;}
+.footer-input{margin: 10px 34px;background: #666;border: none;width: 215px;height: 25px;}
+.footer-btn{color: #000;background: #b9c904; border: none;width: 76px;height: 23px;margin-top: 10px}
 
 /*list-item*/
 .item{width: 260px;height: auto;border: 2px solid #CCC;overflow: hidden;padding: 12px 10px;text-align: left;float:left;
@@ -161,7 +162,7 @@ p{color: #333;}
      box-shadow:2px 2px 10px #909090;/*opera或ie9*/
  }
 .item2{
-    -moz-box-shadow: 1px 2px 5px #909090;/*firefox*/
-    -webkit-box-shadow: 1px 2px 5px #909090;/*safari或chrome*/
-    box-shadow:1px 2px 5px #909090;/*opera或ie9*/
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);;/*firefox*/
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);;/*safari或chrome*/
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);;/*opera或ie9*/
 }
