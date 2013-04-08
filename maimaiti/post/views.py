@@ -19,7 +19,7 @@ def home(request):
     advertisements = Advertisement.objects.order_by('-time')[:4]
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
-    return render_to_response('home2.html', {'posts':posts,'advertisements':advertisements})
+    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements})
 
 @csrf_protect
 def detail(request,id):
