@@ -123,7 +123,8 @@
                         dataType:"json",
                         success:function(data){
 //                            alert(data.msg);
-                            $("div.modal").modal();
+                            $("div.modal").modal('show');
+                            $(".modal-body").find('p').html('');
                             $(".modal-body").find('p').append(data.msg);
                             /*if(data.flag)
                             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
