@@ -1,43 +1,9 @@
 #detail_contain{width: 1200px;height: auto;overflow: hidden;font-family: '幼圆'}
-#head_area{
-    width: 1200px;
-    height: 45px;
-    background: #555;
-    /*margin-top: 50px;*/
-}
-.detail_logo{width: 165px;height: 45px;background: url(../images/logo2.png) no-repeat center;float: left}
-.zhengda_title{width: 130px;height: 45px;float: left;color: #e8e8e8;font-weight: bold;line-height: 44px;font-family: '幼圆'}
-.head_home_icon{
-    width: 13px;
-    height: 13px;
-    background: url(../images/home_icon.png);
-    float: left;
-    margin-top: 5px;
-}
-.head_like_icon{
-    width: 16px;
-    height: 13px;
-    background: url(../images/like_icon2.png);
-    float: left;
-    margin-top: 5px;
-}
-.head_btn_home, .head_btn_like, .head_btn_trans{
-    height: 25px;
-    width: auto;
-    overflow: hidden;
-    font-weight: bold;
-    color: #fff;
-    float: right;
-    padding: 0 15px;
-    margin: 8px;
-    line-height: 22px;
-}
-.head_btn_home{background-color: #879300;}
-.head_btn_like, .head_btn_trans{background-color: #e50717;}
+
 #buyer_area{
     width: 960px;
     height: auto;
-    margin-top: 20px;
+    margin-top: 70px;
     background: #fff;
     -moz-box-shadow: 2px 2px 10px #909090;/*firefox*/
     -webkit-box-shadow: 2px 2px 10px #909090;/*safari或chrome*/
