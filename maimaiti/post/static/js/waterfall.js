@@ -112,6 +112,25 @@
                         $(this).find('div.item_desc').hide();
                     }
                 )
+                $(this).find("div.item-btn").click(function(){
+                    var follow = $(this);
+                    var userId = 1;
+                    var followId = follow.attr("id");
+                    $.ajax({
+                        type:"GET",
+                        url: "/follow/follow_user/"+followId+"/"+userId,
+                        cache:false,
+                        dataType:"json",
+                        success:function(data){
+//                            alert(data.msg);
+                            $("div.modal").modal();
+                            $(".modal-body").find('p').append(data.msg);
+                            /*if(data.flag)
+                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+                        }
+                    });
+                    return false;
+                });
                 image.src=src;
             }else{//不用考虑图片加载
                 if(setting.insert_type==1){

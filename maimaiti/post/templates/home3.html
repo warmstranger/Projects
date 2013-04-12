@@ -3,11 +3,14 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>首页</title>
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/home2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/nivo-slider.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/themes/default/default.css" type="text/css" media="screen" />
+
     <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/waterfall.js"></script>
 
     <script type="text/javascript" src="/static/js/jquery.nivo.slider.js"></script>
@@ -68,7 +71,7 @@
             <div class="logo_pic"></div>
             <div class="search">
                 <label for="search" style="position:absolute;top:6px;left:20px;z-index:5;color: #333;">我点累了，想搜一搜</label>
-                <input type="text" class="input" name="search" id="search">
+                <input type="text" class="input" name="search" id="search" style="background: transparent;border: none;outline: 0;">
                 <!--<input type="text" class="input" name="search" id="search" placeholder="我点累了，想搜一搜">-->
                 <a href="#"><div id="search_btn"></div></a>
             </div>
@@ -82,10 +85,10 @@
                 <div class="menu_tab_off"></div>
                 <a href=""><div class="menu_tab_text">买手推荐</div></a>
             </div>
-            <div class="menu_tab">
-                <div class="menu_tab_off"></div>
-                <a href=""><div class="menu_tab_text">热门标签</div></a>
-            </div>
+            <!--<div class="menu_tab">-->
+                <!--<div class="menu_tab_off"></div>-->
+                <!--<a href=""><div class="menu_tab_text">热门标签</div></a>-->
+            <!--</div>-->
             <div class="menu_tab">
                 <div class="menu_tab_off"></div>
                 <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
@@ -93,6 +96,10 @@
             <div class="menu_tab">
                 <div class="menu_tab_off"></div>
                 <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href="/feed/1/"><div class="menu_tab_text">我关注的</div></a>
             </div>
             <div class="menu_tab_left">
                 <div class="menu_tab_left_top"></div>
@@ -230,25 +237,21 @@
 
         </div>
     </div>
+    <div class="modal" style="display: none">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>买买提提示</h3>
+        </div>
+        <div class="modal-body">
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <!--<a href="#" class="btn">关闭</a>-->
+            <a href="#" class="btn btn-primary">关闭</a>
+        </div>
+    </div>
 </center>
 <script>
-    $(".item-btn").click(function(){
-        var follow = $(this);
-        var userId = 1;
-        var followId = follow.attr("id");
-        $.ajax({
-            type:"GET",
-            url: "/follow/follow_user/"+followId+"/"+userId,
-            cache:false,
-            dataType:"json",
-            success:function(data){
-                alert(data.msg);
-                /*if(data.flag)
-                 $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
-            }
-        });
-        return false;
-    });
     var opt={
         getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
             if(index<=3)
@@ -359,29 +362,5 @@
     $('.list_all').waterfall(opt);
 //    }
 </script>
-    <!--<script type="text/javascript">-->
-        <!--window.onload = function() {-->
-    <!--//        $(function(){-->
-            <!--$(".item-btn").hover(function(){-->
-                <!--alert("hh");-->
-    <!--//            var follow = $(this);-->
-    <!--//            var userId = 1;-->
-    <!--//            var followId = follow.attr("id");-->
-    <!--//            $.ajax({-->
-    <!--//                type:"GET",-->
-    <!--//                url: "/follow/follow_user/"+followId+"/"+userId,-->
-    <!--//                cache:false,-->
-    <!--//                dataType:"json",-->
-    <!--//                success:function(data){-->
-    <!--//                    alert(data.msg);-->
-    <!--//                    /*if(data.flag)-->
-    <!--//                     $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/-->
-    <!--//                }-->
-    <!--//            });-->
-    <!--//            return false;-->
-            <!--});-->
-        <!--};-->
-    <!--</script>-->
-<script src="../static/js/home.js"></script>
 </body>
 </html>

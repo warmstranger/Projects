@@ -2,12 +2,13 @@ body{
     background: url(../images/home/bg_white.jpg);
     margin-top: 0px;
     /*text-align: center;*/
+    line-height: 20px;
 }
 img{
     width: 100%;
     height: 100%
 }
-a{text-decoration: none;}
+a, a:hover{text-decoration: none;}
 p{color: #333;}
 .gray_bg{
     width: 100%;

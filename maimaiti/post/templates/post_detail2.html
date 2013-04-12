@@ -132,7 +132,7 @@
         <div id="comment_area">
             <form action="/comment/add/" method="post" id="form1" >
                 {% csrf_token %}
-                <input type="hidden" name="user_id" value="{{user.id}}"/>
+                <input type="hidden" name="user_id" value="1"/>
                 <input type="hidden" name="post_id" value="{{post.id}}"/>
                 <div id="your_comment">
                     <input type="text" placeholder="在这里输入自己的评论哦" style="width: 592px;float: left" name="text">

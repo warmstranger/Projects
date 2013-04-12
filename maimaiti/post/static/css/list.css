@@ -3,10 +3,14 @@
 .buyer_big_title{width: 960px;height: 45px;border-bottom: 1px solid #CCC;
     margin-top: 100px;text-align: left;margin-bottom: 25px;
     color: #ffa347;font-size: 30pt;font-weight: 800;
+    -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);;/*firefox*/
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);;/*safari或chrome*/
+    box-shadow:0 3px 5px rgba(0, 0, 0, 0.1);;/*opera或ie9*/
 }
 .contain_left{width: 245px;float: left;text-align: left;}
 .contain_right{width: 715px;float: left;text-align: left;}
-.buyer_head{width: 150px;height: 150px;padding: 7px;float: left;background: #FFF;}
+.buyer_head{width: 150px;height: 150px;padding: 7px;float: left;background: #FFF;position: relative;}
+.buyer_likenum_tab{width: 55px;height: 27px;background: url(../images/list_likenum_icon.png);position: absolute;z-index: 20;left:-5px;top:5px;padding-left: 28px;line-height: 25px;}
 .buyer_intro{width: 235px;text-align: left;padding-top: 20px}
 .buyer_left_tabs{width: 235px;}
 
@@ -14,11 +18,11 @@
 .item_contain{background: #FFF;width: 626px;float: left;padding-top: 10px;}
 .item_contain_title{font-size: 18pt;font-weight: bold;}
 .item_contain_text{}
-.item_contain_tabs{}
-.item_contain_tabs ul{list-style: none;margin: 0;float: left}
+.item_contain_tabs_icon{background: url(../images/list_tabs_icon.png) no-repeat center;width: 10px;height: 21px;float: left;}
+.item_contain_tabs ul{list-style: none;margin: 0;margin-left:-30px;float: left}
 .item_contain_tabs li{display: list-item;text-align: -webkit-match-parent;float: left;margin-right: 8px;}
-.item_contain_tabs li a{color: #d97a7a}
-.item_contain_readmore{width: 500px;float: right;text-align: right;padding-right: 15px;}
+.item_contain_tabs li a,.item_contain_readmore{color: #cc3333}
+.item_contain_readmore{width: 500px;float: right;text-align: right;padding-right: 15px;margin-bottom: 7px;}
 .item_contain_time{width: 500px;float: right;text-align: right;padding-right: 15px;padding-bottom: 10px;}
 .item_like_num{width: 88px;height: 65px;float: left;background: url(../images/item_like_shape.png) no-repeat center;text-align: center;line-height: 52px;margin-left: 1px;}
 .item_like_icon{width: 16px;height: 13px;background: url(../images/white_heart.png) no-repeat center;float: left;margin: 20px 10px}
