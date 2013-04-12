@@ -10,6 +10,7 @@ from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
 from follow.models import UserFollow
+from HTMLParser import HTMLParser
 import random
 import time
 import json
@@ -26,24 +27,29 @@ def home(request):
         except UserFollow.DoesNotExist:
             follow_dic[i]="0"
             pass
-        i = i+1
+        i += 1
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
     page_size =12
-    list_size = 96
+    list_size = 60
     post_list = Post.objects.all().order_by('-time')[0:list_size]
+    for post in post_list:
+        post.text = parse_html(post.text)
+        post.text = post.text[0:len(post.text)/3]+'...'
+    print post_list.count()
     context = {
-        'posts':posts,'advertisements':advertisements,'follow_dic':follow_dic,
+        'posts':posts,
+        'advertisements':advertisements,
+        'follow_dic':follow_dic,
         "post_list_0": post_list[0:page_size],
         "post_list_1": post_list[page_size:2*page_size],
         "post_list_2": post_list[2*page_size:3*page_size],
         "post_list_3":post_list[3*page_size:4*page_size],
         "post_list_4":post_list[4*page_size:5*page_size],
-        "post_list_5":post_list[5*page_size:6*page_size],
-        "post_list_6":post_list[6*page_size:7*page_size],
-        "post_list_7":post_list[7*page_size:8*page_size],
+        #"post_list_5":post_list[5*page_size:6*page_size],
+        #"post_list_6":post_list[6*page_size:7*page_size],
+        #"post_list_7":post_list[7*page_size:8*page_size],
         }
-#    return render_to_response('home3.html', {'posts':posts,'advertisements':advertisements})
     return render_to_response('home3.html', context)
 
 @csrf_protect
@@ -55,7 +61,7 @@ def detail(request,id):
          return redirect('/home/')
     comments = Comment.objects.filter(post_id = id).order_by('-time')
     context = {'post':post,'comments':comments}
-    return render_to_response('post_detail.html', RequestContext(request, context))
+    return render_to_response('post_detail2.html', RequestContext(request, context))
 
 def listing(request,page):
     page_size = 12
@@ -92,12 +98,14 @@ def listing(request,page):
         "next_page_number":next_page_number,
         "previous_page_number":previous_number
     }
-    return render_to_response('list3.html',context)
+    return render_to_response('list2.html',context)
 
 def listing_test(request):
     page_size =12
     list_size = 96
     post_list = Post.objects.all().order_by('-time')[0:list_size]
+    for post in post_list:
+        post.text = parse_html(post.text)
     context = {
         "post_list_0": post_list[0:page_size],
         "post_list_1": post_list[page_size:2*page_size],
@@ -108,6 +116,7 @@ def listing_test(request):
         "post_list_6":post_list[6*page_size:7*page_size],
         "post_list_7":post_list[7*page_size:8*page_size],
     }
+    print post_list[page_size:2*page_size]
     return render_to_response('list4.html',context)
 
 @csrf_exempt
@@ -140,9 +149,23 @@ def feed(request,user_id):
     if len(list):
         for item in list:
             posts = Post.objects.filter(author_id = item.following_id).order_by('-time')
+            for post in posts:
+                post.text = parse_html(post.text)
             if len(posts):
                 for post in posts:
                     post_dic = {post.time:post}
                     post_list.append(post_dic)
     post_list.sort(reverse=True)
     return render_to_response('follow.html',{'post_list':post_list})
+
+def parse_html(html):
+    html=html.strip()
+    html=html.strip("\n")
+    result=[]
+    parse=HTMLParser()
+    parse.handle_data=result.append
+    parse.feed(html)
+    parse.close()
+    str = ''.join(result)
+    str2 = ''.join(str.split())
+    return str2

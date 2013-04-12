@@ -1,108 +1,251 @@
-
+#detail_contain{width: 1200px;height: auto;overflow: hidden;font-family: '幼圆'}
 #head_area{
-    width: 1177px;
-    height: 614px;
-    background: url(../images/menu_bg.png);
-    margin-top: 50px;
+    width: 1200px;
+    height: 45px;
+    background: #555;
+    /*margin-top: 50px;*/
 }
-.detail_pic{
-    margin: 10px;
-    width: 500px;
-    height: 580px;
+.detail_logo{width: 165px;height: 45px;background: url(../images/logo2.png) no-repeat center;float: left}
+.zhengda_title{width: 130px;height: 45px;float: left;color: #e8e8e8;font-weight: bold;line-height: 44px;font-family: '幼圆'}
+.head_home_icon{
+    width: 13px;
+    height: 13px;
+    background: url(../images/home_icon.png);
+    float: left;
+    margin-top: 5px;
+}
+.head_like_icon{
+    width: 16px;
+    height: 13px;
+    background: url(../images/like_icon2.png);
+    float: left;
+    margin-top: 5px;
+}
+.head_btn_home, .head_btn_like, .head_btn_trans{
+    height: 25px;
+    width: auto;
+    overflow: hidden;
+    font-weight: bold;
+    color: #fff;
+    float: right;
+    padding: 0 15px;
+    margin: 8px;
+    line-height: 22px;
+}
+.head_btn_home{background-color: #879300;}
+.head_btn_like, .head_btn_trans{background-color: #e50717;}
+#buyer_area{
+    width: 960px;
+    height: auto;
+    margin-top: 20px;
+    background: #fff;
+    -moz-box-shadow: 2px 2px 10px #909090;/*firefox*/
+    -webkit-box-shadow: 2px 2px 10px #909090;/*safari或chrome*/
+    box-shadow:2px 2px 10px #909090;/*opera或ie9*/
+    overflow: hidden;
+}
+.buyer_area_contain{
+    width: 690px;
+    height: auto;
+    overflow: hidden;
+}
+.buyer_area_contain_up{
+    width: 690px;
+    height: auto;
+    overflow: hidden;
+}
+.buyer_area_contain_line{
+    width: 690px;
+    height: auto;
+    overflow: hidden;
+}
+.buyer_pic{
+    margin-top: 35px;
+    width: 115px;
+    height: 115px;
     float: left;
 }
-.detail_other{
-    width: 500px;
-    height: 580px;
+.buyer_info_contain{
+    width: 575px;
+    height: auto;
+    overflow: hidden;
+    margin-top: 35px;
     float: left;
-    margin: 10px;
+}
+.buyer_info_name{
+    width: 575px;
+    height:auto;
+    line-height: 23px;
+    margin-left: 15px;
+    color: #ffa347;
+    font-size: 19pt;
+    font-weight: bold;
+    text-align: left;
+    font-family: '幼圆';
+}
+.buyer_info_intro{
+    width: 575px;
+    height: auto;
+    overflow: hidden;
+    float: left;
+    margin: 15px 15px;
+    text-align: left;
+    font-family: '幼圆';
+    color: #8c8c8c;
+    font-size: 12pt;
+    font-weight: 600;
+}
+.buyer_tabs{
+    width: 690px;
+    height: auto;
+    float: left;
+    padding-bottom:8px;
+    /*margin: 10px;*/
 }
 #text_area{
-    margin: 50px 0px;
-    width: 1024px;
+    margin: 40px 0px;
+    width: 750px;
     height: auto;
     background: #EEE;
-    padding: 50px;
+    padding: 30px 105px;
+    overflow: hidden;
+}
+.text_area_contain{
+    /*margin: 30px 105px;*/
+    width: 696px;
+    height: auto;
+    background: #fff;
+    padding: 34px 22px;
+    overflow: hidden;
+}
+.text_title{width: 696px;height: auto;text-align: left;
+              color: #cc6666;font-size: 18pt;font-weight: bold;margin-bottom: 10px;}
+.text_time{width: 696px;height: auto;text-align: left;
+              color: #a7a7a7;font-weight: 500;}
+.text_tabs{width: 696px;height: auto;text-align: left;margin-top: 5px;}
+.text_biaoqian{width: 50px;height: auto;float: left;color:#a7a7a7 }
+.text_tabs ul{list-style: none;margin-left: 0;float: left}
+.text_tabs li{display: list-item;text-align: -webkit-match-parent;float: left;margin-right: 8px;}
+.text_detail{
+    width: 696px;
+    height: auto;
+    margin-top: 10px;
+    float: left;
     text-align: left;
 }
-#text_area img{
-    width: auto;
-    height: auto;
+.text_detail img{
+    width:auto;
+    height:auto;
 }
 #comment_area{
-    margin: 50px 0px;
-    width: 1024px;
+    margin: 19px 0px;
+    width: 696px;
     height: auto;
-    background: #CCC;
-    padding: 50px;
+    background: #fff;
+    padding: 34px 22px;
+    border: 1px #000 solid;
+    overflow: hidden;
+}
+#your_comment{
+    width: 696px;
+    height: 28px;
+    background: #fff;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.your_submit{
+    width: 82px;
+    height: 28px;
+    cursor: pointer;
+    background-color: #b9c904;
+    float: right;
+    font-size: 13pt;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    line-height: 25px;
+    font-family: '幼圆';
 }
 .comment_line{
-    margin: 10px 10px;
-    width: 1004px;
-    height: 120px;
-    background: #EEE;
-}
-.comment_userhead{
-    width: 80px;
-    height: 110px;
+    /*margin: 10px 10px;*/
+    width: 696px;
+    height: auto;
+    background: #f0f0f0;
     float: left;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
-.comment_headimg{
-    width: 80px;
-    height: 80px;
-    float: left;
-}
+/*.comment_userhead{*/
+    /*width: 80px;*/
+    /*height: 110px;*/
+    /*float: left;*/
+/*}*/
+/*.comment_headimg{*/
+    /*width: 80px;*/
+    /*height: 80px;*/
+    /*float: left;*/
+/*}*/
 .comment_userinfo{
-    width: 80px;
+    width: auto;
     height: 20px;
     float: left;
+    color:#cc6666;
+    margin: 10px 15px;
 }
-.comment_time{
-    width: 80px;
-    height: 10px;
-    float: left;
-    font-size:10px;
-}
-.comment_text{
-    width: 900px;
+.comment_right{
+    width: auto;
     height: auto;
     float: left;
-    margin-left: 20px;
+    overflow: hidden;
+
+}
+.comment_text{
+    width: auto;
+    height: auto;
+    float: left;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-right: 10px;
+    color:#3caffb;
+    text-align: left;
+}
+.comment_time{
+    width: 150px;
+    height: 20px;
+    float: left;
+    font-size:10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    color:#666;
 }
 .comment_text p{
     text-align: left;
 }
-#your_comment{
-    width: 1024px;
-    height: 400px;
-    margin: 50px 0px;
-    background: url(../images/menu_bg.png);
-    position: relative;
-}
-.your_head{
-    width: 150px;
-    height: 200px;
+.comment_reply{
+    width: 40px;
+    height: 20px;
     float: left;
-    position: absolute;
-    z-index: 10;
-    top:-30px;
-    left: -30px;
+    color: #cc6666;
+    font-weight: bold;
+    margin-top: 10px;
 }
-.your_head_img{
-    width: 150px;
-    height: 150px;
+.buyer_rec_title{
+    width: 681px;
+    height: 30px;
+    border-bottom: 1px solid #8c8c8c;
+    text-align: left;
     float: left;
+    margin-top: 20px;
+    font-family: '幼圆';
+    font-size: 14pt;
+    font-weight: bold;
+    color: #8c8c8c;
+    padding-left: 15px;
 }
-.your_username{
-    width: 150px;
-    height: 50px;
+.buyer_rec_img{
+    width: 60px;
+    height: 60px;
     float: left;
-}
-.your_comment_text{
-    width: 780px;
-    height: 250px;
-    margin: 30px 0px;
-    margin-left: 150px;
-    background: #BBB;
-    float: left;
+    margin: 15px 0;
+    margin-right: 25px;
 }

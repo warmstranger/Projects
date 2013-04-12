@@ -15,7 +15,6 @@
                 $(this).html('');
                 $(this).append(text);
             });
-
         });
     </script>
 </head>
@@ -93,6 +92,7 @@
                     <div class="item2_top">
                         <div class="item2_top_left">
                             <div class="item-img2">
+                                <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">
                             </div>
                         </div>
                         <div class="item2_top_right">
@@ -104,7 +104,7 @@
                     <div class="item-text2">
                         {{post.text}}
                     </div>
-                    <div class="item-bottom2"><div class="item-btn">关注买手</div> </div>
+                    <div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div> </div>
                 </div>
                 {% endfor %}
 
@@ -206,6 +206,23 @@
 </center>
 
 <script>
+$(".item-btn").click(function(){
+    var follow = $(this);
+    var userId = 1;
+    var followId = follow.attr("id");
+    $.ajax({
+        type:"GET",
+        url: "/follow/follow_user/"+followId+"/"+userId,
+        cache:false,
+        dataType:"json",
+        success:function(data){
+            alert(data.msg);
+            /*if(data.flag)
+             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+        }
+    });
+    return false;
+});
 var opt={
     getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
         if(index<=8)
@@ -222,7 +239,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -231,7 +250,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -244,7 +263,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -253,7 +274,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -266,7 +287,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -274,7 +297,7 @@ var opt={
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -287,7 +310,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -296,7 +321,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -309,7 +334,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -318,7 +345,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -331,7 +358,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -340,7 +369,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -353,7 +382,9 @@ var opt={
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
                                     '<div class="item-title2">{{post.title}}</div>' +
@@ -362,7 +393,7 @@ var opt={
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'

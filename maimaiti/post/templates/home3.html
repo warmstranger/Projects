@@ -18,21 +18,40 @@
     <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript">
         $(function(){
-            $(".buyer_btn").click(function(){
+            $("a[id*='btn_']").click(function(){
                 var follow = $(this);
                 var userId = 1;
-                var followId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
                 $.ajax({
                     type:"GET",
                     url: "/follow/follow_user/"+followId+"/"+userId,
                     cache:false,
                     dataType:"json",
                     success:function(data){
-                        alert(data.msg);
-                        follow.css({'background':'url(/static/images/btn_followed.png)'});
-                        $(".buyer_btn").attr("disabled",true);
                         if(data.flag)
-                            $(".buyer_likennum").text(data.follower);
+                            alert(data.msg);
+                        $("#btn_"+followId).removeClass("buyer_btn");
+                        $("#followbtn_"+followId).addClass("buyer_followbtn");
+                        $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);
+                    }
+                });
+                return false;
+            });
+            $("a[id*='followbtn_']").click(function(){
+                var follow = $(this);
+                var userId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
+                $.ajax({
+                    type:"GET",
+                    url: "/follow/unfollow_user/"+followId+"/"+userId,
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        alert(data.msg);
+                        $("#followbtn_"+followId).removeClass("buyer_followbtn");
+                        $("#btn_"+followId).addClass("buyer_btn");
+                        if(data.flag)
+                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);
                     }
                 });
                 return false;
@@ -97,14 +116,22 @@
                 <a href=""><div class="tabs_more"><p>更多&nbsp;+</p></div></a>
             </div>
             <div class="buyers_items">
+                {% for key,value in follow_dic.items%}
                 <div class="buyers_item">
                     <div class="buyer_top">
-                        <div class="buyer_title"><p>买手：美食之旅</p></div>
-                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head1.jpg" alt=""></div>
+                        <div class="buyer_title"><p>买手：test{{key}}</p></div>
+                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head{{key}}.jpg" alt=""></div>
                         <div class="buyer_top_right">
                             <div class="buyer_text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
-                            <div class="buyer_btn"></div>
-                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum">95,590</div></div>
+                            {% if value == "0" %}
+                            <a class="buyer_btn" id="btn_{{key}}"></a>
+                            <a id="followbtn_{{key}}"></a>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">0</div></div>
+                            {% else %}
+                            <a id="btn_{{key}}"></a>
+                            <a class="buyer_followbtn" id="followbtn_{{key}}"></a>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">1</div></div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="buyer_bottom">
@@ -115,9 +142,7 @@
                         <div class="buyer_pic"><img src="/static/images/home/buyer1_pic5.jpg" alt=""></div>
                     </div>
                 </div>
-                <div class="buyers_item"></div>
-                <div class="buyers_item"></div>
-                <div class="buyers_item"></div>
+                {% endfor %}
             </div>
         </div>
 
@@ -143,11 +168,11 @@
                     <div class="item2_top">
                         <div class="item2_top_left">
                             <div class="item-img2">
-                                <img src="../static/images/user1_head.jpg" alt="">
+                                <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">
                             </div>
                         </div>
                         <div class="item2_top_right">
-                            <div class="item-title2">{{post.author}}</div>
+                            <div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>
                             <div class="item-likenum2"><div class="item-heart2"></div> 12400</div>
                         </div>
                     </div>
@@ -156,7 +181,7 @@
                         {{post.text}}
                     </div>
                     <div class="item-bottom2">
-                        <div class="item-btn">关注买手</div>
+                        <div class="item-btn" id="{{post.author_id}}">关注买手</div>
                     </div>
                 </div>
                 {% endfor %}
@@ -186,9 +211,9 @@
             <div class="footer_tab">
                 <div class="footer-title">关注我们</div>
                 <ul style="list-style: none">
-                    <li><div class="link_icon"><img src="../static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
-                    <li><div class="link_icon"><img src="../static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
-                    <li><div class="link_icon"><img src="../static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
+                    <li><div class="link_icon"><img src="/static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
+                    <li><div class="link_icon"><img src="/static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
+                    <li><div class="link_icon"><img src="/static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
                 </ul>
             </div>
             <div class="footer-line"></div>
@@ -205,9 +230,26 @@
     </div>
 </center>
 <script>
+    $(".item-btn").click(function(){
+        var follow = $(this);
+        var userId = 1;
+        var followId = follow.attr("id");
+        $.ajax({
+            type:"GET",
+            url: "/follow/follow_user/"+followId+"/"+userId,
+            cache:false,
+            dataType:"json",
+            success:function(data){
+                alert(data.msg);
+                /*if(data.flag)
+                 $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+            }
+        });
+        return false;
+    });
     var opt={
         getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
-            if(index<=2)
+            if(index<=3)
             {
                 if(index == 1)
                 {
@@ -217,16 +259,18 @@
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.author}}</div>' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -239,16 +283,18 @@
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.author}}</div>' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '{% endfor %}'
@@ -261,16 +307,42 @@
                                     '<div class="item2">' +
                                     '<div class="item2_top">' +
                                     '<div class="item2_top_left">' +
-                                    '<div class="item-img2"></div>' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.author}}</div>' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
                                     '{{post.text}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+                if(index == 4)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_4 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '{% endfor %}'
