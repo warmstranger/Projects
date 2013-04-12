@@ -44,13 +44,25 @@
                 <div class="menu_tab_off"></div>
                 <a href=""><div class="menu_tab_text">热门标签</div></a>
             </div>
+
             <div class="menu_tab">
-                <div class="menu_tab_on"></div>
-                <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% if flag == '0' %}
+                    <div class="menu_tab_on"></div>
+                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% else %}
+                    <div class="menu_tab_off"></div>
+                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% endif %}
             </div>
             <div class="menu_tab">
-                <div class="menu_tab_off"></div>
-                <a href=""><div class="menu_tab_text">我收藏的</div></a>
+                {% if flag == '1' %}
+                    <div class="menu_tab_on"></div>
+                    <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
+                {% else %}
+                    <div class="menu_tab_off"></div>
+                    <a href="/collection/listing/1  "><div class="menu_tab_text">
+                        我收藏的</div></a>
+                {% endif %}
             </div>
             <div class="menu_tab">
                 <div class="menu_tab_off"></div>
@@ -96,7 +108,7 @@
                             </div>
                         </div>
                         <div class="item2_top_right">
-                            <div class="item-title2">{{post.title}}</div>
+                            <a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>
                             <div class="item-likenum2"><div class="item-heart2"></div> 12400</div>
                         </div>
                     </div>
@@ -244,7 +256,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -268,7 +280,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -292,7 +304,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '{{post.text}}' +
@@ -315,7 +327,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -339,7 +351,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -363,7 +375,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -387,7 +399,7 @@ var opt={
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2">{{post.title}}</div>' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +

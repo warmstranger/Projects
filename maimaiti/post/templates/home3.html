@@ -92,7 +92,7 @@
             </div>
             <div class="menu_tab">
                 <div class="menu_tab_off"></div>
-                <a href=""><div class="menu_tab_text">我收藏的</div></a>
+                <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
             </div>
             <div class="menu_tab_left">
                 <div class="menu_tab_left_top"></div>
@@ -120,7 +120,9 @@
                 <div class="buyers_item">
                     <div class="buyer_top">
                         <div class="buyer_title"><p>买手：test{{key}}</p></div>
-                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head{{key}}.jpg" alt=""></div>
+                        <a href="/post/list_buyer_post/{{key}}">
+                            <div class="buyer_headpic"><img src="/static/images/home/buyer_head{{key}}.jpg" alt=""></div>
+                        </a>
                         <div class="buyer_top_right">
                             <div class="buyer_text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
                             {% if value == "0" %}
@@ -264,7 +266,7 @@
                                     '</div>' +
                                     '</div>' +
                                     '<div class="item2_top_right">' +
-                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                        '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
@@ -355,8 +357,31 @@
         insert_type:1
     }
     $('.list_all').waterfall(opt);
-
+//    }
 </script>
+    <!--<script type="text/javascript">-->
+        <!--window.onload = function() {-->
+    <!--//        $(function(){-->
+            <!--$(".item-btn").hover(function(){-->
+                <!--alert("hh");-->
+    <!--//            var follow = $(this);-->
+    <!--//            var userId = 1;-->
+    <!--//            var followId = follow.attr("id");-->
+    <!--//            $.ajax({-->
+    <!--//                type:"GET",-->
+    <!--//                url: "/follow/follow_user/"+followId+"/"+userId,-->
+    <!--//                cache:false,-->
+    <!--//                dataType:"json",-->
+    <!--//                success:function(data){-->
+    <!--//                    alert(data.msg);-->
+    <!--//                    /*if(data.flag)-->
+    <!--//                     $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/-->
+    <!--//                }-->
+    <!--//            });-->
+    <!--//            return false;-->
+            <!--});-->
+        <!--};-->
+    <!--</script>-->
 <script src="../static/js/home.js"></script>
 </body>
 </html>
