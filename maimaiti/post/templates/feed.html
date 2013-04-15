@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="../static/css/bootstrap.css" type="text/css" rel="stylesheet" />
+    <link href="../static/css/base2.css" type="text/css" rel="stylesheet" />
+    <link href="../static/css/list.css" type="text/css" rel="stylesheet" />
+    <title>我关注的买手</title>
+
+    <script src="../static/js/jquery-1.9.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/waterfall.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('div.item_shrink_readmore').click(function(){
+                $('div.feed_item_shrink').css("display",'none');
+                $('div.feed_item_spread').css("display",'block');
+            });
+            $('div.item_spread_readmore').click(function(){
+                $('div.feed_item_shrink').css("display",'block');
+                $('div.feed_item_spread').css("display",'none');
+            });
+        });
+    </script>
+</head>
+<body style="background: url(../static/images/post_list_bg.jpg);">
+<center>
+<div id="post_list_contain" style="background: transparent;">
+    <div id="head_area">
+        <div class="detail_logo"></div>
+        <div class="zhengda_title">正大天地社交分站</div>
+        <a href="/home/"><div class="head_btn_home"><div class="head_home_icon"></div> 返回首页</div></a>
+        <ul class="nav pull-right">
+            <li id="fat-menu" class="dropdown">
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">QQ糖的独白 <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的收藏</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的关注</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="feed_menu">
+        <ul>
+            <li><a href="">热门标签</a></li>
+            <li>|</li>
+            <li><a href="">甜品蛋糕</a></li>
+            <li><a href="">草莓季节</a></li>
+            <li><a href="">Espanal</a></li>
+            <li><a href="">娱乐美食</a></li>
+        </ul>
+        <div class="search" style="margin: 5px;">
+            <label for="search" style="position:absolute;top:6px;left:20px;z-index:5;color: #333;">搜索你感兴趣的~</label>
+            <input type="text" class="input" name="search" id="search" style="background: transparent;border: none;outline: 0;">
+            <!--<input type="text" class="input" name="search" id="search" placeholder="我点累了，想搜一搜">-->
+            <a href="#"><div id="search_btn"></div></a>
+        </div>
+    </div>
+    <div class="feed_main_contain">
+        <div class="feed_itemlist">
+            <div class="feed_item">
+                <div class="feed_item_left">
+                    <div class="feed_buyerhead">
+                        <img src="../static/images/feed_user1.jpg" alt="">
+                    </div>
+                </div>
+                <div class="feed_item_right">
+                    <div class="feed_item_title">自制焦糖酱甜橙酸奶</div>
+                    <div class="feed_item_author">LEILEICLUB蕾蕾     4月5日</div>
+                    <div class="feed_item_shrink">
+                        <div class="item_shrink_cover"><img src="../static/images/feed_cover1.jpg" alt=""></div>
+                        <div class="item_shrink_text">咖喱其实是一种混合香料，不同口味不同国家不同品种的咖喱配方非常不同。
+                            比如今天所用到的泰国红咖喱，其原料主要包含了泰国红辣椒，香茅等材料，有些人比较讲究会自己在家动手制作，不过我嫌麻烦就买了现成的。
+                            东南亚风味的咖喱跟印度咖喱完全是不同风格，相比浓郁的印度咖喱，东南亚的咖喱风味更清新，大概是因为香茅和柠檬皮之类材料的加入，这些材料在印度咖喱里头基本上不会出现。
+                            关于咖喱暂且说到这里，我也不是专家，所了解</div>
+                        <div class="item_shrink_readmore">展开全文</div>
+                    </div>
+                    <div class="feed_item_spread">
+                        <img src="../static/images/example.jpg" alt="">
+                        <div class="item_spread_text">
+                            正文
+                        </div>
+                        <div class="item_spread_readmore">收起全文</div>
+                    </div>
+
+                    <div class="feed_item_tabs">
+                        <div class="feed_item_tabs_icon"></div>
+                        <ul class="ul-left">
+                            <li><a href="#">标签1</a></li>
+                            <li><a href="#">标签2</a></li>
+                            <li><a href="#">标签3</a></li>
+                            <li><a href="#">标签4</a></li>
+                        </ul>
+                        <ul class="ul-right">
+                            <li><img src="../static/images/readnum_icon.png" alt=""><a href="#">查看(111211)</a></li>
+                            <li><img src="../static/images/comments_icon_gray.png" alt=""><a href="#">评论(22)</a></li>
+                            <li><img src="../static/images/likenum_icon_gray.png" alt=""><a href="#">喜欢(33242)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feed_right">
+            <ul style="background: #e6e6e6">
+                <li style="margin-left: -23px"><img src="../static/images/user_icon.png" alt="">&nbsp;&nbsp;&nbsp;我关注的买手</li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手2</a></li>
+                <li><a href="">买手3</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li>...</li>
+                <li><a href="">查看全部<a/></li>
+            </ul>
+            <ul style="background: #eeeeee">
+                <li style="margin-left: -23px"><img src="../static/images/user_icon.png" alt="">&nbsp;&nbsp;&nbsp;热门买手</li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手2</a></li>
+                <li><a href="">买手3</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li><a href="">买手1</a></li>
+                <li>...</li>
+                <li><a href="">查看全部<a/></li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+</center>
+</body>
+</html>

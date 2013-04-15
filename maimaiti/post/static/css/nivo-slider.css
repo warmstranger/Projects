@@ -104,7 +104,7 @@
 .nivo-controlNav {
 	text-align:center;
 	padding: 15px 0;
-    background: url(../images/dots_bg.png) no-repeat center;
+    /*background: url(../images/dots_bg.png) no-repeat center;*/
 }
 .nivo-controlNav a {
 	cursor:pointer;
