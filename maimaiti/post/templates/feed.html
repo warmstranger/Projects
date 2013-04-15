@@ -11,15 +11,16 @@
     <script src="../static/js/jquery-1.9.0.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="../static/js/waterfall.js"></script>
+    <script src="../static/js/scrolltopcontrol.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('div.item_shrink_readmore').click(function(){
-                $('div.feed_item_shrink').css("display",'none');
-                $('div.feed_item_spread').css("display",'block');
+                $(this).parent().css("display",'none');
+                $(this).parent().next().css("display",'block');
             });
             $('div.item_spread_readmore').click(function(){
-                $('div.feed_item_shrink').css("display",'block');
-                $('div.feed_item_spread').css("display",'none');
+                $(this).parent().prev().css("display",'block');
+                $(this).parent().css("display",'none');
             });
         });
     </script>
@@ -146,7 +147,7 @@
             </div>
         </div>
         <div class="feed_right">
-            <ul style="background: #e6e6e6">
+            <ul style="background: #e6e6e6;">
                 <li style="margin-left: -23px"><img src="../static/images/user_icon.png" alt="">&nbsp;&nbsp;&nbsp;我关注的买手</li>
                 <li><a href="">买手1</a></li>
                 <li><a href="">买手2</a></li>
@@ -157,9 +158,9 @@
                 <li><a href="">买手1</a></li>
                 <li><a href="">买手1</a></li>
                 <li>...</li>
-                <li><a href="">查看全部<a/></li>
+                <li><a href="">查看全部</a></li>
             </ul>
-            <ul style="background: #eeeeee">
+            <ul style="background: #eeeeee;">
                 <li style="margin-left: -23px"><img src="../static/images/user_icon.png" alt="">&nbsp;&nbsp;&nbsp;热门买手</li>
                 <li><a href="">买手1</a></li>
                 <li><a href="">买手2</a></li>
@@ -170,13 +171,14 @@
                 <li><a href="">买手1</a></li>
                 <li><a href="">买手1</a></li>
                 <li>...</li>
-                <li><a href="">查看全部<a/></li>
+                <li><a href="">查看全部</a></li>
             </ul>
         </div>
 
     </div>
 
 </div>
+    <div id="top"></div>
 </center>
 </body>
 </html>

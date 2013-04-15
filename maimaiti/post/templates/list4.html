@@ -3,10 +3,11 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>美食列表</title>
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/home2.css" type="text/css" rel="stylesheet" />
-    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/waterfall.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -165,71 +166,20 @@
             </div>
 
         </div>
-        <div class="modal" style="display: none">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>买买提提示</h3>
-            </div>
-            <div class="modal-body">
-                <p></p>
-            </div>
-            <div class="modal-footer">
-                <!--<a href="#" class="btn">关闭</a>-->
-                <div class="btn btn-primary" data-dismiss="modal">关闭</div>
-            </div>
-        </div>
-        <!--<div class="list_contain">-->
-            <!--{% for post in post_list_0 %}-->
-                <!--<div class="list_all">-->
-                    <!--<div class="list_item_o">-->
-                        <!--<div class="item_pic">-->
-                            <!--<img src="/static/media/{{post.cover_image}}" alt=""/>-->
-                            <!--<div class="item_new_icon"></div>-->
-                            <!--<div class="item_like_tab">-->
-                                <!--<div class="item_like_inner_tab">-->
-                                    <!--<div class="inner_icon"><img src="/static/images/like_icon.png" alt=""/></div>-->
-                                    <!--<p style="position:relative;color:#333;">1111</p>-->
-                                <!--</div>-->
-                            <!--</div>-->
 
-                            <!--<div class="item_save_tab">-->
-                                <!--<div class="item_save_inner_tab">-->
-                                    <!--<div class="inner_icon"><img src="/static/images/save_icon.png" alt=""/></div>-->
-                                    <!--<p style="position:relative;color:white;">1111</p>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="item_desc"><span style="position:relative;color:white;">-->
-                                <!--{{post.text}}-->
-                              <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div style="text-align: center">..............................................................</div>&ndash;&gt;-->
-                        <!--<div style="text-align: left;margin-left: 10px;">-->
-                            <!--<p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p>-->
-                            <!--<p>{{post.time}}</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--{% endfor %}-->
-        <!--</div>-->
-        <!--<div class="fenye_area">-->
-            <!--{% if has_previous %}-->
-                <!--<a href="/post/listing/{{previous_page_number}}">上一页</a>-->
-            <!--{% endif %}-->
-            <!--第{{page}}页-->
-            <!--{% if has_next %}-->
-                <!--<a href="/post/listing/{{next_page_number}}">下一页</a>-->
-            <!--{% endif %}-->
-        <!--</div>-->
-        <!--<div class="footer">-->
-            <!--<div class="footer-line"></div>-->
-            <!--<div>注册买买提，每天美食多一点！&nbsp;&nbsp;<a href="#" style="text-decoration: none;"><span style="color: red;font-size: 15pt;font-weight: 100;">现在注册!>></span></a></div>-->
-            <!--<div style="margin-left: 480px;margin-top: 10px;">-->
-                <!--<div class="link_icon"></div>-->
-                <!--<div class="link_icon"></div>-->
-                <!--<div class="link_icon"></div>-->
-            <!--</div>-->
-        <!--</div>-->
+    </div>
+    <div class="modal" style="display: none">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>买买提提示</h3>
+        </div>
+        <div class="modal-body">
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <!--<a href="#" class="btn">关闭</a>-->
+            <div class="btn btn-primary" data-dismiss="modal">关闭</div>
+        </div>
     </div>
 </center>
 
@@ -274,178 +224,6 @@ var opt={
                 }
 
             });
-//            switch (index)
-//            {
-//                case 1:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_1 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 2:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_2 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 3:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_3 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 4:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_4 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 5:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_5 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 6:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_6 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                case 7:
-//
-//
-//                    html +=
-//                            '{% for post in post_list_7 %}'+
-//                                    '<div class="item2">' +
-//                                    '<div class="item2_top">' +
-//                                    '<div class="item2_top_left">' +
-//                                    '<div class="item-img2">' +
-//                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
-//                                    '</div>' +
-//                                    '</div>' +
-//                                    '<div class="item2_top_right">' +
-//                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
-//                                    '<div class="item-likenum2">' +
-//                                    '<div class="item-heart2"></div> 12400</div></div>' +
-//                                    '</div><div class="item-line2"></div><div class="item-text2">' +
-//                                    '{{post.text}}' +
-//                                    '</div>' +
-//                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
-//                                    '</div>' +
-//                                    '</div>'+
-//                                    '{% endfor %}'
-//                    break;
-//                    case 8:
-//                        break;
-//            }
         }
         return $(html);
     },
@@ -458,19 +236,6 @@ $('.list_all').waterfall(opt);
 
 <script type="text/javascript">
     window.onload = function() {
-//        $(function(){
-//                $('div.item_pic').hover(
-//                function(){
-//                    $(this).find('div.item_like_tab').show();
-//                    $(this).find('div.item_save_tab').show();
-//                    $(this).find('div.item_desc').show();
-//                },
-//                function(){
-//                    $(this).find('div.item_like_tab').hide();
-//                    $(this).find('div.item_save_tab').hide();
-//                    $(this).find('div.item_desc').hide();
-//                }
-
         $('div.item-text').each(function(){
             var text = $(this).html();
             text = text.substr(0,text.length/2);
