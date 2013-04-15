@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>帖子列表</title>
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/list.css" type="text/css" rel="stylesheet" />
-    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <script src="/static/js/jquery-1.9.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 </head>
@@ -41,11 +41,11 @@
                 小煮妇，厨艺不精，厨龄不长，自认为味觉嗅觉还能过的去。有个小小的家，不大的厨房，一台不是很高级的相机，偶尔败家买厨具用品，最重要的是，超宅。欢迎浏览的我的最新个人网站 www.monpetitcuisine.com
             </div>
             <div class="buyer_left_tabs">
-                <ul class="nav nav-pills">
-                    <li class="active" style="margin: 10px 0; margin-right: 10px;"><a href="#" style="background: #ffa347">标签1</a></li>
-                    <li class="active" style="margin: 10px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签2</a></li>
-                    <li class="active" style="margin: 10px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签3</a></li>
-                    <li class="active" style="margin: 10px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签4</a></li>
+                <ul class="nav nav-pills" style="margin-left: -40px">
+                    <li class="active" style="margin: 5px 0; margin-right: 5px;"><a href="#" style="background: #ffa347">标签1</a></li>
+                    <li class="active" style="margin: 5px 0; margin-right: 5px"><a href="#" style="background: #ffa347">标签2</a></li>
+                    <li class="active" style="margin: 5px 0; margin-right: 5px"><a href="#" style="background: #ffa347">标签3</a></li>
+                    <li class="active" style="margin: 5px 0; margin-right: 5px"><a href="#" style="background: #ffa347">标签4</a></li>
                 </ul> <!-- /tabs -->
             </div>
         </div>
@@ -54,7 +54,7 @@
                 {% for time,post in value.items%}
                     <div class="item_contain_all">
                         <div class="item_contain">
-                            <div class="item_contain_title">{{post.title}}</div>
+                            <a href="/post/detail/{{post.id}}"><div class="item_contain_title">{{post.title}}</div></a>
                             <div class="item_contain_text">
                                 {{post.text}}
                             </div>

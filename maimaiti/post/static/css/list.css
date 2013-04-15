@@ -11,12 +11,12 @@
 .contain_right{width: 715px;float: left;text-align: left;}
 .buyer_head{width: 150px;height: 150px;padding: 7px;float: left;background: #FFF;position: relative;}
 .buyer_likenum_tab{width: 55px;height: 27px;background: url(../images/list_likenum_icon.png);position: absolute;z-index: 20;left:-5px;top:5px;padding-left: 28px;line-height: 25px;}
-.buyer_intro{width: 235px;text-align: left;padding-top: 20px}
+.buyer_intro{width: 235px;text-align: left;padding: 20px 0;}
 .buyer_left_tabs{width: 235px;}
 
 .item_contain_all{width: 715px;margin-bottom: 20px;padding: 10px 0;}
 .item_contain{background: #FFF;width: 626px;float: left;padding-top: 10px;}
-.item_contain_title{font-size: 18pt;font-weight: bold;}
+.item_contain_title{font-size: 18pt;font-weight: bold;color: #777;}
 .item_contain_text{}
 .item_contain_tabs_icon{background: url(../images/list_tabs_icon.png) no-repeat center;width: 10px;height: 21px;float: left;}
 .item_contain_tabs ul{list-style: none;margin: 0;margin-left:-30px;float: left}

@@ -112,6 +112,7 @@
                         $(this).find('div.item_desc').hide();
                     }
                 )
+//                alert($(this).find("div.item-btn"));
                 $(this).find("div.item-btn").click(function(){
                     var follow = $(this);
                     var userId = 1;

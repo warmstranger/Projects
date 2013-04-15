@@ -176,7 +176,8 @@ p{color: #333;}
 .item2_top_right{width: 190px;height: auto;float: left;}
 .item-line2{width: 284px;height: 13px;float: left;background: url(../images/arrow_down.jpg);margin-top: 1px;}
 .item-img2{width: 60px;height: 60px;background: #DDD;float: left;margin: 18px;}
-.item-title2{width: 150px;height: auto;float: left;padding-top: 18px;font-size: 25px;font-weight: bold;}
+.item-title2{width: 150px;height: auto;float: left;padding-top: 18px;font-size: 25px;font-weight: bold;color: #555;line-height: 30px}
+.item-title2 a{color: #555}
 .item-likenum2{height: 20px;width: auto;overflow: hidden;float: left;padding-top: 10px; margin-bottom: 12px;}
 .item-heart2{width: 18px;height: 20px;float: left;background:url(../images/red_heart.png) center no-repeat;margin-right: 6px;}
 .item-text2{width: 260px;height: auto;overflow: hidden;text-align: left;margin-left: 18px;padding: 12px 0px;line-height: 25px;}
