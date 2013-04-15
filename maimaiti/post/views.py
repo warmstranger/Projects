@@ -74,40 +74,28 @@ def detail(request,id):
     return render_to_response('post_detail2.html', RequestContext(request, context))
 
 def listing(request,page):
-    page_size = 12
-    list_size = 36
-    post_list = Post.objects.all().order_by('-time')
-    paginator = Paginator(post_list, list_size)
-    try:
-        posts = paginator.page(page)
-        page = page
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-        page = 1
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-        page = paginator.num_pages
-    post_list_0 = posts[0:page_size]
-    post_list_1 = posts[page_size:2*page_size]
-    post_list_2 = posts[2*page_size:3*page_size]
-    has_previous = posts.has_previous()
-    has_next = posts.has_next()
-    next_page_number = posts.next_page_number()
-    if has_previous:
-        previous_number = posts.previous_page_number()
-    else:
-        previous_number = 0
-    context = {
-        "post_list_0": post_list_0,
-        "post_list_1": post_list_1,
-        "post_list_2": post_list_2,
-        "has_previous":has_previous,
-        "has_next":has_next,
-        "page":page,
-        "next_page_number":next_page_number,
-        "previous_page_number":previous_number
-    }
-    return render_to_response('list2.html',context)
+    PAGE_SIZE = 12
+    page = int(page)
+    post_list = Post.objects.all().order_by('-time')[page*PAGE_SIZE:(page+1)*PAGE_SIZE]
+    posts_dic = {'posts':[]}
+    for post in post_list:
+        post.text = parse_html(post.text)
+        post.text = post.text[0:len(post.text)/3]+'...'
+        dic = {
+            'id':post.id,
+            'time':post.time.strftime('%Y-%m-%d %H:%M:%S'),
+            'text':post.text,
+            'title':post.title,
+            'author_id':post.author_id,
+            'cover_image':str(post.cover_image),
+        }
+        posts_dic['posts'].append(dic)
+    posts_dic['length'] = PAGE_SIZE
+    dic_json = json.dumps(posts_dic)
+    response=HttpResponse()
+    response['Content-Type']="text/javascript;charset='UTF-8'"
+    response.write(dic_json)
+    return HttpResponse(response)
 
 def listing_test(request):
     page_size =12
@@ -163,7 +151,7 @@ def feed(request,user_id):
             posts = Post.objects.filter(author_id = item.following_id).order_by('-time')
             for post in posts:
                 post.text = parse_html(post.text)
-                post.text[0:len(post.text)/3]+'...'
+                post.text = post.text[0:len(post.text)/3]+'...'
             if len(posts):
                 for post in posts:
                     post_dic = {post.time:post}
@@ -171,19 +159,26 @@ def feed(request,user_id):
     post_list.sort(reverse=True)
     return render_to_response('post_list.html',{'post_list':post_list,'user':user})
 
-def list_buyer_post(request,user_id):
-    posts = Post.objects.filter(author_id = user_id).order_by('-time')
+def list_buyer_post(request,user_id,page):
+    PAGE_SIZE = 5
+    posts = Post.objects.filter(author_id = user_id).order_by('time')
     user = User.objects.get(id=user_id)
     post_list =[]
     for post in posts:
         post.text = parse_html(post.text)
-    post.text[0:len(post.text)/3]+'...'
+        post.text = post.text[0:len(post.text)/3]+'...'
     if len(posts):
         for post in posts:
             post_dic = {post.time:post}
             post_list.append(post_dic)
-    post_list.sort(reverse=True)
-    return render_to_response('post_list.html',{'post_list':post_list,'user':user})
+    paginator = Paginator(post_list,PAGE_SIZE)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render_to_response('post_list.html',{'post_list':posts,'user':user})
 
 def parse_html(html):
     html=html.strip()

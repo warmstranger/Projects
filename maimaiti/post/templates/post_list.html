@@ -76,13 +76,20 @@
                     </div>
                 {% endfor %}
             {% endfor %}
-            <!--<div class="arrows">-->
-                <!--<div id="arrow_prev" class="prev_disable"></div>-->
-            <!--</div>-->
-            <!--<div class="arrows">-->
-                <!--<div id="arrow_next" class="next_active"></div>-->
-            <!--</div>-->
-
+            {% if post_list.has_previous %}
+                <div class="arrows">
+                    <a href="/post/list_buyer_post/{{user.id}}/{{post_list.previous_page_number}}">
+                        <div id="arrow_prev" class="prev_disable"></div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if post_list.has_next %}
+                <div class="arrows">
+                    <a href="/post/list_buyer_post/{{user.id}}/{{post_list.next_page_number}}">
+                        <div id="arrow_next" class="next_active"></div>
+                    </a>
+                </div>
+            {% endif %}
         </div>
 
     </div>

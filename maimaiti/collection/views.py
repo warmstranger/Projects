@@ -64,6 +64,5 @@ def listing(request,user_id):
                 post_list.append(post)
             except Post.DoesNotExist:
                 pass
-    post_list.reverse()
     return render_to_response('list4.html',{'post_list_0':post_list,'flag':'1'})
 

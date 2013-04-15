@@ -50,6 +50,7 @@ p{color: #333;}
     padding: 0 15px;
     margin: 8px;
     line-height: 25px;
+    cursor: pointer;
 }
 .head_btn_home{background-color: #879300;}
 .head_btn_like, .head_btn_trans{background-color: #e50717;}
