@@ -71,7 +71,7 @@
     /*background: url(../images/list_right.png) no-repeat;*/
 }
 .feed_main_contain{width: 960px;height: auto;overflow: hidden;}
-.feed_item{}
+.feed_item{margin-bottom: 22px;}
 .feed_itemlist,.feed_item{width: 726px;}
 .feed_itemlist,.feed_item,.feed_item_left,.feed_item_right,.feed_item_shrink,.feed_item_spread,.item_shrink_text{height: auto;overflow: hidden;text-align: left;float: left;}
 .feed_item_left{width: 100px;}
@@ -87,6 +87,7 @@
 .ul-right{
     list-style: none;
     float: right;
+    margin: 0;
     margin-right: 20px;
 }
 ul img{width: auto;height: auto;}
