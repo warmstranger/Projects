@@ -17,25 +17,27 @@
         <div class="detail_logo"></div>
         <div class="zhengda_title">正大天地社交分站</div>
         <a href="/home/"><div class="head_btn_home"><div class="head_home_icon"></div> 返回首页</div></a>
+        {% if user.is_active %}
         <ul class="nav pull-right">
             <li id="fat-menu" class="dropdown">
-                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">QQ糖的独白 <b class="caret"></b></a>
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">{{user}}<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的收藏</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的关注</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/collection/listing/{{user.id}}">我的收藏</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/feed/{{user.id}}">我的关注</a></li>
+                    <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>-->
                     <li role="presentation" class="divider"></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">退出登录</a></li>
                 </ul>
             </li>
         </ul>
+        {% endif %}
     </div>
     <div class="contain_center">
-        <div class="buyer_big_title">{{user.username}}</div>
+        <div class="buyer_big_title">{{author.username}}</div>
         <div class="contain_left">
             <div class="buyer_head">
                 <div class="buyer_likenum_tab">1111</div>
-                <img src="/static/images/home/buyer_head{{user.id}}.jpg" alt="">
+                <img src="/static/images/home/buyer_head{{author.id}}.jpg" alt="">
             </div>
             <div class="buyer_intro">
                 小煮妇，厨艺不精，厨龄不长，自认为味觉嗅觉还能过的去。有个小小的家，不大的厨房，一台不是很高级的相机，偶尔败家买厨具用品，最重要的是，超宅。欢迎浏览的我的最新个人网站 www.monpetitcuisine.com

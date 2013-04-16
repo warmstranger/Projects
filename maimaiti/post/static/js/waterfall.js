@@ -119,7 +119,6 @@
                         $(this).find('div.item_desc').hide();
                     }
                 )
-
                 image.src=src;
             }else{//不用考虑图片加载
                 if(setting.insert_type==1){
