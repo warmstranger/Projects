@@ -25,11 +25,15 @@
     height: auto;
     overflow: hidden;
 }
+
+.buyer_likenum_tab{width: 55px;height: 27px;background: url(../images/list_likenum_icon.png);position: absolute;z-index: 20;left:-5px;top:5px;padding-left: 28px;line-height: 25px;}
+
 .buyer_pic{
     margin-top: 35px;
     width: 115px;
     height: 115px;
     float: left;
+    position: relative;
 }
 .buyer_info_contain{
     width: 575px;

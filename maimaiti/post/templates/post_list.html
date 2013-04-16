@@ -10,7 +10,7 @@
     <script src="/static/js/jquery-1.9.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="background: url(/static/images/post_list_bg.jpg);">
 <center>
 <div id="post_list_contain">
     <div id="head_area">
@@ -93,10 +93,31 @@
         </div>
 
     </div>
+    <div id="d-top" style="display:none; width: 70px;height: 70px; position: fixed;bottom: 50px;margin-left: 1100px;">
+        <a id="d-top-a" href="#" title="回到顶部">
+            <img src="/static/images/top_icon.png" alt="TOP" /></a>
+    </div>
 
 </div>
 </center>
-
+<script type="text/javascript">
+    $(function(){
+        var d_top=$('#d-top');
+        document.onscroll=function(){
+            var scrTop=(document.body.scrollTop||document.documentElement.scrollTop);
+            if(scrTop>500){
+                d_top.show();
+            }else{
+                d_top.hide();
+            }
+        }
+        $('#d-top-a').click(function(){
+            scrollTo(0,0);
+            this.blur();
+            return false;
+        });
+    });
+</script>
 
 </body>
 </html>

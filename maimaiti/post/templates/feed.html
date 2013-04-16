@@ -11,7 +11,6 @@
     <script src="../static/js/jquery-1.9.0.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="../static/js/waterfall.js"></script>
-    <script src="../static/js/scrolltopcontrol.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('div.item_shrink_readmore').click(function(){
@@ -176,9 +175,32 @@
         </div>
 
     </div>
+    <div id="d-top" style="display:none; width: 70px;height: 70px; position: fixed;bottom: 50px;margin-left: 1100px;">
+        <a id="d-top-a" href="#" title="回到顶部">
+            <img src="../static/images/to-top.png" alt="TOP" /></a>
+    </div>
 
 </div>
-    <div id="top"></div>
+
+    <script type="text/javascript">
+        $(function(){
+            var d_top=$('#d-top');
+            document.onscroll=function(){
+                var scrTop=(document.body.scrollTop||document.documentElement.scrollTop);
+                if(scrTop>500){
+                    d_top.show();
+                }else{
+                    d_top.hide();
+                }
+            }
+            $('#d-top-a').click(function(){
+                scrollTo(0,0);
+                this.blur();
+                return false;
+            });
+        });
+    </script>
+
 </center>
 </body>
 </html>

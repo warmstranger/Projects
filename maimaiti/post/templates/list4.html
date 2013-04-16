@@ -9,16 +9,16 @@
     <script src="/static/js/jquery-1.9.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/waterfall.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('div.item-text').each(function(){
-                var text = $(this).html();
-                text = text.substr(0,text.length/2);
-                $(this).html('');
-                $(this).append(text);
-            });
-        });
-    </script>
+    <!--<script type="text/javascript">-->
+        <!--$(document).ready(function(){-->
+            <!--$('div.item-text').each(function(){-->
+                <!--var text = $(this).html();-->
+                <!--text = text.substr(0,text.length/2);-->
+                <!--$(this).html('');-->
+                <!--$(this).append(text);-->
+            <!--});-->
+        <!--});-->
+    <!--</script>-->
 </head>
 <body>
 <div class="gray_bg"></div>
@@ -150,7 +150,7 @@
             <div class="footer-line"></div>
             <div class="footer_tab">
                 <div class="footer-title">关注我们</div>
-                <ul>
+                <ul style="list-style: none">
                     <li><div class="link_icon"><img src="/static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
                     <li><div class="link_icon"><img src="/static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
                     <li><div class="link_icon"><img src="/static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
@@ -221,7 +221,7 @@ var opt={
                                 '</div>'+
                                 ''
                     }
-                      render(html)
+                    render(html);
                 }
 
             });
@@ -235,17 +235,31 @@ $('.list_all').waterfall(opt);
 
 </script>
 
-<script type="text/javascript">
-    window.onload = function() {
-        $('div.item-text').each(function(){
-            var text = $(this).html();
-            text = text.substr(0,text.length/2);
-            $(this).html('');
-            $(this).append(text);
-        });
+<!--<script type="text/javascript">-->
+    <!--window.onload = function() {-->
+        <!--$("div.item-btn").click(function(){-->
+            <!--var follow = $(this);-->
+            <!--var userId = 1;-->
+            <!--var followId = follow.attr("id");-->
+            <!--$.ajax({-->
+                <!--type:"GET",-->
+                <!--url: "/follow/follow_user/"+followId+"/"+userId,-->
+                <!--cache:false,-->
+                <!--dataType:"json",-->
+                <!--success:function(data){-->
+<!--//                            alert(data.msg);-->
+                    <!--$("div.modal").modal('show');-->
+                    <!--$(".modal-body").find('p').html('');-->
+                    <!--$(".modal-body").find('p').append(data.msg);-->
+                    <!--/*if(data.flag)-->
+                     <!--$(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/-->
+                <!--}-->
+            <!--});-->
+            <!--return false;-->
+        <!--});-->
 
-    };
-</script>
+    <!--};-->
+<!--</script>-->
 </body>
 <script src="/static/js/home.js"></script>
 

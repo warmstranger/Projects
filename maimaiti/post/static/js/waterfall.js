@@ -48,6 +48,9 @@
                     clearTimeout(waterfall._scrollTimer3);
                     waterfall._scrollTimer3=setTimeout(onResize,300);
                 });
+//                $(this).find("div.item-btn").bind('click',function(){
+//                      alert("aaa");
+//                });
             }
         });
     function creatColumn(){//创建列
@@ -58,6 +61,9 @@
             html+='<div class="'+setting.column_className+'" style="width:'+setting.column_width+'px; display:inline-block; *display:inline;zoom:1; margin-left:'+setting.column_space/2+'px;margin-right:'+setting.column_space/2+'px; vertical-align:top; overflow:hidden"></div>';
         }
         $container.prepend(html);//插入列
+        $container.find("div.item-btn").bind('click',function(){
+                      alert("aaa");
+                });
         return $('.'+setting.column_className,$container);//列集合
     }
     function calculateColumns(){//计算需要的列数
@@ -67,6 +73,7 @@
     }
     function render(elements,fadein){//渲染元素
         if(!$(elements).length) return;//没有元素
+//        console.log($(elements).length);
         var $columns = waterfall.$columns;
         $(elements).each(function(i){
             if(!setting.auto_imgHeight||setting.insert_type==2){//如果给出了图片高度，或者是按顺序插入，则不必等图片加载完就能计算列的高度了
@@ -112,27 +119,7 @@
                         $(this).find('div.item_desc').hide();
                     }
                 )
-//                alert($(this).find("div.item-btn"));
-                $(this).find("div.item-btn").click(function(){
-                    var follow = $(this);
-                    var userId = 1;
-                    var followId = follow.attr("id");
-                    $.ajax({
-                        type:"GET",
-                        url: "/follow/follow_user/"+followId+"/"+userId,
-                        cache:false,
-                        dataType:"json",
-                        success:function(data){
-//                            alert(data.msg);
-                            $("div.modal").modal('show');
-                            $(".modal-body").find('p').html('');
-                            $(".modal-body").find('p').append(data.msg);
-                            /*if(data.flag)
-                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
-                        }
-                    });
-                    return false;
-                });
+
                 image.src=src;
             }else{//不用考虑图片加载
                 if(setting.insert_type==1){
@@ -186,6 +173,27 @@
                 render(getElements(),true);
             }
         },100);
+        window.setTimeout(function(){ $('.item-btn').unbind('click').click(function(){
+                    var follow = $(this);
+                    var userId = 1;
+                    var followId = follow.attr("id");
+                    $.ajax({
+                        type:"GET",
+                        url: "/follow/follow_user/"+followId+"/"+userId,
+                        cache:false,
+                        dataType:"json",
+                        success:function(data){
+//                            alert(data.msg);
+                            $("div.modal").modal('show');
+                            $(".modal-body").find('p').html('');
+                            $(".modal-body").find('p').append(data.msg);
+                            /*if(data.flag)
+                             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+                        }
+                    });
+                    return false;
+        })}, 140);
+
     }
     function onResize(){//窗口缩放时重新排列
         if(calculateColumns()==waterfall.column_num) return; //列数未改变，不需要重排
