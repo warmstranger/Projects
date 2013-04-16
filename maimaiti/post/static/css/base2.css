@@ -110,7 +110,7 @@ p{color: #333;}
 
 .menu_tab_left{height: 49px;width: 330px;float: left;background: #e50717;}
 .menu_tab_left_top{height: 5px;width: 330px;background: #CCC;}
-.menu_login{width: 100px;height: 49px;float: right;}
+.menu_login{width: auto;height: 49px;float: right;padding: 0 5px;}
 .menu_tab_text,.menu_login{
     line-height: 40px;
     text-decoration: none;

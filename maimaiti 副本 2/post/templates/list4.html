@@ -1,0 +1,454 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>美食列表</title>
+    <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/home2.css" type="text/css" rel="stylesheet" />
+    <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/waterfall.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('div.item-text').each(function(){
+                var text = $(this).html();
+                text = text.substr(0,text.length/2);
+                $(this).html('');
+                $(this).append(text);
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="gray_bg"></div>
+<center>
+    <div id="main_contain">
+        <div class="top_line"></div>
+        <div id="head_bar">
+            <div class="logo_pic"></div>
+            <div class="search">
+                <label for="search" style="position:absolute;top:6px;left:20px;z-index:5;color: #333;">我点累了，想搜一搜</label>
+                <input type="text" class="input" name="search" id="search">
+                <a href="#"><div id="search_btn"></div></a>
+            </div>
+        </div>
+        <div class="menu_head">
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href="/home/"><div class="menu_tab_text">首页</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href=""><div class="menu_tab_text">买手推荐</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href=""><div class="menu_tab_text">热门标签</div></a>
+            </div>
+
+            <div class="menu_tab">
+                {% if flag == '0' %}
+                    <div class="menu_tab_on"></div>
+                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% else %}
+                    <div class="menu_tab_off"></div>
+                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% endif %}
+            </div>
+            <div class="menu_tab">
+                {% if flag == '1' %}
+                    <div class="menu_tab_on"></div>
+                    <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
+                {% else %}
+                    <div class="menu_tab_off"></div>
+                    <a href="/collection/listing/1  "><div class="menu_tab_text">
+                        我收藏的</div></a>
+                {% endif %}
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href="/feed/1/"><div class="menu_tab_text">我关注的</div></a>
+            </div>
+            <div class="menu_tab_left" style="width: 204px">
+                <div class="menu_tab_left_top" style="width: 204px"></div>
+                <a href=""><div class="menu_login">登录</div></a>
+            </div>
+        </div>
+        <!--<div class="fenye_area">-->
+            <!--{% if has_previous %}-->
+                <!--<a href="/post/listing/{{previous_page_number}}">上一页</a>-->
+            <!--{% endif %}-->
+            <!--第{{page}}页-->
+            <!--{% if has_next %}-->
+                <!--<a href="/post/listing/{{next_page_number}}">下一页</a>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+        <div class="list_contain">
+            <div class="border-left"></div>
+            <div class="menu_bar">
+                <div class="menu_head2">
+                    <a href="#" style="color: #b9c904">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/post/listing/1" style="color: #ff6600">更多&nbsp;+</a>
+                </div>
+            </div>
+            <div class="border-right"></div>
+            <div class="list_all" style="margin-left: 8px">
+                {% for post in post_list_0 %}
+                <div class="item2">
+                    <div class="item2_top">
+                        <div class="item2_top_left">
+                            <div class="item-img2">
+                                <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="item2_top_right">
+                            <a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>
+                            <div class="item-likenum2"><div class="item-heart2"></div> 12400</div>
+                        </div>
+                    </div>
+                    <div class="item-line2"></div>
+                    <div class="item-text2">
+                        {{post.text}}
+                    </div>
+                    <div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div> </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer_tab">
+                <div class="footer-title">关于我们</div>
+                <ul>
+                    <li><a href="">关于买买提</a></li>
+                    <li><a href="">加入我们</a></li>
+                    <li><a href="">合作联系</a></li>
+                    <li><a href="">网站地图</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab">
+                <div class="footer-title">友情链接</div>
+                <ul>
+                    <li><a href="">嗨淘网</a></li>
+                    <li><a href="">乐买网</a></li>
+                    <li><a href="">哈秀时尚购物</a></li>
+                    <li><a href="">乐蜂网</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab">
+                <div class="footer-title">关注我们</div>
+                <ul>
+                    <li><div class="link_icon"><img src="../static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
+                    <li><div class="link_icon"><img src="../static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
+                    <li><div class="link_icon"><img src="../static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab_right">
+                <div class="footer-title">加入我们</div>
+                <div style="margin-left: 34px;color: #CCC;margin-top: 14px;">你的姓名：</div>
+                <input type="text" id="yourname" name="yourname" class="footer-input">
+                <div style="margin-left: 34px;color: #CCC;">你的邮箱：</div>
+                <input type="text" id="youremail" name="youremail" class="footer-input">
+                <div style="float: right;margin-right: 90px"><button style="color: #000;background: #b9c904">发送</button></div>
+            </div>
+
+        </div>
+        <!--<div class="list_contain">-->
+            <!--{% for post in post_list_0 %}-->
+                <!--<div class="list_all">-->
+                    <!--<div class="list_item_o">-->
+                        <!--<div class="item_pic">-->
+                            <!--<img src="/static/media/{{post.cover_image}}" alt=""/>-->
+                            <!--<div class="item_new_icon"></div>-->
+                            <!--<div class="item_like_tab">-->
+                                <!--<div class="item_like_inner_tab">-->
+                                    <!--<div class="inner_icon"><img src="/static/images/like_icon.png" alt=""/></div>-->
+                                    <!--<p style="position:relative;color:#333;">1111</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="item_save_tab">-->
+                                <!--<div class="item_save_inner_tab">-->
+                                    <!--<div class="inner_icon"><img src="/static/images/save_icon.png" alt=""/></div>-->
+                                    <!--<p style="position:relative;color:white;">1111</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="item_desc"><span style="position:relative;color:white;">-->
+                                <!--{{post.text}}-->
+                              <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<div style="text-align: center">..............................................................</div>&ndash;&gt;-->
+                        <!--<div style="text-align: left;margin-left: 10px;">-->
+                            <!--<p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p>-->
+                            <!--<p>{{post.time}}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--{% endfor %}-->
+        <!--</div>-->
+        <!--<div class="fenye_area">-->
+            <!--{% if has_previous %}-->
+                <!--<a href="/post/listing/{{previous_page_number}}">上一页</a>-->
+            <!--{% endif %}-->
+            <!--第{{page}}页-->
+            <!--{% if has_next %}-->
+                <!--<a href="/post/listing/{{next_page_number}}">下一页</a>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+        <!--<div class="footer">-->
+            <!--<div class="footer-line"></div>-->
+            <!--<div>注册买买提，每天美食多一点！&nbsp;&nbsp;<a href="#" style="text-decoration: none;"><span style="color: red;font-size: 15pt;font-weight: 100;">现在注册!>></span></a></div>-->
+            <!--<div style="margin-left: 480px;margin-top: 10px;">-->
+                <!--<div class="link_icon"></div>-->
+                <!--<div class="link_icon"></div>-->
+                <!--<div class="link_icon"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</center>
+
+<script>
+$(".item-btn").click(function(){
+    var follow = $(this);
+    var userId = 1;
+    var followId = follow.attr("id");
+    $.ajax({
+        type:"GET",
+        url: "/follow/follow_user/"+followId+"/"+userId,
+        cache:false,
+        dataType:"json",
+        success:function(data){
+            alert(data.msg);
+            /*if(data.flag)
+             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+        }
+    });
+    return false;
+});
+var opt={
+    getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
+        if(index<=8)
+        {
+
+            var html='';
+            switch (index)
+            {
+                case 1:
+
+
+                    html +=
+                            '{% for post in post_list_1 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 2:
+
+
+                    html +=
+                            '{% for post in post_list_2 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 3:
+
+
+                    html +=
+                            '{% for post in post_list_3 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 4:
+
+
+                    html +=
+                            '{% for post in post_list_4 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 5:
+
+
+                    html +=
+                            '{% for post in post_list_5 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 6:
+
+
+                    html +=
+                            '{% for post in post_list_6 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                case 7:
+
+
+                    html +=
+                            '{% for post in post_list_7 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<a href="/post/detail/{{post.id}}"><div class="item-title2">{{post.title}}</div></a>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                    break;
+                    case 8:
+                        break;
+            }
+
+        }
+        return $(html);
+    },
+    auto_imgHeight:true,
+    insert_type:1
+}
+$('.list_all').waterfall(opt);
+
+</script>
+
+<script type="text/javascript">
+    window.onload = function() {
+//        $(function(){
+//                $('div.item_pic').hover(
+//                function(){
+//                    $(this).find('div.item_like_tab').show();
+//                    $(this).find('div.item_save_tab').show();
+//                    $(this).find('div.item_desc').show();
+//                },
+//                function(){
+//                    $(this).find('div.item_like_tab').hide();
+//                    $(this).find('div.item_save_tab').hide();
+//                    $(this).find('div.item_desc').hide();
+//                }
+
+        $('div.item-text').each(function(){
+            var text = $(this).html();
+            text = text.substr(0,text.length/2);
+            $(this).html('');
+            $(this).append(text);
+        });
+
+    };
+</script>
+</body>
+<script src="/static/js/home.js"></script>
+
+</html>

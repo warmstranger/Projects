@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>list</title>
+    <link href="/static/css/base.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/home.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/others.css" type="text/css" rel="stylesheet" />
+    <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/waterfall.js"></script>
+</head>
+<body>
+<center>
+    <div id="main_contain">
+        <div id="head_bar">
+        <div class="div_icon"></div>
+        <div class="search" style="position:relative;z-index:10">
+        <label for="search" style="position:absolute;top:9px;left:20px;z-index:5;color: #333;">我点累了，想搜一搜</label>
+        <input type="text" class="input" name="search" id="search"><a href="#"><div id="search_left"></div></a>
+        </div>
+        <div class="menu_head">
+        <a href="#">首页</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="#">推荐</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="#">我收藏的</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="#">登录</a>
+        </div>
+        </div>
+        <div style="width: 1177px;height: 100px;"></div>
+        <div id="category_head">
+            <div class="category_head_pic">
+                <img src="/static/images/pic_5.png" alt="">
+            </div>
+        </div>
+        <!--<div class="fenye_area">-->
+            <!--{% if has_previous %}-->
+                <!--<a href="/post/listing/{{previous_page_number}}">上一页</a>-->
+            <!--{% endif %}-->
+            <!--第{{page}}页-->
+            <!--{% if has_next %}-->
+                <!--<a href="/post/listing/{{next_page_number}}">下一页</a>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+        <div class="list_contain">
+            {% for post in post_list_0 %}
+                <div class="list_all">
+                    <div class="list_item_o">
+                        <div class="item_pic">
+                            <img src="/static/media/{{post.cover_image}}" alt=""/>
+                            <div class="item_new_icon"></div>
+                            <div class="item_like_tab">
+                                <div class="item_like_inner_tab">
+                                    <div class="inner_icon"><img src="/static/images/like_icon.png" alt=""/></div>
+                                    <p style="position:relative;color:#333;">1111</p>
+                                </div>
+                            </div>
+
+                            <div class="item_save_tab">
+                                <div class="item_save_inner_tab">
+                                    <div class="inner_icon"><img src="/static/images/save_icon.png" alt=""/></div>
+                                    <p style="position:relative;color:white;">1111</p>
+                                </div>
+                            </div>
+                            <div class="item_desc"><span style="position:relative;color:white;">
+                                {{post.text}}
+                              </span>
+                            </div>
+                        </div>
+                        <!--<div style="text-align: center">..............................................................</div>-->
+                        <div style="text-align: left;margin-left: 10px;">
+                            <p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p>
+                            <p>{{post.time}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="fenye_area">
+            {% if has_previous %}
+                <a href="/post/listing/{{previous_page_number}}">上一页</a>
+            {% endif %}
+            第{{page}}页
+            {% if has_next %}
+                <a href="/post/listing/{{next_page_number}}">下一页</a>
+            {% endif %}
+        </div>
+        <!--<div class="footer">-->
+            <!--<div class="footer-line"></div>-->
+            <!--<div>注册买买提，每天美食多一点！&nbsp;&nbsp;<a href="#" style="text-decoration: none;"><span style="color: red;font-size: 15pt;font-weight: 100;">现在注册!>></span></a></div>-->
+            <!--<div style="margin-left: 480px;margin-top: 10px;">-->
+                <!--<div class="link_icon"></div>-->
+                <!--<div class="link_icon"></div>-->
+                <!--<div class="link_icon"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</center>
+
+<script>
+    var opt={
+        getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
+            if(index<=2)
+            {
+                if(index == 1)
+                {
+                    var html='';
+                        html +=
+                                '{% for post in post_list_1 %}'+
+                                '<div class="list_item_o">'+
+                                '<div class="item_pic">' +
+                                    '<img src="/static/media/{{post.cover_image}}" alt=""/>' +
+                                    '<div class="item_like_tab">' +
+                                        '<div class="item_like_inner_tab">' +
+                                            '<div class="inner_icon">' +
+                                                '<img src="/static/images/like_icon.png" alt=""/>' +
+                                            '</div>' +
+                                            '<p style="position:relative;color:#333;">1111</p>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="item_save_tab">' +
+                                        '<div class="item_save_inner_tab">' +
+                                            '<div class="inner_icon">' +
+                                                '<img src="/static/images/save_icon.png" alt=""/>' +
+                                            '</div>' +
+                                            '<p style="position:relative;color:white;">1111</p>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="item_desc">' +
+                                        '<span style="position:relative;color:white;">{{post.text}}</span>' +
+                                    '</div>' +
+                                '</div>'+
+                                '<div style="text-align: left;margin-left: 10px;">' +
+                                        '<p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p><p>{{post.time}}</p>' +
+                                '</div>' +
+                                '</div>' +
+                            '{% endfor %}'
+                }
+                if(index == 2)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_2 %}'+
+                                    '<div class="list_item_o">'+
+                                    '<div class="item_pic">' +
+                                    '<img src="/static/media/{{post.cover_image}}" alt=""/>' +
+                                    '<div class="item_like_tab">' +
+                                    '<div class="item_like_inner_tab">' +
+                                    '<div class="inner_icon">' +
+                                    '<img src="/static/images/like_icon.png" alt=""/>' +
+                                    '</div>' +
+                                    '<p style="position:relative;color:#333;">1111</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item_save_tab">' +
+                                    '<div class="item_save_inner_tab">' +
+                                    '<div class="inner_icon">' +
+                                    '<img src="/static/images/save_icon.png" alt=""/>' +
+                                    '</div>' +
+                                    '<p style="position:relative;color:white;">1111</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item_desc">' +
+                                    '<span style="position:relative;color:white;">{{post.text}}</span>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '<div style="text-align: left;margin-left: 10px;">' +
+                                    '<p><a href="/post/detail/{{post.id}}">{{post.title}}</a></p><p>{{post.time}}</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+
+            }
+            return $(html);
+        },
+        auto_imgHeight:true,
+        insert_type:1
+    }
+    $('.list_all').waterfall(opt);
+
+</script>
+<script type="text/javascript">
+    window.onload = function() {
+//        $(function(){
+                $('div.item_pic').hover(
+                function(){
+                    $(this).find('div.item_like_tab').show();
+                    $(this).find('div.item_save_tab').show();
+                    $(this).find('div.item_desc').show();
+                },
+                function(){
+                    $(this).find('div.item_like_tab').hide();
+                    $(this).find('div.item_save_tab').hide();
+                    $(this).find('div.item_desc').hide();
+                }
+        );
+    };
+</script>
+</body>
+<script src="/static/js/home.js"></script>
+
+</html>

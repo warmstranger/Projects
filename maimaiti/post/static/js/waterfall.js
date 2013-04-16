@@ -114,11 +114,10 @@
                 )
                 $(this).find("div.item-btn").click(function(){
                     var follow = $(this);
-                    var userId = 1;
                     var followId = follow.attr("id");
                     $.ajax({
                         type:"GET",
-                        url: "/follow/follow_user/"+followId+"/"+userId,
+                        url: "/follow/follow_user/"+followId,
                         cache:false,
                         dataType:"json",
                         success:function(data){

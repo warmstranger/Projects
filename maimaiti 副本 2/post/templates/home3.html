@@ -1,0 +1,385 @@
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>首页</title>
+    <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/home2.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/nivo-slider.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/themes/default/default.css" type="text/css" media="screen" />
+    <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/waterfall.js"></script>
+
+    <script type="text/javascript" src="/static/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/jquery.carouFredSel-6.2.0-packed.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.touchSwipe.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.transit.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/helper-plugins/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("a[id*='btn_']").click(function(){
+                var follow = $(this);
+                var userId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
+                $.ajax({
+                    type:"GET",
+                    url: "/follow/follow_user/"+followId+"/"+userId,
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        if(data.flag)
+                            alert(data.msg);
+                        $("#btn_"+followId).removeClass("buyer_btn");
+                        $("#followbtn_"+followId).addClass("buyer_followbtn");
+                        $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);
+                    }
+                });
+                return false;
+            });
+            $("a[id*='followbtn_']").click(function(){
+                var follow = $(this);
+                var userId = 1;
+                var followId = follow.attr("id").replace(/[^\d]*/ig,"");
+                $.ajax({
+                    type:"GET",
+                    url: "/follow/unfollow_user/"+followId+"/"+userId,
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        alert(data.msg);
+                        $("#followbtn_"+followId).removeClass("buyer_followbtn");
+                        $("#btn_"+followId).addClass("buyer_btn");
+                        if(data.flag)
+                            $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="gray_bg"></div>
+<center>
+    <div id="main_contain">
+        <div class="top_line"></div>
+        <div id="head_bar">
+            <div class="logo_pic"></div>
+            <div class="search">
+                <label for="search" style="position:absolute;top:6px;left:20px;z-index:5;color: #333;">我点累了，想搜一搜</label>
+                <input type="text" class="input" name="search" id="search">
+                <!--<input type="text" class="input" name="search" id="search" placeholder="我点累了，想搜一搜">-->
+                <a href="#"><div id="search_btn"></div></a>
+            </div>
+        </div>
+        <div class="menu_head">
+            <div class="menu_tab">
+                <div class="menu_tab_on"></div>
+                <a href="/home/"><div class="menu_tab_text">首页</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href=""><div class="menu_tab_text">买手推荐</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href=""><div class="menu_tab_text">热门标签</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+            </div>
+            <div class="menu_tab">
+                <div class="menu_tab_off"></div>
+                <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
+            </div>
+            <div class="menu_tab_left">
+                <div class="menu_tab_left_top"></div>
+                <a href=""><div class="menu_login">登录</div></a>
+            </div>
+        </div>
+        <div id="slide_area">
+            <div class="arrows-left"></div>
+            <div id="pic_slide" class="nivoSlider">
+
+                {% for advertisement in advertisements %}
+                    <img src="/static/media/{{advertisement.image}}"/>
+                {% endfor %}
+
+            </div>
+            <div class="arrows-right"></div>
+        </div>
+        <div id="buyers_area">
+            <div class="tabs_head">
+                <div class="tabs_title"><p>这里正在流行...</p></div>
+                <a href=""><div class="tabs_more"><p>更多&nbsp;+</p></div></a>
+            </div>
+            <div class="buyers_items">
+                {% for key,value in follow_dic.items%}
+                <div class="buyers_item">
+                    <div class="buyer_top">
+                        <div class="buyer_title"><p>买手：test{{key}}</p></div>
+                        <div class="buyer_headpic"><img src="/static/images/home/buyer_head{{key}}.jpg" alt=""></div>
+                        <div class="buyer_top_right">
+                            <div class="buyer_text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
+                            {% if value == "0" %}
+                            <a class="buyer_btn" id="btn_{{key}}"></a>
+                            <a id="followbtn_{{key}}"></a>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">0</div></div>
+                            {% else %}
+                            <a id="btn_{{key}}"></a>
+                            <a class="buyer_followbtn" id="followbtn_{{key}}"></a>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">1</div></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="buyer_bottom">
+                        <div class="buyer_pic"><img src="/static/images/home/buyer1_pic1.jpg" alt=""></div>
+                        <div class="buyer_pic"><img src="/static/images/home/buyer1_pic2.jpg" alt=""></div>
+                        <div class="buyer_pic"><img src="/static/images/home/buyer1_pic3.jpg" alt=""></div>
+                        <div class="buyer_pic"><img src="/static/images/home/buyer1_pic4.jpg" alt=""></div>
+                        <div class="buyer_pic"><img src="/static/images/home/buyer1_pic5.jpg" alt=""></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="list_contain">
+            <div class="border-left"></div>
+            <div class="menu_bar">
+                <div class="menu_head2">
+                    <a href="#" style="color: #b9c904">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">海鲜水产</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#">时鲜蔬果</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/post/listing/" style="color: #ff6600">更多&nbsp;+</a>
+                </div>
+            </div>
+            <div class="border-right"></div>
+            <div class="list_all" style="margin-left: 8px">
+                {% for post in post_list_0 %}
+                <div class="item2">
+                    <div class="item2_top">
+                        <div class="item2_top_left">
+                            <div class="item-img2">
+                                <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="item2_top_right">
+                            <div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>
+                            <div class="item-likenum2"><div class="item-heart2"></div> 12400</div>
+                        </div>
+                    </div>
+                    <div class="item-line2"></div>
+                    <div class="item-text2">
+                        {{post.text}}
+                    </div>
+                    <div class="item-bottom2">
+                        <div class="item-btn" id="{{post.author_id}}">关注买手</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer_tab">
+                <div class="footer-title">关于我们</div>
+                <ul>
+                    <li><a href="">关于买买提</a></li>
+                    <li><a href="">加入我们</a></li>
+                    <li><a href="">合作联系</a></li>
+                    <li><a href="">网站地图</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab">
+                <div class="footer-title">友情链接</div>
+                <ul>
+                    <li><a href="">嗨淘网</a></li>
+                    <li><a href="">乐买网</a></li>
+                    <li><a href="">哈秀时尚购物</a></li>
+                    <li><a href="">乐蜂网</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab">
+                <div class="footer-title">关注我们</div>
+                <ul style="list-style: none">
+                    <li><div class="link_icon"><img src="/static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
+                    <li><div class="link_icon"><img src="/static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
+                    <li><div class="link_icon"><img src="/static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
+                </ul>
+            </div>
+            <div class="footer-line"></div>
+            <div class="footer_tab_right">
+                <div class="footer-title">加入我们</div>
+                <div style="margin-left: 34px;color: #CCC;margin-top: 14px;">你的姓名：</div>
+                <input type="text" id="yourname" name="yourname" class="footer-input">
+                <div style="margin-left: 34px;color: #CCC;">你的邮箱：</div>
+                <input type="text" id="youremail" name="youremail" class="footer-input">
+                <div style="float: right;margin-right: 48px"><button class="footer-btn">发送</button></div>
+            </div>
+
+        </div>
+    </div>
+</center>
+<script>
+    $(".item-btn").click(function(){
+        var follow = $(this);
+        var userId = 1;
+        var followId = follow.attr("id");
+        $.ajax({
+            type:"GET",
+            url: "/follow/follow_user/"+followId+"/"+userId,
+            cache:false,
+            dataType:"json",
+            success:function(data){
+                alert(data.msg);
+                /*if(data.flag)
+                 $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+            }
+        });
+        return false;
+    });
+    var opt={
+        getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
+            if(index<=3)
+            {
+                if(index == 1)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_1 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                        '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>'+
+                                    '{% endfor %}'
+                }
+                if(index == 2)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_2 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+                if(index == 3)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_3 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+                if(index == 4)
+                {
+                    var html='';
+                    html +=
+                            '{% for post in post_list_4 %}'+
+                                    '<div class="item2">' +
+                                    '<div class="item2_top">' +
+                                    '<div class="item2_top_left">' +
+                                    '<div class="item-img2">' +
+                                    '<img src="/static/images/home/buyer_head{{post.author_id}}.jpg" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="item2_top_right">' +
+                                    '<div class="item-title2"><a href="/post/detail/{{post.id}}">{{post.title}}</a></div>' +
+                                    '<div class="item-likenum2">' +
+                                    '<div class="item-heart2"></div> 12400</div></div>' +
+                                    '</div><div class="item-line2"></div><div class="item-text2">' +
+                                    '{{post.text}}' +
+                                    '</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '{% endfor %}'
+                }
+
+            }
+            return $(html);
+        },
+        auto_imgHeight:true,
+        insert_type:1
+    }
+    $('.list_all').waterfall(opt);
+//    }
+</script>
+    <!--<script type="text/javascript">-->
+        <!--window.onload = function() {-->
+    <!--//        $(function(){-->
+            <!--$(".item-btn").hover(function(){-->
+                <!--alert("hh");-->
+    <!--//            var follow = $(this);-->
+    <!--//            var userId = 1;-->
+    <!--//            var followId = follow.attr("id");-->
+    <!--//            $.ajax({-->
+    <!--//                type:"GET",-->
+    <!--//                url: "/follow/follow_user/"+followId+"/"+userId,-->
+    <!--//                cache:false,-->
+    <!--//                dataType:"json",-->
+    <!--//                success:function(data){-->
+    <!--//                    alert(data.msg);-->
+    <!--//                    /*if(data.flag)-->
+    <!--//                     $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/-->
+    <!--//                }-->
+    <!--//            });-->
+    <!--//            return false;-->
+            <!--});-->
+        <!--};-->
+    <!--</script>-->
+<script src="../static/js/home.js"></script>
+</body>
+</html>

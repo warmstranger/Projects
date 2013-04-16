@@ -1,0 +1,168 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>帖子详情</title>
+    <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/detail.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
+    <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.dropdown-toggle').dropdown();
+            $('div.comment_line').each(function(){
+                var userlen = $(this).find('.comment_userinfo').width()+30;
+//                alert(userlen);
+                var len_left = 696 - userlen;
+                $(this).find('.comment_right').css('width',len_left);
+            })
+            $('.your_submit').click(function(){
+                       $('#form1').submit();
+
+                    }
+            )
+        });
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".head_btn_trans").click(function(){
+                var collection= $(this);
+                var userId = 1;
+                var postId = collection.attr("id");
+                if(collection.text() =="收藏")
+                {
+                    $.ajax({
+                        type:"GET",
+                        url: "/collection/collect/"+postId+"/"+userId,
+                        cache:false,
+                        dataType:"json",
+                        success:function(data){
+                                alert(data.msg);
+                                collection.text("取消收藏");
+                        }
+                    });
+                }
+                else
+                {
+                    $.ajax({
+                        type:"GET",
+                        url: "/collection/cancel_collect/"+postId+"/"+userId,
+                        cache:false,
+                        dataType:"json",
+                        success:function(data){
+                            alert(data.msg);
+                            collection.text("收藏");
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<center>
+<div id="detail_contain">
+    <div id="head_area">
+        <div class="detail_logo"></div>
+        <div class="zhengda_title">正大天地社交分站</div>
+        <a href="/home/"><div class="head_btn_home"><div class="head_home_icon"></div> 返回首页</div></a>
+        {% if collect_flag == "0" %}
+            <div class="head_btn_trans" id="{{post.id}}">收藏</div>
+        {% else %}
+            <div class="head_btn_trans" id="{{post.id}}">取消收藏</div>
+        {% endif %}
+        <!--<a href=""><div class="head_btn_like"><div class="head_like_icon"></div> 喜欢</div></a>-->
+        <ul class="nav pull-right">
+            <li id="fat-menu" class="dropdown">
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">QQ糖的独白 <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的收藏</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的关注</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="buyer_area">
+        <div class="buyer_area_contain">
+            <div class="buyer_area_contain_line">
+                <div class="buyer_pic"><img src="/static/images/home/buyer_head{{post.author_id}}.jpg" width=“50” height="50" alt=""></div>
+                <div class="buyer_info_contain">
+                    <div class="buyer_info_name">{{post.author}}</div>
+                    <div class="buyer_info_intro">小煮妇，厨艺不精，厨龄不长，自认为味觉嗅觉还能过的去。有个小小的家，不大的厨房，一台不是很高级的相机，偶尔败家买厨具用品，最重要的是，超宅。欢迎浏览的我的最新个人网站 www.monpetitcuisine.com</div>
+                </div>
+            </div>
+            <div class="buyer_tabs">
+                <ul class="nav nav-pills">
+                    <li class="active" style="margin: 20px 0; margin-right: 10px;"><a href="#" style="background: #ffa347">标签1</a></li>
+                    <li class="active" style="margin: 20px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签2</a></li>
+                    <li class="active" style="margin: 20px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签3</a></li>
+                    <li class="active" style="margin: 20px 0; margin-right: 10px"><a href="#" style="background: #ffa347">标签4</a></li>
+                </ul> <!-- /tabs -->
+            </div>
+        </div>
+    </div>
+    <div id="text_area">
+        <div class="text_area_contain">
+            <div class="text_title">{{post.title}}</div>
+            <div class="text_time">{{post.time}}</div>
+            <div class="text_tabs">
+                <div class="text_biaoqian">标签：</div>
+                <ul>
+                    <li><a href="#">标签1</a></li>
+                    <li><a href="#">标签2</a></li>
+                    <li><a href="#">标签3</a></li>
+                    <li><a href="#">标签4</a></li>
+                </ul>
+            </div>
+            <div class="text_detail">
+                <!--<img src="../static/images/example.jpg" alt="" style="width: 450px;height: 690px;">-->
+                <!--<p>正文</p>-->
+                {% autoescape off %}
+                {{post.text}}
+                {% endautoescape %}
+            </div>
+        </div>
+        <div id="comment_area">
+            <form action="/comment/add/" method="post" id="form1" >
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{user.id}}"/>
+                <input type="hidden" name="post_id" value="{{post.id}}"/>
+                <div id="your_comment">
+                    <input type="text" placeholder="在这里输入自己的评论哦" style="width: 592px;float: left" name="text">
+                    <div class="your_submit">评论</div>
+                </div>
+            </form>
+
+            {% for comment in comments %}
+            <div class="comment_line">
+                <div class="comment_userinfo">{{comment.user}}</div>
+                <div class="comment_right">
+                    <div class="comment_text">{{comment.text}}</div>
+                    <div class="comment_time">{{comment.time}}</div>
+                    <!--<a href=""><div class="comment_reply">回复</div></a>-->
+                </div>
+            </div>
+            {% endfor %}
+            <div class="buyer_rec_title">相关买手推荐</div>
+            <div style="margin-left: 15px">
+                <div class="buyer_rec_img"><img src="/static/images/rec1.jpg" alt=""></div>
+                <div class="buyer_rec_img"><img src="/static/images/rec2.jpg" alt=""></div>
+                <div class="buyer_rec_img"><img src="/static/images/rec1.jpg" alt=""></div>
+                <div class="buyer_rec_img"><img src="/static/images/rec2.jpg" alt=""></div>
+                <div class="buyer_rec_img"><img src="/static/images/rec1.jpg" alt=""></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</center>
+</body>
+</html>

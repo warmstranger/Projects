@@ -23,6 +23,7 @@
 <body>
 <div class="gray_bg"></div>
 <center>
+
     <div id="main_contain">
         <div class="top_line"></div>
         <div id="head_bar">
@@ -46,33 +47,38 @@
                 <!--<div class="menu_tab_off"></div>-->
                 <!--<a href=""><div class="menu_tab_text">热门标签</div></a>-->
             <!--</div>-->
-
             <div class="menu_tab">
                 {% if flag == '0' %}
-                    <div class="menu_tab_on"></div>
-                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                <div class="menu_tab_on"></div>
+                <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
                 {% else %}
-                    <div class="menu_tab_off"></div>
-                    <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
-                {% endif %}
-            </div>
-            <div class="menu_tab">
-                {% if flag == '1' %}
-                    <div class="menu_tab_on"></div>
-                    <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
-                {% else %}
-                    <div class="menu_tab_off"></div>
-                    <a href="/collection/listing/1  "><div class="menu_tab_text">
-                        我收藏的</div></a>
-                {% endif %}
-            </div>
-            <div class="menu_tab">
                 <div class="menu_tab_off"></div>
-                <a href="/feed/1/"><div class="menu_tab_text">我关注的</div></a>
+                <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
+                {% endif %}
             </div>
+            {% if user.is_active %}
+                <div class="menu_tab">
+                    {% if flag == '1' %}
+                        <div class="menu_tab_on"></div>
+                        <a href="/collection/listing/{{user.id}}"><div class="menu_tab_text">我收藏的</div></a>
+                    {% else %}
+                        <div class="menu_tab_off"></div>
+                        <a href="/collection/listing/{{user.id}}"><div class="menu_tab_text">
+                            我收藏的</div></a>
+                    {% endif %}
+                </div>
+                <div class="menu_tab">
+                    <div class="menu_tab_off"></div>
+                    <a href="/feed/{{user.id}}/"><div class="menu_tab_text">我关注的</div></a>
+                </div>
+            {% endif %}
             <div class="menu_tab_left">
                 <div class="menu_tab_left_top"></div>
-                <a href=""><div class="menu_login">登录</div></a>
+                {% if user.is_active %}
+                <div class="menu_login">欢迎，{{user}}</div>
+                {% else %}
+                <a href="/user/redirect_login/"><div class="menu_login">登录</div></a>
+                {% endif %}
             </div>
         </div>
         <!--<div class="fenye_area">-->

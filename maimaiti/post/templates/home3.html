@@ -23,11 +23,10 @@
         $(function(){
             $("a[id*='btn_']").click(function(){
                 var follow = $(this);
-                var userId = 1;
                 var followId = follow.attr("id").replace(/[^\d]*/ig,"");
                 $.ajax({
                     type:"GET",
-                    url: "/follow/follow_user/"+followId+"/"+userId,
+                    url: "/follow/follow_user/"+followId,
                     cache:false,
                     dataType:"json",
                     success:function(data){
@@ -49,7 +48,7 @@
                 var followId = follow.attr("id").replace(/[^\d]*/ig,"");
                 $.ajax({
                     type:"GET",
-                    url: "/follow/unfollow_user/"+followId+"/"+userId,
+                    url: "/follow/unfollow_user/"+followId,
                     cache:false,
                     dataType:"json",
                     success:function(data){
@@ -108,17 +107,23 @@
                 <div class="menu_tab_off"></div>
                 <a href="/post/listing/"><div class="menu_tab_text">最新美食</div></a>
             </div>
-            <div class="menu_tab">
-                <div class="menu_tab_off"></div>
-                <a href="/collection/listing/1"><div class="menu_tab_text">我收藏的</div></a>
-            </div>
-            <div class="menu_tab">
-                <div class="menu_tab_off"></div>
-                <a href="/feed/1/"><div class="menu_tab_text">我关注的</div></a>
-            </div>
+            {% if user.is_active %}
+                <div class="menu_tab">
+                    <div class="menu_tab_off"></div>
+                    <a href="/collection/listing/{{user.id}}"><div class="menu_tab_text">我收藏的</div></a>
+                </div>
+                <div class="menu_tab">
+                    <div class="menu_tab_off"></div>
+                    <a href="/feed/{{user.id}}/"><div class="menu_tab_text">我关注的</div></a>
+                </div>
+            {% endif %}
             <div class="menu_tab_left">
                 <div class="menu_tab_left_top"></div>
-                <a href=""><div class="menu_login">登录</div></a>
+                {% if user.is_active %}
+                    <div class="menu_login">欢迎，{{user}}</div>
+                {% else %}
+                    <a href="/redirect_login/"><div class="menu_login">登录</div></a>
+                {% endif %}
             </div>
         </div>
         <div id="slide_area">
@@ -139,6 +144,7 @@
             </div>
             <div class="buyers_items">
                 {% for key,value in follow_dic.items%}
+                {% for count,love_flag in value.items %}
                 <div class="buyers_item">
                     <div class="buyer_top">
                         <div class="buyer_title"><p>买手：test{{key}}</p></div>
@@ -147,14 +153,14 @@
                         </a>
                         <div class="buyer_top_right">
                             <div class="buyer_text">凡是在一天里，我们能遇见一个好孩子，他给他父母带来快乐、值得他父母爱他，上帝就可以缩短我们的考验时间。当我们飞过屋子的时候。。。</div>
-                            {% if value == "0" %}
+                            {% if love_flag == "0" %}
                             <a class="buyer_btn" id="btn_{{key}}"></a>
                             <a id="followbtn_{{key}}"></a>
-                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">0</div></div>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">{{count}}</div></div>
                             {% else %}
                             <a id="btn_{{key}}"></a>
                             <a class="buyer_followbtn" id="followbtn_{{key}}"></a>
-                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">1</div></div>
+                            <div class="buyer_likennum"><div class="buyer_heart"></div> <div class="buyer_likenum" id="like_{{key}}">{{count}}</div></div>
                             {% endif %}
                         </div>
                     </div>
@@ -166,6 +172,7 @@
                         <div class="buyer_pic"><img src="/static/images/home/buyer1_pic5.jpg" alt=""></div>
                     </div>
                 </div>
+                {% endfor %}
                 {% endfor %}
             </div>
         </div>

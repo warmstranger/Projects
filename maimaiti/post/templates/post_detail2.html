@@ -29,17 +29,19 @@
         $(function(){
             $(".head_btn_trans").click(function(){
                 var collection= $(this);
-                var userId = 1;
                 var postId = collection.attr("id");
                 if(collection.text() =="收藏")
                 {
                     $.ajax({
                         type:"GET",
-                        url: "/collection/collect/"+postId+"/"+userId,
+                        url: "/collection/collect/"+postId,
                         cache:false,
                         dataType:"json",
                         success:function(data){
-                                alert(data.msg);
+                            $("div.modal").modal('show');
+                            $(".modal-body").find('p').html('');
+                            $(".modal-body").find('p').append(data.msg);
+                            if(data.flag!=-1)
                                 collection.text("取消收藏");
                         }
                     });
@@ -48,17 +50,30 @@
                 {
                     $.ajax({
                         type:"GET",
-                        url: "/collection/cancel_collect/"+postId+"/"+userId,
+                        url: "/collection/cancel_collect/"+postId,
                         cache:false,
                         dataType:"json",
                         success:function(data){
-                            alert(data.msg);
-                            collection.text("收藏");
+                            $("div.modal").modal('show');
+                            $(".modal-body").find('p').html('');
+                            $(".modal-body").find('p').append(data.msg);
+                            if (data.flag!=-1)
+                                collection.text("收藏");
                         }
                     });
                 }
                 return false;
             });
+
+            $('.btn btn-primary').click(function(){
+                alert("aaa");
+                $("div.modal").modal('hide');
+            });
+
+            function closeDL(){
+                $("div.modal").modal('hide');
+
+            }
         });
     </script>
 </head>
@@ -69,24 +84,26 @@
         <div class="detail_logo"></div>
         <div class="zhengda_title">正大天地社交分站</div>
         <a href="/home/"><div class="head_btn_home"><div class="head_home_icon"></div> 返回首页</div></a>
-        {% if collect_flag == "0" %}
-            <div class="head_btn_trans" id="{{post.id}}">收藏</div>
-        {% else %}
-            <div class="head_btn_trans" id="{{post.id}}">取消收藏</div>
+        {% if user.is_active %}
+            {% if collect_flag == "0" %}
+                <div class="head_btn_trans" id="{{post.id}}">收藏</div>
+            {% else %}
+                <div class="head_btn_trans" id="{{post.id}}">取消收藏</div>
+            {% endif %}
+            <!--<a href=""><div class="head_btn_like"><div class="head_like_icon"></div> 喜欢</div></a>-->
+            <ul class="nav pull-right">
+                <li id="fat-menu" class="dropdown">
+                    <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">{{user}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/collection/listing/{{user.id}}">我的收藏</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/feed/{{user.id}}">我的关注</a></li>
+                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>-->
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
         {% endif %}
-        <!--<a href=""><div class="head_btn_like"><div class="head_like_icon"></div> 喜欢</div></a>-->
-        <ul class="nav pull-right">
-            <li id="fat-menu" class="dropdown">
-                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">QQ糖的独白 <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的收藏</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">我的关注</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">退出登录</a></li>
-                </ul>
-            </li>
-        </ul>
     </div>
 
     <div id="buyer_area">
@@ -130,16 +147,19 @@
             </div>
         </div>
         <div id="comment_area">
-            <form action="/comment/add/" method="post" id="form1" >
-                {% csrf_token %}
-                <input type="hidden" name="user_id" value="1"/>
-                <input type="hidden" name="post_id" value="{{post.id}}"/>
-                <div id="your_comment">
-                    <input type="text" placeholder="在这里输入自己的评论哦" style="width: 592px;float: left" name="text">
-                    <div class="your_submit">评论</div>
-                </div>
-            </form>
-
+            {% if user.is_active %}
+                <form action="/comment/add/" method="post" id="form1" >
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{user.id}}"/>
+                    <input type="hidden" name="post_id" value="{{post.id}}"/>
+                    <div id="your_comment">
+                        <input type="text" placeholder="在这里输入自己的评论哦" style="width: 592px;float: left" name="text">
+                        <div class="your_submit">评论</div>
+                    </div>
+                </form>
+            {% else %}
+                评论，请先登录。
+            {% endif %}
             {% for comment in comments %}
             <div class="comment_line">
                 <div class="comment_userinfo">{{comment.user}}</div>
@@ -161,7 +181,19 @@
         </div>
 
     </div>
-
+    <div class="modal" style="display: none">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>买买提提示</h3>
+        </div>
+        <div class="modal-body">
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <!--<a href="#" class="btn">关闭</a>-->
+            <div class="btn btn-primary" data-dismiss="modal">关闭</div>
+        </div>
+    </div>
 </div>
 </center>
 </body>

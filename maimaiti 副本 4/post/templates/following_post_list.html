@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    {%for post in post_list %}
+        {% for time,attribute in post.items %}
+            {% for key,value in attribute.items %}
+                {% if key == "post" %}
+                    {{value.id}}{{time}}
+                    </br>
+                {% else %}
+                    评论数：{{value}}
+                    </br>
+                {% endif %}
+            {% endfor%}
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

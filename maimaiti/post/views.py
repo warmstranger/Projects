@@ -12,24 +12,37 @@ from django.views.decorators.csrf import csrf_exempt
 from follow.models import UserFollow
 from collection.models import Collection
 from django.contrib.auth.models import User
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
+from django.utils import timezone
 from HTMLParser import HTMLParser
 import random
 import time
 import json
+import urllib
+import urllib2
 
 def home(request):
+    user = request.user
     posts = Post.objects.order_by('-time')[:12]
     advertisements = Advertisement.objects.order_by('-time')[:4]
     i = 2
     follow_dic = {}
-    while i<=5:
-        try:
-            userFollow = UserFollow.objects.get(user_id = 1,following_id = i)
-            follow_dic[i]="1"
-        except UserFollow.DoesNotExist:
-            follow_dic[i]="0"
-            pass
-        i += 1
+    if user.is_active:
+        while i<=5:
+            userFollow_list = UserFollow.objects.filter(following_id = i)
+            count = len(userFollow_list)
+            try:
+                UserFollow.objects.get(following_id = i,user_id = user.id)
+                follow_flag = '1'
+            except UserFollow.DoesNotExist:
+                follow_flag = '0'
+            follow_dic[i]={count:follow_flag}
+            i += 1
+    else:
+        while i<=5:
+            userFollow_list = UserFollow.objects.filter(following_id = i)
+            follow_dic[i]= {len(userFollow_list):'0'}
+            i+= 1
     for post in posts:
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
     page_size =12
@@ -40,6 +53,7 @@ def home(request):
         post.text = post.text[0:len(post.text)/3]+'...'
     print post_list.count()
     context = {
+        'user':user,
         'posts':posts,
         'advertisements':advertisements,
         'follow_dic':follow_dic,
@@ -59,18 +73,20 @@ def detail(request,id):
     try:
         post = Post.objects.get(id = id)
         post.time = post.time.strftime('%Y-%m-%d %H:%M:%S')
-        user_id = 1
-        try:
-            Collection.objects.get(user_id = user_id,post_id = post.id)
-            collect_flag = '1'
-        except Collection.DoesNotExist:
+        if request.user.is_active:
+            try:
+                Collection.objects.get(user_id = request.user.id,post_id = post.id)
+                collect_flag = '1'
+            except Collection.DoesNotExist:
+                collect_flag = '0'
+        else:
             collect_flag = '0'
     except Post.DoesNotExist:
          return redirect('/home/')
     comments = Comment.objects.filter(post_id = id).order_by('-time')
     for comment in comments:
         comment.time = comment.time.strftime('%Y年%m月%d日 %H:%M:%S')
-    context = {'post':post,'comments':comments,'collect_flag':collect_flag}
+    context = {'post':post,'comments':comments,'collect_flag':collect_flag,'user':request.user}
     return render_to_response('post_detail2.html', RequestContext(request, context))
 
 def listing(request,page):
@@ -105,6 +121,7 @@ def listing_test(request):
         post.text = parse_html(post.text)
         post.text = post.text[0:len(post.text)/3]+'...'
     context = {
+        "user":request.user,
         "post_list_0": post_list[0:page_size],
         "post_list_1": post_list[page_size:2*page_size],
         "post_list_2": post_list[2*page_size:3*page_size],
@@ -115,7 +132,6 @@ def listing_test(request):
         "post_list_7":post_list[7*page_size:8*page_size],
         "flag":'0',
     }
-    print post_list[page_size:2*page_size]
     return render_to_response('list4.html',context)
 
 @csrf_exempt
@@ -157,12 +173,13 @@ def feed(request,user_id):
                     post_dic = {post.time:post}
                     post_list.append(post_dic)
     post_list.sort(reverse=True)
-    return render_to_response('post_list.html',{'post_list':post_list,'user':user})
+    print post_list
+    return render_to_response('feed.html',{'post_list':post_list,'follow_list':list,'user':user})
 
 def list_buyer_post(request,user_id,page):
     PAGE_SIZE = 5
     posts = Post.objects.filter(author_id = user_id).order_by('time')
-    user = User.objects.get(id=user_id)
+    author = User.objects.get(id=user_id)
     post_list =[]
     for post in posts:
         post.text = parse_html(post.text)
@@ -178,7 +195,7 @@ def list_buyer_post(request,user_id,page):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render_to_response('post_list.html',{'post_list':posts,'user':user})
+    return render_to_response('post_list.html',{'post_list':posts,'author':author,'user':request.user})
 
 def parse_html(html):
     html=html.strip()
