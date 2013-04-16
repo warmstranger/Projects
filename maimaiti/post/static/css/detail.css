@@ -1,4 +1,4 @@
-#detail_contain{width: 1200px;height: auto;overflow: hidden;font-family: '幼圆'}
+#detail_contain{width: 1200px;height: auto;overflow: hidden;font-family: '幼圆';position: relative;}
 
 #buyer_area{
     width: 960px;
@@ -26,14 +26,16 @@
     overflow: hidden;
 }
 
-.buyer_likenum_tab{width: 55px;height: 27px;background: url(../images/list_likenum_icon.png);position: absolute;z-index: 20;left:-5px;top:5px;padding-left: 28px;line-height: 25px;}
-
+.buyer_likenum_tab{width: auto;height: 27px;position: absolute;z-index: 20;left:219px;top:110px;padding-left: 28px;line-height: 25px;}
+.likenum_tab_1{width: 28px;height: 27px;background: url(../images/list_likenum_icon_1.png);float: left;}
+.likenum_tab_2{width: auto;height: 27px;background: url(../images/list_likenum_icon_2.png);float: left;}
+.likenum_tab_3{width: 16px;height: 27px;background: url(../images/list_likenum_icon_3.png);float: left;}
 .buyer_pic{
     margin-top: 35px;
     width: 115px;
     height: 115px;
     float: left;
-    position: relative;
+    /*position: relative;*/
 }
 .buyer_info_contain{
     width: 575px;

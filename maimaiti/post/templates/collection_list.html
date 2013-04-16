@@ -2,23 +2,13 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>美食列表</title>
+    <title>我的收藏</title>
     <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/home2.css" type="text/css" rel="stylesheet" />
     <script src="/static/js/jquery-1.9.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/waterfall.js"></script>
-    <!--<script type="text/javascript">-->
-        <!--$(document).ready(function(){-->
-            <!--$('div.item-text').each(function(){-->
-                <!--var text = $(this).html();-->
-                <!--text = text.substr(0,text.length/2);-->
-                <!--$(this).html('');-->
-                <!--$(this).append(text);-->
-            <!--});-->
-        <!--});-->
-    <!--</script>-->
+
 </head>
 <body>
 <div class="gray_bg"></div>
@@ -127,9 +117,9 @@
                     </div>
                     <div class="item-line2"></div>
                     <div class="item-text2">
-                        {{post.preview}}
+                        {{post.text}}
                     </div>
-                    <div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">收藏美食</div> </div>
+                    <div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div> </div>
                 </div>
                 {% endfor %}
 
@@ -191,83 +181,6 @@
         </div>
     </div>
 </center>
-
-<script>
-
-var opt={
-    getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
-        if(index<=8)
-        {
-            var html='';
-            $.ajax({
-                type:"GET",
-                url: "/post/list/"+index+"/",
-                cache:false,
-                dataType:"json",
-                success:function(data){
-                    for(var i=0;i<12;i++)
-                    {
-                        var post  = data.posts[i];
-                        html+=   '<div class="item2">' +
-                                '<div class="item2_top">' +
-                                '<div class="item2_top_left">' +
-                                '<div class="item-img2">' +
-                                '<a href="/post/list_buyer_post/'+post.author_id+'/1">'+
-                                '<img src="/static/images/home/buyer_head'+post.author_id+'.jpg" alt="">'+
-                                '</a>' +
-                                '</div>'+
-                                '</div>'+
-                                '<div class="item2_top_right">' +
-                                '<a href="/post/detail/'+post.id+'"><div class="item-title2">'+post.title+'</div></a>' +
-                                '<div class="item-likenum2">' +
-                                '<div class="item-heart2"></div> 12400</div></div>' +
-                                '</div><div class="item-line2"></div><div class="item-text2">' +
-                                post.preview +
-                                '</div>' +
-                                '<div class="item-bottom2"><div class="item-btn" id="'+post.author_id+'">收藏美食</div>' +
-                                '</div>' +
-                                '</div>'+
-                                ''
-                    }
-                    render(html);
-                }
-
-            });
-        }
-        return $(html);
-    },
-    auto_imgHeight:true,
-    insert_type:1
-}
-$('.list_all').waterfall(opt);
-
-</script>
-
-<!--<script type="text/javascript">-->
-    <!--window.onload = function() {-->
-        <!--$("div.item-btn").click(function(){-->
-            <!--var follow = $(this);-->
-            <!--var userId = 1;-->
-            <!--var followId = follow.attr("id");-->
-            <!--$.ajax({-->
-                <!--type:"GET",-->
-                <!--url: "/follow/follow_user/"+followId+"/"+userId,-->
-                <!--cache:false,-->
-                <!--dataType:"json",-->
-                <!--success:function(data){-->
-<!--//                            alert(data.msg);-->
-                    <!--$("div.modal").modal('show');-->
-                    <!--$(".modal-body").find('p').html('');-->
-                    <!--$(".modal-body").find('p').append(data.msg);-->
-                    <!--/*if(data.flag)-->
-                     <!--$(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/-->
-                <!--}-->
-            <!--});-->
-            <!--return false;-->
-        <!--});-->
-
-    <!--};-->
-<!--</script>-->
 </body>
 <script src="/static/js/home.js"></script>
 

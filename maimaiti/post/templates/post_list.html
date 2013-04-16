@@ -16,7 +16,9 @@
     <div id="head_area">
         <div class="detail_logo"></div>
         <div class="zhengda_title">正大天地社交分站</div>
+
         <a href="/home/"><div class="head_btn_home"><div class="head_home_icon"></div> 返回首页</div></a>
+        <a href=""><div class="head_btn_like"><div class ="head_like_icon"></div>关注</div></a>
         {% if user.is_active %}
         <ul class="nav pull-right">
             <li id="fat-menu" class="dropdown">
@@ -33,10 +35,15 @@
         {% endif %}
     </div>
     <div class="contain_center">
+        <div class="buyer_likenum_tab">
+            <div class="likenum_tab_1"></div>
+            <div class="likenum_tab_2">1111111111</div>
+            <div class="likenum_tab_3"></div>
+        </div>
         <div class="buyer_big_title">{{author.username}}</div>
         <div class="contain_left">
+
             <div class="buyer_head">
-                <div class="buyer_likenum_tab">1111</div>
                 <img src="/static/images/home/buyer_head{{author.id}}.jpg" alt="">
             </div>
             <div class="buyer_intro">
@@ -58,7 +65,7 @@
                         <div class="item_contain">
                             <a href="/post/detail/{{post.id}}"><div class="item_contain_title">{{post.title}}</div></a>
                             <div class="item_contain_text">
-                                {{post.text}}
+                                {{post.preview}}
                             </div>
                             <div class="item_contain_tabs">
                                 <div class="item_contain_tabs_icon"></div>
@@ -78,20 +85,26 @@
                     </div>
                 {% endfor %}
             {% endfor %}
-            {% if post_list.has_previous %}
+
+            <div class="arrows">
+                {% if post_list.has_previous %}
+                <a href="/post/list_buyer_post/{{author.id}}/{{post_list.previous_page_number}}">
+                    <div id="arrow_prev" class="prev_active"></div>
+                </a>
+                {% else %}
+                <div id="arrow_prev" class="prev_disable"></div>
+                {% endif %}
+            </div>
                 <div class="arrows">
-                    <a href="/post/list_buyer_post/{{user.id}}/{{post_list.previous_page_number}}">
-                        <div id="arrow_prev" class="prev_disable"></div>
-                    </a>
-                </div>
-            {% endif %}
-            {% if post_list.has_next %}
-                <div class="arrows">
-                    <a href="/post/list_buyer_post/{{user.id}}/{{post_list.next_page_number}}">
+                    {% if post_list.has_next %}
+                    <a href="/post/list_buyer_post/{{author.id}}/{{post_list.next_page_number}}">
                         <div id="arrow_next" class="next_active"></div>
                     </a>
+                    {% else %}
+                    <div id="arrow_next" class="next_disable"></div>
+                    {% endif %}
                 </div>
-            {% endif %}
+
         </div>
 
     </div>

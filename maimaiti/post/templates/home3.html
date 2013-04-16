@@ -117,14 +117,17 @@
                     <a href="/feed/{{user.id}}/"><div class="menu_tab_text">我关注的</div></a>
                 </div>
             {% endif %}
+            {% if user.is_active %}
             <div class="menu_tab_left">
                 <div class="menu_tab_left_top"></div>
-                {% if user.is_active %}
                     <div class="menu_login">欢迎，{{user}}</div>
-                {% else %}
-                    <a href="/redirect_login/"><div class="menu_login">登录</div></a>
-                {% endif %}
             </div>
+            {% else %}
+            <div class="menu_tab_left" style="width: 582px">
+                <div class="menu_tab_left_top" style="width: 582px"></div>
+                <a href="/redirect_login/"><div class="menu_login">登录</div></a>
+            </div>
+            {% endif %}
         </div>
         <div id="slide_area">
             <div class="arrows-left"></div>
@@ -209,10 +212,10 @@
                     </div>
                     <div class="item-line2"></div>
                     <div class="item-text2">
-                        {{post.text}}
+                        {{post.preview}}
                     </div>
                     <div class="item-bottom2">
-                        <div class="item-btn" id="{{post.author_id}}">关注买手</div>
+                        <div class="item-btn" id="{{post.author_id}}">收藏美食</div>
                     </div>
                 </div>
                 {% endfor %}
@@ -295,9 +298,9 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '{{post.text}}' +
+                                    '{{post.preview}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">收藏美食</div>' +
                                     '</div>' +
                                     '</div>'+
                                     '{% endfor %}'
@@ -319,9 +322,9 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '{{post.text}}' +
+                                    '{{post.preview}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">收藏美食</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '{% endfor %}'
@@ -343,9 +346,9 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '{{post.text}}' +
+                                    '{{post.preview}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">收藏美食</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '{% endfor %}'
@@ -367,9 +370,9 @@
                                     '<div class="item-likenum2">' +
                                     '<div class="item-heart2"></div> 12400</div></div>' +
                                     '</div><div class="item-line2"></div><div class="item-text2">' +
-                                    '{{post.text}}' +
+                                    '{{post.preview}}' +
                                     '</div>' +
-                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">关注买手</div>' +
+                                    '<div class="item-bottom2"><div class="item-btn" id="{{post.author_id}}">收藏美食</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '{% endfor %}'

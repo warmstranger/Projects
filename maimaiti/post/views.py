@@ -49,8 +49,8 @@ def home(request):
     list_size = 60
     post_list = Post.objects.all().order_by('-time')[0:list_size]
     for post in post_list:
-        post.text = parse_html(post.text)
-        post.text = post.text[0:len(post.text)/3]+'...'
+        temp = parse_html(post.text)
+        post.preview = temp[0:len(temp)/3]+'...'
     print post_list.count()
     context = {
         'user':user,
@@ -95,12 +95,12 @@ def listing(request,page):
     post_list = Post.objects.all().order_by('-time')[page*PAGE_SIZE:(page+1)*PAGE_SIZE]
     posts_dic = {'posts':[]}
     for post in post_list:
-        post.text = parse_html(post.text)
-        post.text = post.text[0:len(post.text)/3]+'...'
+        temp = parse_html(post.text)
+        post.preview = temp[0:len(temp)/3]+'...'
         dic = {
             'id':post.id,
             'time':post.time.strftime('%Y-%m-%d %H:%M:%S'),
-            'text':post.text,
+            'text':post.preview,
             'title':post.title,
             'author_id':post.author_id,
             'cover_image':str(post.cover_image),
@@ -118,8 +118,8 @@ def listing_test(request):
     list_size = 96
     post_list = Post.objects.all().order_by('-time')[0:list_size]
     for post in post_list:
-        post.text = parse_html(post.text)
-        post.text = post.text[0:len(post.text)/3]+'...'
+        temp = parse_html(post.text)
+        post.preview = temp[0:len(temp)/3]+'...'
     context = {
         "user":request.user,
         "post_list_0": post_list[0:page_size],
@@ -166,8 +166,8 @@ def feed(request,user_id):
         for item in list:
             posts = Post.objects.filter(author_id = item.following_id).order_by('-time')
             for post in posts:
-                post.text = parse_html(post.text)
-                post.text = post.text[0:len(post.text)/3]+'...'
+                temp = parse_html(post.text)
+                post.preview = temp[0:len(temp)/3]+'...'
             if len(posts):
                 for post in posts:
                     post_dic = {post.time:post}
@@ -182,8 +182,8 @@ def list_buyer_post(request,user_id,page):
     author = User.objects.get(id=user_id)
     post_list =[]
     for post in posts:
-        post.text = parse_html(post.text)
-        post.text = post.text[0:len(post.text)/3]+'...'
+        temp = parse_html(post.text)
+        post.preview = temp[0:len(temp)/3]+'...'
     if len(posts):
         for post in posts:
             post_dic = {post.time:post}

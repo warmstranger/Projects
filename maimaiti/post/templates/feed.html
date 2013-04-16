@@ -8,9 +8,9 @@
     <link href="/static/css/list.css" type="text/css" rel="stylesheet" />
     <title>我关注的买手</title>
 
-    <script src="../static/js/jquery-1.9.0.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/waterfall.js"></script>
+    <script src="/static/js/jquery-1.9.0.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/waterfall.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('div.item_shrink_readmore').click(function(){
@@ -24,7 +24,7 @@
         });
     </script>
 </head>
-<body style="background: url(../static/images/post_list_bg.jpg);">
+<body style="background: url(/static/images/post_list_bg.jpg);">
 <center>
 <div id="post_list_contain" style="background: transparent;">
     <div id="head_area">
@@ -75,17 +75,19 @@
                         </div>
                     </div>
                     <div class="feed_item_right">
-                        <div class="feed_item_title">{{post.title}}</div>
+                        <a href="/post/detail/{{post.id}}"><div class="feed_item_title">{{post.title}}</div></a>
                         <div class="feed_item_author">{{post.author}}   {{time}}</div>
                         <div class="feed_item_shrink">
                             <div class="item_shrink_cover"><img src="/static/media/{{post.cover_image}}" alt=""></div>
-                            <div class="item_shrink_text">{{post.text}}</div>
-                            <a href="/post/detail/{{post.id}}"><div class="item_shrink_readmore">展开全文</div></a>
+                            <div class="item_shrink_text">{{post.preview}}</div>
+                            <div class="item_shrink_readmore">展开全文</div>
                         </div>
                         <div class="feed_item_spread">
-                            <img src="../static/images/example.jpg" alt="">
+                            <div class="item_spread_cover"> <img src="/static/media/{{post.cover_image}}" alt="" style="margin-bottom: 10px;"></div>
                             <div class="item_spread_text">
-                                正文
+                                {% autoescape off %}
+                                {{post.text}}
+                                {% endautoescape %}
                             </div>
                             <div class="item_spread_readmore">收起全文</div>
                         </div>
@@ -99,9 +101,9 @@
                                 <li><a href="#">标签4</a></li>
                             </ul>
                             <ul class="ul-right">
-                                <li><img src="/static/images/readnum_icon.png" alt=""><a href="#">查看(111211)</a></li>
+                                <li><img src="/static/images/readnum_icon.png" alt="/post/detail/{{post.id}}"><a href="#">查看(111211)</a></li>
                                 <li><img src="/static/images/comments_icon_gray.png" alt=""><a href="#">评论(22)</a></li>
-                                <li><img src="/static/images/likenum_icon_gray.png" alt=""><a href="#">喜欢(33242)</a></li>
+                                <li><img src="/static/images/likenum_icon_gray.png" alt=""><a href="#">收藏(33242)</a></li>
                             </ul>
                         </div>
                     </div>
@@ -143,7 +145,7 @@
     </div>
     <div id="d-top" style="display:none; width: 70px;height: 70px; position: fixed;bottom: 50px;margin-left: 1100px;">
         <a id="d-top-a" href="#" title="回到顶部">
-            <img src="../static/images/to-top.png" alt="TOP" /></a>
+            <img src="/static/images/to-top.png" alt="TOP" /></a>
     </div>
 
 </div>

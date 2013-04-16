@@ -110,7 +110,7 @@ p{color: #333;}
 
 .menu_tab_left{height: 49px;width: 330px;float: left;background: #e50717;}
 .menu_tab_left_top{height: 5px;width: 330px;background: #CCC;}
-.menu_login{width: auto;height: 49px;float: right;padding: 0 5px;}
+.menu_login{width: auto;height: 49px;float: right;padding: 0 20px;}
 .menu_tab_text,.menu_login{
     line-height: 40px;
     text-decoration: none;
@@ -118,7 +118,7 @@ p{color: #333;}
     color: #FFF;
 }
 
-.footer{
+.footer,.footer2{
     height: 263px;
     width: 960px;
     background: #333;
@@ -153,6 +153,44 @@ p{color: #333;}
 }
 .footer-input{margin: 10px 34px;background: #666;border: none;width: 215px;height: 25px;}
 .footer-btn{color: #000;background: #b9c904; border: none;width: 76px;height: 23px;margin-top: 10px}
+
+.footer2{
+    background: #ddd;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"; /*IE8*/
+    filter:alpha(Opacity=90);
+    opacity: .9;
+}
+.footer_tab2{
+    width: 199px;
+    height: 250px;
+    float: left;
+    margin-top: 17px;
+}
+.footer_tab2 ul li{text-align: left;margin-top: 17px;color: #CCC;}
+.footer_tab2 ul li a{color: #CCC; font-weight: bold;}
+.footer_tab_right2{
+    width: 299px;
+    height: 250px;
+    float: left;
+    margin-top: 17px;
+    text-align: left;
+}
+.footer-line2{
+    height: 178px;
+    width: 1px;
+    float: left;
+    background: #555;
+    margin-top:17px;
+}
+.footer-title2{width: 180;height: 20px;color: #e1737b;font-weight: bold;font-size: 16pt;text-align: left;margin-left: 34px;}
+.link_icon2{
+    width: 23px;
+    height: 23px;
+    float: left;
+}
+.footer-input2{margin: 10px 34px;background: #666;border: none;width: 215px;height: 25px;}
+.footer-btn2{color: #000;background: #b9c904; border: none;width: 76px;height: 23px;margin-top: 10px}
+
 
 /*list-item*/
 .item{width: 260px;height: auto;border: 2px solid #CCC;overflow: hidden;padding: 12px 10px;text-align: left;float:left;

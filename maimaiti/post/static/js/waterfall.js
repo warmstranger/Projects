@@ -191,7 +191,19 @@
                         }
                     });
                     return false;
-        })}, 140);
+        });
+//            $('div.item-text2').each(function(){
+//                var text = $(this).html();
+//                if(!text.match('\.(/.)[3]$')){
+//                    text = text.substr(0,text.length/3);
+//
+//                    $(this).html('');
+//                    $(this).append(text+'...');
+//                }
+//
+//            });
+        }, 140);
+
 
     }
     function onResize(){//窗口缩放时重新排列

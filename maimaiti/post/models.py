@@ -14,6 +14,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100, verbose_name=u'标题')
     cover_image = models.FileField(upload_to='covers', verbose_name=u'封面')
     text = models.TextField(verbose_name=u'正文')
+    preview = models.TextField(verbose_name=u'正文预览')
 
     def __unicode__(self):
         return '%s: %s' % (self.author.username, self.title)

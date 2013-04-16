@@ -3,9 +3,9 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>帖子详情</title>
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/base2.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/detail.css" type="text/css" rel="stylesheet" />
-    <link href="/static/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <script src="/static/js/jquery-1.9.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
@@ -110,11 +110,17 @@
         <div class="buyer_area_contain">
             <div class="buyer_area_contain_line">
                 <div class="buyer_pic">
-                    <div class="buyer_likenum_tab">1111</div>
-                    <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" width=“50” height="50" alt="">
+                    <div class="buyer_likenum_tab">
+                        <div class="likenum_tab_1"></div>
+                        <div class="likenum_tab_2">111111</div>
+                        <div class="likenum_tab_3"></div>
+                    </div>
+                    <a href="/post/list_buyer_post/{{post.author_id}}/1">
+                        <img src="/static/images/home/buyer_head{{post.author_id}}.jpg" width=“50” height="50" alt="">
+                    </a>
                 </div>
                 <div class="buyer_info_contain">
-                    <div class="buyer_info_name">{{post.author}}</div>
+                    <a href="/post/list_buyer_post/{{post.author_id}}/1"><div class="buyer_info_name">{{post.author}}</div></a>
                     <div class="buyer_info_intro">小煮妇，厨艺不精，厨龄不长，自认为味觉嗅觉还能过的去。有个小小的家，不大的厨房，一台不是很高级的相机，偶尔败家买厨具用品，最重要的是，超宅。欢迎浏览的我的最新个人网站 www.monpetitcuisine.com</div>
                 </div>
             </div>
@@ -181,6 +187,46 @@
                 <div class="buyer_rec_img"><img src="/static/images/rec2.jpg" alt=""></div>
                 <div class="buyer_rec_img"><img src="/static/images/rec1.jpg" alt=""></div>
             </div>
+        </div>
+
+    </div>
+    <div class="footer2">
+        <div class="footer_tab2">
+            <div class="footer-title2">关于我们</div>
+            <ul>
+                <li><a href="">关于买买提</a></li>
+                <li><a href="">加入我们</a></li>
+                <li><a href="">合作联系</a></li>
+                <li><a href="">网站地图</a></li>
+            </ul>
+        </div>
+        <div class="footer-line2"></div>
+        <div class="footer_tab2">
+            <div class="footer-title2">友情链接</div>
+            <ul>
+                <li><a href="">嗨淘网</a></li>
+                <li><a href="">乐买网</a></li>
+                <li><a href="">哈秀时尚购物</a></li>
+                <li><a href="">乐蜂网</a></li>
+            </ul>
+        </div>
+        <div class="footer-line2"></div>
+        <div class="footer_tab2">
+            <div class="footer-title2">关注我们</div>
+            <ul style="list-style: none">
+                <li><div class="link_icon2"><img src="/static/images/home/xinlang_logo.png" alt=""></div> <a href="">新浪微博</a></li>
+                <li><div class="link_icon2"><img src="/static/images/home/tengxun_logo.png" alt=""></div><a href="">腾讯微博</a></li>
+                <li><div class="link_icon2"><img src="/static/images/home/renren_logo.png" alt=""></div><a href="">人人网</a></li>
+            </ul>
+        </div>
+        <div class="footer-line2"></div>
+        <div class="footer_tab_right2">
+            <div class="footer-title2">加入我们</div>
+            <div style="margin-left: 34px;color: #CCC;margin-top: 14px;">你的姓名：</div>
+            <input type="text" id="yourname" name="yourname" class="footer-input">
+            <div style="margin-left: 34px;color: #CCC;">你的邮箱：</div>
+            <input type="text" id="youremail" name="youremail" class="footer-input">
+            <div style="float: right;margin-right: 48px"><button class="footer-btn">发送</button></div>
         </div>
 
     </div>
