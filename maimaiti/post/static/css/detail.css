@@ -50,10 +50,11 @@
     line-height: 23px;
     margin-left: 15px;
     color: #ffa347;
-    font-size: 19pt;
+    font-size: 21pt;
     font-weight: bold;
     text-align: left;
     font-family: '幼圆';
+    padding-top: 3px;
 }
 .buyer_info_intro{
     width: 575px;
@@ -91,13 +92,14 @@
     overflow: hidden;
 }
 .text_title{width: 696px;height: auto;text-align: left;
-              color: #cc6666;font-size: 18pt;font-weight: bold;margin-bottom: 10px;}
+              color: #ff6666;font-size: 19pt;font-weight: bold;margin-bottom: 10px;}
 .text_time{width: 696px;height: auto;text-align: left;
               color: #a7a7a7;font-weight: 500;}
 .text_tabs{width: 696px;height: auto;text-align: left;margin-top: 5px;}
 .text_biaoqian{width: 50px;height: auto;float: left;color:#a7a7a7 }
 .text_tabs ul{list-style: none;margin-left: 0;float: left}
 .text_tabs li{display: list-item;text-align: -webkit-match-parent;float: left;margin-right: 8px;}
+.text_tabs li a{color: #ff6666}
 .text_detail{
     width: 696px;
     height: auto;
@@ -161,7 +163,7 @@
     width: auto;
     height: 20px;
     float: left;
-    color:#cc6666;
+    color:#e50717;
     margin: 10px 15px;
 }
 .comment_right{
@@ -220,4 +222,15 @@
     float: left;
     margin: 15px 0;
     margin-right: 25px;
+}
+
+.footer_tab2 ul li {
+    color: #666;
+}
+
+.footer_tab2 ul li a {
+    color: #666;
+}
+.footer-line2 {
+    background: #666;
 }

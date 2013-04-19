@@ -119,7 +119,7 @@ def listing_test(request):
     post_list = Post.objects.all().order_by('-time')[0:list_size]
     for post in post_list:
         temp = parse_html(post.text)
-        post.preview = temp[0:len(temp)/3]+'...'
+        post.text = temp[0:len(temp)/3]+'...'
     context = {
         "user":request.user,
         "post_list_0": post_list[0:page_size],

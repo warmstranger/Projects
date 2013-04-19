@@ -61,9 +61,9 @@
             html+='<div class="'+setting.column_className+'" style="width:'+setting.column_width+'px; display:inline-block; *display:inline;zoom:1; margin-left:'+setting.column_space/2+'px;margin-right:'+setting.column_space/2+'px; vertical-align:top; overflow:hidden"></div>';
         }
         $container.prepend(html);//插入列
-        $container.find("div.item-btn").bind('click',function(){
-                      alert("aaa");
-                });
+//        $container.find("div.item-btn").bind('click',function(){
+//                      alert("aaa");
+//                });
         return $('.'+setting.column_className,$container);//列集合
     }
     function calculateColumns(){//计算需要的列数
@@ -173,24 +173,38 @@
             }
         },100);
         window.setTimeout(function(){ $('.item-btn').unbind('click').click(function(){
-                    var follow = $(this);
-                    var userId = 1;
-                    var followId = follow.attr("id");
-                    $.ajax({
-                        type:"GET",
-                        url: "/follow/follow_user/"+followId+"/"+userId,
-                        cache:false,
-                        dataType:"json",
-                        success:function(data){
-//                            alert(data.msg);
-                            $("div.modal").modal('show');
-                            $(".modal-body").find('p').html('');
-                            $(".modal-body").find('p').append(data.msg);
-                            /*if(data.flag)
-                             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
-                        }
-                    });
-                    return false;
+            var collection= $(this);
+            var postId = collection.attr("id");
+            $.ajax({
+                type:"GET",
+                url: "/collection/collect/"+postId,
+                cache:false,
+                dataType:"json",
+                success:function(data){
+                    $("div.modal").modal('show');
+                    $(".modal-body").find('p').html('');
+                    $(".modal-body").find('p').append(data.msg);
+                }
+            });
+
+//                    var follow = $(this);
+//                    var userId = 1;
+//                    var followId = follow.attr("id");
+//                    $.ajax({
+//                        type:"GET",
+//                        url: "/follow/follow_user/"+followId+"/"+userId,
+//                        cache:false,
+//                        dataType:"json",
+//                        success:function(data){
+////                            alert(data.msg);
+//                            $("div.modal").modal('show');
+//                            $(".modal-body").find('p').html('');
+//                            $(".modal-body").find('p').append(data.msg);
+//                            /*if(data.flag)
+//                             $(".buyer_likenum[id=like_"+followId+"]").text(data.follower);*/
+//                        }
+//                    });
+//                    return false;
         });
 //            $('div.item-text2').each(function(){
 //                var text = $(this).html();

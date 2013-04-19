@@ -178,6 +178,7 @@
 .border-left{width: 5px;height: 45px;float: left;background: url(../images/home/border_left.png) no-repeat;margin-left: 12px;}
 .border-right{width: 5px;height: 45px;float: left;background: url(../images/home/border_right.png) no-repeat}
 .menu_head2{margin-top: 14px;margin-left: 25px;text-align: left;}
+.menu_head2 a.tab_more{float: right;margin-right: 15px;}
 .menu_head2 a{color: #e93844;font-weight: bold}
 .list_contain{
     width: 960px;

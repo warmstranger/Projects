@@ -90,5 +90,5 @@ def list_following(user_id):
             except User.DoesNotExist:
                 pass
     following_list.reverse()
-    return render_to_response('list.html',{'following_list':following_list})
+    return render_to_response('list4.html',{'following_list':following_list})
 

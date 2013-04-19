@@ -73,10 +73,10 @@ def listing(request,user_id):
         for item in list:
             try:
                 post = Post.objects.get(id = item.post_id)
-                post.text = parse_html(post.text)
-                post.text = post.text[0:len(post.text)/3]+'...'
+                temp = parse_html(post.text)
+                post.preview = temp[0:len(temp)/3]+'...'
                 post_list.append(post)
             except Post.DoesNotExist:
                 pass
-    return render_to_response('list4.html',{'post_list_0':post_list,'flag':'1','user':request.user})
+    return render_to_response('collection_list.html',{'post_list_0':post_list,'flag':'1','user':request.user})
 

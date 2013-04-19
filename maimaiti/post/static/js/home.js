@@ -62,7 +62,55 @@ $(document).ready(function(){
         }
     });
 
+    $(".head_btn_trans").click(function(){
+        var collection= $(this);
+        var postId = collection.attr("id");
+        if(collection.text() =="收藏")
+        {
+            $.ajax({
+                type:"GET",
+                url: "/collection/collect/"+postId,
+                cache:false,
+                dataType:"json",
+                success:function(data){
+                    $("div.modal").modal('show');
+                    $(".modal-body").find('p').html('');
+                    $(".modal-body").find('p').append(data.msg);
+                    if(data.flag!=-1)
+                        collection.text("取消收藏");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type:"GET",
+                url: "/collection/cancel_collect/"+postId,
+                cache:false,
+                dataType:"json",
+                success:function(data){
+                    $("div.modal").modal('show');
+                    $(".modal-body").find('p').html('');
+                    $(".modal-body").find('p').append(data.msg);
+                    if (data.flag!=-1)
+                        collection.text("收藏");
+                }
+            });
+        }
+    });
+
+
+    $('.btn btn-primary').click(function(){
+        alert("aaa");
+        $("div.modal").modal('hide');
+        });
+
+    function closeDL(){
+        $("div.modal").modal('hide');
+
+        }
+});
+
     //follow
 
 
-});
