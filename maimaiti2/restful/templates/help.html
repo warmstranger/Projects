@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html ng-app="restful">
+<head>
+    <title>Help</title>
+
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+
+    <style>
+        .bs-docs-sidenav {
+            width: 228px;
+            margin: 30px 0 0;
+            padding: 0;
+            background-color: #fff;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+            -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+            box-shadow: 0 1px 4px rgba(0,0,0,.065);
+        }
+        .bs-docs-sidenav > li > a {
+            display: block;
+            width: 190px \9;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+            border: 1px solid #e5e5e5;
+        }
+        .bs-docs-sidenav > li:first-child > a {
+            -webkit-border-radius: 6px 6px 0 0;
+            -moz-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li:last-child > a {
+            -webkit-border-radius: 0 0 6px 6px;
+            -moz-border-radius: 0 0 6px 6px;
+            border-radius: 0 0 6px 6px;
+        }
+        .bs-docs-sidenav > .active > a {
+            position: relative;
+            z-index: 2;
+            padding: 9px 15px;
+            border: 0;
+            text-shadow: 0 1px 0 rgba(0,0,0,.15);
+            -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+            -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+            box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+        }
+            /* Chevrons */
+        .bs-docs-sidenav .icon-chevron-right {
+            float: right;
+            margin-top: 2px;
+            margin-right: -6px;
+            opacity: .25;
+        }
+        .bs-docs-sidenav > li > a:hover {
+            background-color: #f5f5f5;
+        }
+        .bs-docs-sidenav a:hover .icon-chevron-right {
+            opacity: .5;
+        }
+        .bs-docs-sidenav .active .icon-chevron-right,
+        .bs-docs-sidenav .active a:hover .icon-chevron-right {
+            background-image: url(http://origin.bootstrapcdn.com/twitter-bootstrap/2.3.1/img/glyphicons-halflings-white.png);
+            opacity: 1;
+        }
+        .bs-docs-sidenav.affix {
+        }
+        .bs-docs-sidenav.affix-bottom {
+            position: absolute;
+            top: auto;
+            bottom: 270px;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#scrollspy">
+
+<div class="container" ng-controller="RestfulCtrl">
+<div class="row">
+    <div id="scrollspy" class="span3 bs-docs-sidebar">
+        <ul class="bs-docs-sidenav nav nav-list affix">
+            <li ng-repeat="module in modules">
+                <a href="#{= module[1].id =}">
+                    {= module[0] =}
+                    <span class="badge pull-right">{= module[1].api_list.length =}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="span9">
+        <div ng-repeat="module in modules">
+            <h1 id="{= module[1].id =}">
+                <a target="new" href="#">{= module[0] =}</a>
+                &nbsp;<span class="badge">{= module[1].api_list.length =}</span>
+            </h1>
+            <hr>
+            <div ng-repeat="api in module[1].api_list" style="margin-left: 20px;">
+                <h3>
+                    {= api.name =}
+                    <small>
+                        # {= api.doc =}
+                    </small>
+                </h3>
+                <p >
+                    <span ng-repeat="label in api.labels" class="label label-success" style="margin-right:10px;">{= label =}</span>
+                </p>
+                <div style="margin-left: 20px;">
+                <div ng-show="api.testParams">
+                <h5>Parameters</h5>
+<pre><span ng-repeat="param in api.testParams">{= param.name =} = <input type="text" ng-model="param.value" />
+</span></pre>
+                </div>
+                <h5>REST</h5>
+                <code>
+                    <a target="new" href="{= restfulUrl(api.name, api.testParams) =}">
+                        {= restfulUrl(api.name, api.testParams) =}
+                    </a>
+                </code>
+                <h5>JavaScript</h5>
+                <p>
+                    <code>
+                        > $http.get('{= restfulUrl(api.name, api.testParams) =}')
+                    </code>
+                    &nbsp;<a class="btn btn-small btn-success btn-api-test" ng-click="test(api.name, api.testParams)"><i class="icon-play icon-white"></i></a>
+                </p>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+angular
+    .module('restful', [])
+    .config(['$interpolateProvider', function($interpolateProvider) {
+        $interpolateProvider.startSymbol('{=');
+        $interpolateProvider.endSymbol('=}');
+    }]);
+
+function RestfulCtrl($scope, $http) {
+    $scope.modules = [];
+
+    $scope.restfulUrl = function(api_name, params) {
+        var url = '/api/' + api_name + '?';
+        for (var p in params)   {
+            var param = params[p];
+            url += param.name + '=' + param.value + '&'
+        }
+        return url;
+    };
+
+    $scope.test = function(api_name, params)    {
+        var url = $scope.restfulUrl(api_name, params);
+        $http
+            .get(url)
+            .success(function(data){
+                console.log(data);
+                alert(JSON.stringify(data));
+            })
+            .error(function(data){
+                console.log(data);
+                alert(data);
+            });
+    }
+
+    $http
+        .get('/api/help')
+        .success(function(data){
+            $scope.modules = data;
+            for (var module in $scope.modules){
+                var apiList = $scope.modules[module][1].api_list;
+                for (var api in apiList)    {
+                    apiList[api].testParams = []
+                    apiList[api].testResult = ''
+                    for (var p in apiList[api].params)  {
+                        var param = apiList[api].params[p]
+                        if (param != 'user' && param != 'request')
+                            apiList[api].testParams.push({name: param, value: ''});
+                    }
+                }
+            }
+        })
+}
+
+</script>
+
+</body>
+</html>
