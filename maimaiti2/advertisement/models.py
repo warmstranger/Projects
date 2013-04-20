@@ -7,8 +7,9 @@ class Advertisement(models.Model):
         verbose_name = u'广告'
         verbose_name_plural = u'广告'
 
-    time = models.DateTimeField(auto_now=True, verbose_name=u'时间')
+    enabled = models.BooleanField(default=True, verbose_name=u'使用')
     image = models.FileField(upload_to='advertisement', verbose_name=u'图片')
+    order = models.IntegerField(default=0, verbose_name=u'排序')
 
     def __unicode__(self):
-        return '%s: %s' % (self.time, self.image.name)
+        return '[%s]: [%d] - %s' % (self.enabled, self.order, self.image.name)

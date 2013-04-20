@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from models import Collection
+from models import Save
 
-admin.site.register(Collection)
+admin.site.register(Save)

@@ -2,8 +2,8 @@
 
 from django.db import models
 
-from django.conf import settings
-from post.models import  Post
+from django.contrib.auth.models import User
+from post.models import Post
 
 class Save(models.Model):
     class Meta:
@@ -11,7 +11,7 @@ class Save(models.Model):
         verbose_name_plural = u'收藏'
 
     time = models.DateTimeField(auto_now=True, verbose_name=u'时间')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'用户')
+    user = models.ForeignKey(User, verbose_name=u'用户')
     post = models.ForeignKey(Post, verbose_name=u'帖子')
 
     def __unicode__(self):

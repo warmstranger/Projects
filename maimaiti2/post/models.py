@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from django.conf import settings
+from django.contrib.auth.models import User
 
 class Post(models.Model):
     class Meta:
@@ -10,7 +10,7 @@ class Post(models.Model):
         verbose_name_plural = u'帖子'
 
     time = models.DateTimeField(auto_now=True, verbose_name=u'时间')
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'发帖人')
+    author = models.ForeignKey(User, verbose_name=u'发帖人')
     title = models.CharField(max_length=100, verbose_name=u'标题')
     cover_image = models.FileField(upload_to='covers', verbose_name=u'封面')
     text = models.TextField(verbose_name=u'正文')
@@ -18,6 +18,19 @@ class Post(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.author.username, self.title)
+
+    def view(self):
+        from save.models import Save
+        save_count = Save.objects.filter(post=self).count()
+
+        return {
+            'author': self.author.username,
+            'title': self.title,
+            'cover_image': self.cover_image.url,
+            'preview': self.preview,
+            'save_count': save_count,
+            'url': '/post/%d' % self.id,
+        }
 
 class Attachment(models.Model):
     class Meta:
