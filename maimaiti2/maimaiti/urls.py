@@ -9,5 +9,5 @@ urlpatterns = patterns('',
     url(r'^redirect_login', 'users.views.redirect_login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('restful.urls')),
-    url(r'^', 'static.views.index'),
+    url(r'^', 'kernel.views.index'),
 )

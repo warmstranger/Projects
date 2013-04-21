@@ -12,6 +12,7 @@ class Profile(models.Model):
     image = models.ImageField(verbose_name=u'头像', blank=True, null=True, upload_to='profile_images')
     connected_user = models.CharField(max_length=100, verbose_name=u'关联用户', default=u'')
     is_buyer = models.BooleanField(verbose_name=u'买手', default=False)
+    is_recommended = models.BooleanField(verbose_name=u'推荐', default=True)
     description = models.CharField(max_length=1000, default=u'', verbose_name=u'用户描述')
 
     def __unicode__(self):

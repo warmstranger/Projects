@@ -10,9 +10,20 @@ class Tag(models.Model):
         verbose_name_plural = u'标签'
 
     name = models.CharField(max_length=40, verbose_name=u'名称')
+    recommended = models.BooleanField(default=True, verbose_name=u'推荐')
 
     def __unicode__(self):
         return self.name
+
+    def view(self):
+        post_count = PostTag.objects.filter(tag=self).count()
+        comment_count = CommentTag.objects.filter(tag=self).count()
+        return {
+            'name': self.name,
+            'recommended': self.recommended,
+            'posts': post_count,
+            'comments': comment_count,
+        }
 
 class PostTag(models.Model):
     class Meta:

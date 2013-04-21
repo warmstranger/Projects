@@ -25,6 +25,9 @@ def posts_of_tag(name, start, count):
     """
     标签的帖子
     """
+    if not name:
+        return recommended_posts(start, count)
+
     from tag.models import PostTag
     post_tags = PostTag.objects.filter(tag__name=name)[start:start+count]
     return [post_tag.post.view() for post_tag in post_tags]
