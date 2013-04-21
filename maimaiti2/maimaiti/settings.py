@@ -121,7 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
 
-    'static',
+    'kernel',
     'restful',
     'users',
     'advertisement',
